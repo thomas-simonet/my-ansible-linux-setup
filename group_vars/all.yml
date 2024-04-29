@@ -1,11 +1,11 @@
 ---
 # general settings
-default_username: debian
-dot_forward_email: <YOUR_EMAIL_GOES_HERE>
+default_username: thomas
+dot_forward_email: contact@thomassimonet.fr
 private_key: .ssh/id_rsa
 public_key: .ssh/id_rsa.pub
 ntpserver: pool.ntp.org
-timezone: Europe/Rome
+timezone: Europe/Paris
 
 # default sshd port
 sshd_port: 22
