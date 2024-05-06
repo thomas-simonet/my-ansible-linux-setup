@@ -1,15 +1,15 @@
 ---
 - name: Update default user, belonging to sudo group
-  user:
+  ansible.builtin.user:
     name: "{{default_username}}"
     password: "{{default_password | password_hash('sha512')}}"
-    groups: sudo
-    create_home: yes
-    shell: /bin/bash
+    groups: "sudo"
+    create_home: true
+    shell: "/bin/bash"
     generate_ssh_key: yes
     ssh_key_bits: 2048
     ssh_key_file: .ssh/id_rsa
-    update_password: always
+    update_password: "always"
     state: present
 
 - name: Ensure sudo group has sudo privileges without password
@@ -20,25 +20,20 @@
     line: "%sudo ALL=(ALL) NOPASSWD:ALL"
     validate: "/usr/sbin/visudo -cf %s"
 
-- name: Assign public ssh key to a variable
-  shell: cat /home/{{default_username}}/{{public_key}}
-  register: ssh_public_key
-
-- name: Add default username's public SSH key to its authorized_keys file
-  lineinfile:
-    dest: "/home/{{default_username}}/.ssh/authorized_keys"
-    line: "{{ssh_public_key.stdout}}"
+- name: Set authorized key taken from file
+  ansible.posix.authorized_key:
+    user: "{{default_username}}"
     state: present
-    create: yes
+    key: "{{ lookup('file', '{{host_ssh_key}}') }}"
 
 - name: Change root password
-  user:
+  ansible.builtin.user:
     name: root
     password: "{{root_password | password_hash('sha512')}}"
-    update_password: always
+    update_password: "always"
 
 - name: chsh to /usr/bin/zsh for default user and root
-  user:
+  ansible.builtin.user:
     name: "{{item}}"
     shell: /usr/bin/zsh
   with_items:

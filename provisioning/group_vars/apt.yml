@@ -2,10 +2,11 @@
 # packages to install
 packages_to_install:
     - python3-pip
+    - ca-certificates
     - git
-    - acl
-    - screen
-    - bash-completion
+    # - acl
+    # - screen
+    # - bash-completion
     - ntp
     - sudo
     - ufw
@@ -14,9 +15,9 @@ packages_to_install:
     - htop
     - vim
     - nano
-    - rclone
     - zsh
     - logrotate
     - wget
     - curl
     - gzip
+    - fzf

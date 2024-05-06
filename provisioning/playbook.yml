@@ -1,0 +1,25 @@
+---
+- hosts: all
+  vars_files:
+    - group_vars/all.yml
+    - group_vars/apt.yml
+  user: "{{default_username}}"
+  become: true
+  roles:
+    - role: oefenweb.fail2ban
+      tags: fail2ban
+
+    - role: common
+      tags: common
+
+    - role: ufw
+      tags: ufw
+
+    - role: user
+      tags: user
+
+    # - role: ssh
+    #   tags: ssh
+
+    - role: docker
+      tags: docker

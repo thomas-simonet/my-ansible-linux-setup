@@ -1,0 +1,6 @@
+---
+roles:
+  - src: oefenweb.fail2ban
+
+collections:
+  - name: community.docker

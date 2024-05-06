@@ -1,0 +1,21 @@
+---
+# general settings
+default_username: thomas
+timezone: Europe/Paris
+
+# SSH key
+host_ssh_key: "/home/thomas/.ssh/id_ed25519.pub"
+
+# generate random passwords for default user and root user
+default_password: "{{lookup('password', '/dev/null length=15 chars=ascii_letters,digits,punctuation')}}"
+root_password: "{{lookup('password', '/dev/null length=15 chars=ascii_letters,digits,punctuation')}}"
+
+# default sshd port
+sshd_port: 6666
+
+# fail2ban
+fail2ban_services:
+  - name: sshd
+    port: "{{ sshd_port }}"
+    maxretry: 5
+    bantime: 10m

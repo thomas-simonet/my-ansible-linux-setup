@@ -1,0 +1,15 @@
+---
+- name: Limit SSH connection rate
+  community.general.ufw:
+      rule: limit
+      port: ssh
+      proto: tcp
+
+- name: Enable logging
+  community.general.ufw:
+    logging: 'on'
+
+- name: Enable firewall
+  community.general.ufw:
+    state: enabled
+  notify: reload ufw
