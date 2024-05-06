@@ -32,14 +32,6 @@
     password: "{{root_password | password_hash('sha512')}}"
     update_password: "always"
 
-- name: chsh to /usr/bin/zsh for default user and root
-  ansible.builtin.user:
-    name: "{{item}}"
-    shell: /usr/bin/zsh
-  with_items:
-    - "{{default_username}}"
-    - "root"
-
 - debug:
     msg: "user '{{default_username}}' generated password: {{default_password}}"
 
