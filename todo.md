@@ -7,6 +7,10 @@
     - https://www.commandprompt.com/blog/docker-logging-with-rsyslog/
     - https://www.back-slash.net/enregistrer-ses-logs-rsyslog-sur-graylog/
 
+- ZSH
+    - https://docs.atuin.sh/
+    - https://martinheinz.dev/blog/110
+
 - Ajouter les fichiers docker-compose :
     - Network : (app)
         - Portainer
