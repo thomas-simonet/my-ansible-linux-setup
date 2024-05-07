@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  readeck:
+    image: codeberg.org/readeck/readeck:latest
+    container_name: readeck
+    hostname: readeck
+    restart: unless-stopped
+    volumes:
+      - /mnt/docker-volumes/readeck:/readeck
+    networks:
+      - nginx_proxy_manager_network
+
+networks:
+    nginx_proxy_manager_network:
+      external: true
