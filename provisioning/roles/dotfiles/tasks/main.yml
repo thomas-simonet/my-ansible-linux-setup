@@ -1,0 +1,31 @@
+---
+- name: Copy dotfiles
+  ansible.builtin.template:
+    src: install-dotfiles.sh
+    dest: "/home/{{ default_username }}"
+    owner: "{{ default_username }}"
+    group: "{{ default_username }}"
+    mode: 0755
+
+- name: Install everything for zsh / starship
+  become_user: "{{ default_username }}"
+  ansible.builtin.expect:
+    command: "sh /home/{{ default_username }}/install-dotfiles.sh"
+    responses:
+      '[y/N]': y
+  # ansible.builtin.shell: "/home/{{ default_username }}/install-dotfiles.sh"
+
+- name: Copy .zshrc
+  ansible.builtin.template:
+    src: zshrc.j2
+    dest: "/home/{{ default_username }}/.zshrc"
+    owner: "{{ default_username }}"
+    group: "{{ default_username }}"
+    backup: yes
+
+- name: chsh to /usr/bin/zsh for default user
+  ansible.builtin.user:
+    name: "{{item}}"
+    shell: /usr/bin/zsh
+  with_items:
+    - "{{default_username}}"

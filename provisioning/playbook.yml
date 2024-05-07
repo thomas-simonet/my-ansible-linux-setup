@@ -6,20 +6,20 @@
   user: "{{default_username}}"
   become: true
   roles:
-    # - role: oefenweb.fail2ban
-    #   tags: fail2ban
+    - role: oefenweb.fail2ban
+      tags: fail2ban
 
     - role: common
       tags: common
 
-    # - role: ufw
-    #   tags: ufw
+    - role: ufw
+      tags: ufw
 
     - role: user
       tags: user
 
-    - role: zsh
-      tags: zsh
+    - role: dotfiles
+      tags: dotfiles
 
     # - role: docker
     #   tags: docker
