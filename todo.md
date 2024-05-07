@@ -8,20 +8,20 @@
     - https://www.back-slash.net/enregistrer-ses-logs-rsyslog-sur-graylog/
 
 - Ajouter les fichiers docker-compose :
-
     - Network : (app)
-        - portainer
-        - backup
-        - graylog
-        - nginx proxy manager
-        - freshrss
-        - readeack
-        - photoprism
-        - maelie
+        - Portainer
+        - Backup
+        - Graylog / Grafana Loki
+        - Check les updates
+        - Nginx proxy manager / Traefik
+        - Freshrss
+        - Readeack
+        - Photoprism
+        - Maelie
 
     - Network (dev) :
-        - coder
-        - cloudflared
+        - Coder
+        - Cloudflared
 
 - Semaphore UI
     - https://semui.co/
@@ -34,6 +34,8 @@
 
 - Test live
 
+- Remplacer Nginx Proxy Manager par Traefik (et config auto via label) ?
+    - https://hub.docker.com/_/traefik
 - Quid de ufw ?
 - Comment acceder aux bases de données dans coder ?
 - Module Ansible / Terraform pour les dns Cloudflare ?
