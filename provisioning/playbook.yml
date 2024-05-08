@@ -21,8 +21,11 @@
     - role: dotfiles
       tags: dotfiles
 
-    # - role: docker
-    #   tags: docker
+    - role: docker
+      tags: docker
+
+    - role: rsyslog
+      tags: rsyslog
 
     # - role: portainer
     #   tags: portainer

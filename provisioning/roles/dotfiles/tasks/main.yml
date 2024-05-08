@@ -12,8 +12,7 @@
   ansible.builtin.expect:
     command: "sh /home/{{ default_username }}/install-dotfiles.sh"
     responses:
-      '[y/N]': y
-  # ansible.builtin.shell: "/home/{{ default_username }}/install-dotfiles.sh"
+      '[y/N]': y # For starship
 
 - name: Copy .zshrc
   ansible.builtin.template:
