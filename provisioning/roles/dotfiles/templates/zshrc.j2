@@ -5,8 +5,8 @@ ZSH_THEME=""
 HISTFILE="$HOME/.zsh_history"
 HISTSIZE=20000
 SAVEHIST=20000
-
-HISTORY_IGNORE="(cd|pwd|exit)*"
+HIST_STAMPS="yyyy-mm-dd"
+HISTORY_IGNORE="(ls|cd|cd -|pwd|exit|date|* --help)"
 
 setopt EXTENDED_HISTORY      # Write the history file in the ':start:elapsed;command' format.
 setopt INC_APPEND_HISTORY    # Write to the history file immediately, not when the shell exits.
@@ -34,5 +34,9 @@ source $ZSH/oh-my-zsh.sh
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
+alias l="ls -laF"
+
+export LANG="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8"
 
 eval "$(starship init zsh)"
