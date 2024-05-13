@@ -5,8 +5,7 @@ packages_to_install:
     - ca-certificates
     - git
     - acl
-    # - screen
-    # - bash-completion
+    - screen
     - ntp
     - sudo
     - ufw

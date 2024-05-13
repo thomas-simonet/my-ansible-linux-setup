@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+
+  portainer:
+    image: portainer/portainer-ce:2.20.2
+    container_name: portainer
+    hostname: portainer
+    restart: unless-stopped
+    ports:
+      - 127.0.0.1:9443:9443
+    volumes:
+      - /mnt/docker-volumes/portainer/data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - app
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.portainer.rule=Host(`portainer.thomassimonet.fr`)"
+      - "traefik.http.routers.portainer.entrypoints=web"
+      - "traefik.http.routers.portainer.service=portainer"
+      - "traefik.http.services.portainer.loadbalancer.server.port=9443"
+
+networks:
+  app:
+    external: true

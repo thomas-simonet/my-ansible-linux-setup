@@ -3,7 +3,7 @@
   vars_files:
     - group_vars/all.yml
     - group_vars/apt.yml
-  user: "{{default_username}}"
+    - group_vars/docker.yml
   become: true
   roles:
     - role: oefenweb.fail2ban
@@ -14,6 +14,9 @@
 
     - role: ufw
       tags: ufw
+
+    - role: ssh
+      tags: ssh
 
     - role: user
       tags: user
@@ -26,6 +29,3 @@
 
     - role: rsyslog
       tags: rsyslog
-
-    # - role: portainer
-    #   tags: portainer

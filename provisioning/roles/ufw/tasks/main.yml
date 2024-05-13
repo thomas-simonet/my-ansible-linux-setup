@@ -2,12 +2,22 @@
 - name: Limit SSH connection rate
   community.general.ufw:
       rule: limit
-      port: ssh
+      port: "{{ sshd_port }}"
       proto: tcp
 
 - name: Enable logging
   community.general.ufw:
     logging: 'on'
+
+- name: Allow all access to tcp port {{item}}
+  community.general.ufw:
+    rule: allow
+    port: "{{ item }}"
+    proto: tcp
+  loop:
+    - 80
+    - 443
+    - "{{ sshd_port }}"
 
 - name: Enable firewall
   community.general.ufw:
