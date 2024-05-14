@@ -17,8 +17,8 @@
   when: item.state == 'file'
 
 - name: Start all containers
-  community.docker.docker_compose:
-    project_src: /mnt/docker-volumes/{{ item.path }}
+  community.docker.docker_compose_v2:
+    project_src: /mnt/docker-volumes/{{ item }}
   loop:
     - "portainer"
     - "traefik"

@@ -7,12 +7,12 @@
     group: "{{ default_username }}"
     mode: 0755
 
-- name: Install everything for zsh / starship
-  become_user: "{{ default_username }}"
-  ansible.builtin.expect:
-    command: "sh /home/{{ default_username }}/install-dotfiles.sh"
-    responses:
-      '[y/N]': y # For starship
+# - name: Install everything for zsh / starship
+#   become_user: "{{ default_username }}"
+#   ansible.builtin.expect:
+#     command: "sh /home/{{ default_username }}/install-dotfiles.sh"
+#     responses:
+#       '[y/N]': y # For starship
 
 - name: Copy .zshrc
   ansible.builtin.template:

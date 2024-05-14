@@ -1,4 +1,4 @@
-version: "3"
+version: "3.8"
 
 services:
 
@@ -18,7 +18,7 @@ services:
       - "traefik.enable=true"
       - "traefik.docker.network=app"
       - "traefik.http.routers.portainer.entrypoints=websecured"
-      - "traefik.http.routers.portainer.rule=Host(`portainer.thomassimonet.fr`)"
+      - "traefik.http.routers.portainer.rule=Host(`portainer.thomassimonet.dev`)"
       - "traefik.http.routers.portainer.service=portainer"
       - "traefik.http.services.portainer.loadbalancer.server.port=9443"
 

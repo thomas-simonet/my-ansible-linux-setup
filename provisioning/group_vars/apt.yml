@@ -6,6 +6,7 @@ packages_to_install:
     - git
     - acl
     - screen
+    - net-tools
     - ntp
     - sudo
     - ufw

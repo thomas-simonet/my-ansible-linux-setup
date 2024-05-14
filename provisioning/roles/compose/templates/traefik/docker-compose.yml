@@ -1,4 +1,4 @@
-version: "3.3"
+version: "3.8"
 
 services:
 
@@ -20,7 +20,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.traefik.entrypoints=websecured"
-      - "traefik.http.routers.dashboard.rule=Host(`traefik.thomassimonet.fr`)"
+      - "traefik.http.routers.dashboard.rule=Host(`traefik.thomassimonet.dev`)"
       - "traefik.http.routers.dashboard.service=api@internal"
 
 networks:
