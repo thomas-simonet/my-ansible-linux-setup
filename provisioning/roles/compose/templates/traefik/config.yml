@@ -1,0 +1,15 @@
+http:
+  middlewares:
+    redirect-to-https:
+      redirectScheme:
+        scheme: https
+
+tls:
+  stores:
+    default:
+      defaultCertificate:
+        certFile: /etc/ssl/traefik/thomassimonet.dev.pem
+        keyFile: /etc/ssl/traefik/thomassimonet.dev.key
+  certificates:
+    - certFile: /etc/ssl/traefik/thomassimonet.dev.pem
+      keyFile: /etc/ssl/traefik/thomassimonet.dev.key

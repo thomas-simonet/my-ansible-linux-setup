@@ -1,0 +1,30 @@
+version: "3.3"
+
+services:
+
+  traefik:
+    image: traefik:v3.0
+    container_name: traefik
+    hostname: traefik
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - ./mnt/docker-volumes/traefik/traefik.yml:/etc/traefik/traefik.yml
+      - ./mnt/docker-volumes/traefik/config.yml:/config.yml:ro
+      - ./mnt/docker-volumes/traefik/certs:/etc/ssl/traefik
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - app
+      - dev
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.entrypoints=websecured"
+      - "traefik.http.routers.dashboard.rule=Host(`traefik.thomassimonet.fr`)"
+      - "traefik.http.routers.dashboard.service=api@internal"
+
+networks:
+  app:
+    external: true
+  dev:
+    external: true

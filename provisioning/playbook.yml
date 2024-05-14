@@ -4,6 +4,8 @@
     - group_vars/all.yml
     - group_vars/apt.yml
     - group_vars/docker.yml
+  vars:
+    - is_vagrant: false
   become: true
   roles:
     - role: oefenweb.fail2ban
@@ -29,3 +31,6 @@
 
     - role: rsyslog
       tags: rsyslog
+
+    - role: compose
+      tags: compose

@@ -16,8 +16,9 @@ services:
       - app
     labels:
       - "traefik.enable=true"
+      - "traefik.docker.network=app"
+      - "traefik.http.routers.portainer.entrypoints=websecured"
       - "traefik.http.routers.portainer.rule=Host(`portainer.thomassimonet.fr`)"
-      - "traefik.http.routers.portainer.entrypoints=web"
       - "traefik.http.routers.portainer.service=portainer"
       - "traefik.http.services.portainer.loadbalancer.server.port=9443"
 

@@ -64,64 +64,9 @@
     - docker.service
     - containerd.service
 
-# - name: Add logrotate custom rules for Docker logs
-#   ansible.builtin.copy:
-#     src: templates/logrotate_docker
-#     dest: /etc/logrotate.d/docker
-#     owner: root
-#     group: root
-#     mode: u=rw,g=r,o=r
-
 - name: Ensure global networks are created
   community.general.docker_network:
     name: "{{ item }}"
     driver: bridge
   loop:
     "{{ docker_networks }}"
-
-- name: Create docker compose directories in /home
-  ansible.builtin.file:
-    path: /home/{{ default_username }}/compose/{{ item }}
-    state: directory
-    mode: '0755'
-  loop:
-    - "portainer"
-    - "traefik"
-
-- name: Create docker volumes directories in /mnt
-  ansible.builtin.file:
-    path: /mnt/docker-volumes/{{ item }}
-    state: directory
-    mode: '0755'
-  loop:
-    - "portainer"
-    - "traefik"
-
-- name: Copy docker compose files
-  ansible.builtin.template:
-    src: compose/{{ item }}/docker-compose.yml
-    dest: "/home/{{ default_username }}/compose/{{ item }}/docker-compose.yml"
-    owner: "{{ default_username }}"
-    group: "{{ default_username }}"
-    mode: 0755
-  loop:
-    - "portainer"
-    - "traefik"
-
-- name: Copy docker compose files
-  ansible.builtin.template:
-    src: compose/{{ item }}/docker-compose.yml
-    dest: "/home/{{ default_username }}/compose/{{ item }}/docker-compose.yml"
-    owner: "{{ default_username }}"
-    group: "{{ default_username }}"
-    mode: 0755
-  loop:
-    - "portainer"
-    - "traefik"
-
-- name: Start all containers
-  ansible.builtin.shell:
-    cmd: docker compose -f /home/{{ default_username }}/compose/{{ item }}/docker-compose.yml up -d
-  loop:
-    - "portainer"
-    - "traefik"
