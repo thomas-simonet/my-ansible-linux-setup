@@ -14,13 +14,22 @@ entryPoints:
           scheme: https
   https:
     address: ":443"
+    http:
+      tls:
+        options: intermediate@file
 
 providers:
   file:
-    filename: "/etc/traefik/config.yml"       # Link to the dynamic configuration
+    filename: "/etc/traefik/config.yml"
     watch: true
   docker:
     endpoint: unix:///var/run/docker.sock
     watch: true
     network: app
     exposedByDefault: false
+
+log:
+  level: DEBUG
+  maxBackups: 5
+  maxAge: 7
+  compress: true

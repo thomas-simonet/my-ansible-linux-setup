@@ -3,6 +3,8 @@
   ansible.builtin.file:
     path: /mnt/docker/{{ item.path }}
     state: directory
+    owner: "{{default_username}}"
+    group: "{{default_username}}"
   with_filetree: templates/
   when: item.state == 'directory'
 
@@ -15,6 +17,16 @@
     mode: 0755
   with_filetree: templates/
   when: item.state == 'file'
+
+- name : Generate certs for traefik (Only if is_vagrant)
+  ansible.builtin.shell:
+    cmd: |
+      wget traefik.me/cert.pem -O cert.pem
+      wget traefik.me/privkey.pem -O privkey.pem
+    chdir: /mnt/docker/traefik/certs
+  # become: true
+  become_user: "{{ default_username }}"
+  when: is_vagrant == true
 
 - name: Ensure global networks are created
   community.general.docker_network:

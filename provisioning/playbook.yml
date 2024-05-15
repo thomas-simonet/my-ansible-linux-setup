@@ -8,29 +8,29 @@
     is_vagrant: false
   become: true
   roles:
-    # - role: oefenweb.fail2ban
-    #   tags: fail2ban
+    - role: oefenweb.fail2ban
+      tags: fail2ban
 
-    # - role: common
-    #   tags: common
+    - role: common
+      tags: common
 
-    # - role: ufw
-    #   tags: ufw
+    - role: ufw
+      tags: ufw
 
     # - role: ssh
     #   tags: ssh
 
-    # - role: user
-    #   tags: user
+    - role: user
+      tags: user
 
     # - role: dotfiles
     #   tags: dotfiles
 
-    # - role: docker
-    #   tags: docker
+    - role: docker
+      tags: docker
 
-    # - role: rsyslog
-    #   tags: rsyslog
+    - role: rsyslog
+      tags: rsyslog
 
     - role: compose
       tags: compose

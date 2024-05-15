@@ -10,7 +10,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.provider "virtualbox" do |vb|
     # Solve "Stderr: VBoxManage.exe: error: RawFile#0 failed to create the raw output file /dev/null (VERR_PATH_NOT_FOUND)"
-    vb.customize [ "modifyvm", :id, "--uartmode1", "disconnected" ]   
+    vb.customize [ "modifyvm", :id, "--uartmode1", "disconnected" ]
     vb.customize [ "modifyvm", :id, "--natdnshostresolver1", "on" ]
     vb.customize [ "modifyvm", :id, "--natdnsproxy1", "on" ]
     vb.customize [ "modifyvm", :id, "--name", "homelab" ]

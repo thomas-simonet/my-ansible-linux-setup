@@ -14,18 +14,18 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - app
-      - dev
+      # - dev
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=app"
       - "traefik.http.routers.traefik.entrypoints=https"
-      - "traefik.http.routers.traefik.rule=Host(`traefik.thomassimonet.dev`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.192.168.56.18.traefik.me`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
       - "traefik.http.routers.traefik.service=api@internal"
-      - "traefik.http.services.traefik.loadbalancer.server.port=8080"
-      - "traefik.http.routers.traefik.middlewares=default@file"
+      # - "traefik.http.services.traefik.loadbalancer.server.port=8080"
+      # - "traefik.http.routers.traefik.middlewares=default@file"
 
 networks:
   app:
     external: true
-  dev:
-    external: true
+  # dev:
+  #   external: true
