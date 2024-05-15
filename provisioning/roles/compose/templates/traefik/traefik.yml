@@ -1,25 +1,26 @@
+global:
+  sendAnonymousUsage: false
+
 api:
   dashboard: true
-  debug: false
 
 entryPoints:
-  web:
+  http:
     address: ":80"
     http:
       redirections:
         entryPoint:
-          to: websecured
-  websecured:
+          to: https
+          scheme: https
+  https:
     address: ":443"
-    http:
-      tls:
-        options: intermediate@file
 
 providers:
   file:
-    filename: /config.yml
+    filename: "/etc/traefik/config.yml"       # Link to the dynamic configuration
+    watch: true
   docker:
     endpoint: unix:///var/run/docker.sock
     watch: true
+    network: app
     exposedByDefault: false
-    defaultRule: "HostRegexp(`{% raw %}{{ index .Labels \"com.docker.compose.service\"}}{% endraw %}.thomassimonet.dev`)"

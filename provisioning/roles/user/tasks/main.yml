@@ -25,6 +25,7 @@
     user: "{{default_username}}"
     state: present
     key: "{{ lookup('file', '{{host_ssh_key}}') }}"
+  when: is_vagrant == false
 
 - name: Change root password
   ansible.builtin.user:
