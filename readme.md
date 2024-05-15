@@ -30,7 +30,7 @@ ansible-galaxy role install -r ./provisioning/requirements.yml
 
 https://www.virtualbox.org/wiki/Downloads
 
-Copier le dossier d'installation. Exemple : C:\Program Files\Oracle\VirtualBox
+Copier le dossier d'installation pour plus tard. Exemple : C:\Program Files\Oracle\VirtualBox
 
 
 ## Installation de Vagrant (WSL)
@@ -45,7 +45,7 @@ sudo apt-get update && sudo apt-get install vagrant
 dans ~/.bashrc
 
 export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"
-export VAGRANT_WSL_WINDOWS_ACCESS_USER_HOME_PATH="/mnt/c/Users/tsimonet/"
+export VAGRANT_WSL_WINDOWS_ACCESS_USER_HOME_PATH="/mnt/c/Users/YOUR_USERNAME/"
 export PATH="$PATH:/mnt/C:/Program Files/Oracle/VirtualBox"
 
 
