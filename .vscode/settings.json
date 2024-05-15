@@ -1,5 +1,0 @@
-{
-    "yaml.schemas": {
-        "https://json.schemastore.org/traefik-v2.json": "file:///home/thomas/dev/my-ansible-linux-setup/provisioning/roles/compose/templates/traefik/traefik.yml"
-    }
-}
