@@ -8,14 +8,11 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder '.', '/vagrant', disabled: true
 
   config.vm.hostname = "homelab.local"
-  # config.vm.network "private_network", ip: "192.168.56.18"
-  # config.vm.network "forwarded_port", guest: 80, host: 8080
+  config.vm.network "private_network", ip: "192.168.56.18"
 
   config.vm.provider "virtualbox" do |vb|
     # Solve "Stderr: VBoxManage.exe: error: RawFile#0 failed to create the raw output file /dev/null (VERR_PATH_NOT_FOUND)"
     vb.customize [ "modifyvm", :id, "--uartmode1", "disconnected" ]
-    # vb.customize [ "modifyvm", :id, "--natdnshostresolver1", "on" ]
-    # vb.customize [ "modifyvm", :id, "--natdnsproxy1", "on" ]
     vb.customize [ "modifyvm", :id, "--name", "homelab" ]
     vb.linked_clone = true
   end
