@@ -1,4 +1,3 @@
-# See https://doc.traefik.io/traefik/https/tls/
 tls:
   stores:
     default:
