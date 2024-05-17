@@ -10,7 +10,6 @@
       ansible.builtin.apt:
         pkg: 
           - linux-headers-5.15.0-107-generic
-          - build-essential
           - dkms
         state: present
         update_cache: yes
@@ -28,11 +27,10 @@
           sudo rmdir /media/VBoxGuestAdditions
         chdir: /
 
-    - name : Generate local certs for traefik
+    - name : Generate certs for traefik
       ansible.builtin.shell:
         cmd: |
-          wget traefik.me/cert.pem -O cert.pem
+          wget traefik.me/fullchain.pem -O cert.pem
           wget traefik.me/privkey.pem -O privkey.pem
         chdir: /mnt/docker/traefik/certs
-      # become: true
       become_user: "{{ default_username }}"

@@ -18,16 +18,6 @@
   with_filetree: templates/
   when: item.state == 'file'
 
-- name : Generate certs for traefik (Only if is_vagrant)
-  ansible.builtin.shell:
-    cmd: |
-      wget traefik.me/fullchain.pem -O cert.pem
-      wget traefik.me/privkey.pem -O privkey.pem
-    chdir: /mnt/docker/traefik/certs
-  # become: true
-  become_user: "{{ default_username }}"
-  when: is_vagrant == true
-
 - name: Ensure global networks are created
   community.general.docker_network:
     name: "{{ item }}"
@@ -41,5 +31,5 @@
     project_src: /mnt/docker/{{ item }}
   become_user: "{{ default_username }}"
   loop:
-    # - "portainer"
     - "traefik"
+    - "portainer"

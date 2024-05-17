@@ -23,8 +23,8 @@
     - role: user
       tags: user
 
-    # - role: dotfiles
-    #   tags: dotfiles
+    - role: dotfiles
+      tags: dotfiles
 
     - role: docker
       tags: docker

@@ -1,6 +1,9 @@
 services:
   traefik:
     image: traefik:v3.0
+    container_name: traefik
+    hostname: traefik
+    restart: always
     ports:
       - "80:80"
       - "443:443"
@@ -17,6 +20,8 @@ services:
       - "traefik.http.routers.dashboard.service=api@internal"
       - "traefik.http.routers.dashboard.entrypoints=https"
       - "traefik.http.routers.dashboard.tls=true"
+      - "traefik.http.routers.dashboard.tls.domains[0].main=traefik.192.168.56.18.traefik.me"
+      - "traefik.http.routers.dashboard.tls.domains[0].sans=traefik-*.192.168.56.18.traefik.me"
 
 networks:
   app:

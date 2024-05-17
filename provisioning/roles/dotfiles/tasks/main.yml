@@ -1,5 +1,5 @@
 ---
-- name: Copy dotfiles
+- name: Copy install-dotfiles.sh in /home/{{default_username}}
   ansible.builtin.template:
     src: install-dotfiles.sh
     dest: "/home/{{ default_username }}"
@@ -7,16 +7,15 @@
     group: "{{ default_username }}"
     mode: 0755
 
-# - name: Install everything for zsh / starship
-#   become_user: "{{ default_username }}"
-#   ansible.builtin.expect:
-#     command: "sh /home/{{ default_username }}/install-dotfiles.sh"
-#     responses:
-#       '[y/N]': y # For starship
+- name : Install nerds fonts
+  ansible.builtin.shell:
+    cmd: sh install-dotfiles.sh
+    chdir: "/home/{{default_username}}"
+  become_user: "{{ default_username }}"
 
-- name: Copy .zshrc
+- name: Copy .zshrc  in /home/{{default_username}}
   ansible.builtin.template:
-    src: zshrc.j2
+    src: .zshrc
     dest: "/home/{{ default_username }}/.zshrc"
     owner: "{{ default_username }}"
     group: "{{ default_username }}"

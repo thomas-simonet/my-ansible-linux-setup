@@ -20,4 +20,9 @@ packages_to_install:
     - wget
     - curl
     - gzip
+    - zip
+    - unzip
     - fzf
+    - fontconfig
+    - zoxide
+    - nvim

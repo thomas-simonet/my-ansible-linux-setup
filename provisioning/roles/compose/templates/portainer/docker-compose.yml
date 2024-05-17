@@ -19,6 +19,8 @@ services:
       - "traefik.http.routers.portainer.rule=Host(`portainer.192.168.56.18.traefik.me`)"
       - "traefik.http.routers.portainer.service=portainer"
       - "traefik.http.routers.portainer.tls=true"
+      - "traefik.http.routers.portainer.tls.domains[0].main=traefik.192.168.56.18.traefik.me"
+      - "traefik.http.routers.portainer.tls.domains[0].sans=traefik-*.192.168.56.18.traefik.me"
       - "traefik.http.services.portainer.loadbalancer.server.port=9443"
 
 networks:
