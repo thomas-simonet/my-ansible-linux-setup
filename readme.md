@@ -56,3 +56,15 @@ enabled = true
 root = /mnt/
 options = "metadata,umask=77,fmask=11"
 mountFsTab = false
+
+
+
+## Todo
+
+### dotfiles
+
+* Remplacer le fichier "install-dotfiles.sh" par un "ansible.builtin.shell" ?
+* Tuto sur l'utilisation de Fzf
+* Tuto sur l'utilisation de Zoxide
+* Ajouter une tasks "Install packages" pour les packages spécifique à ce role
+* Autocompletion docker / docker compose

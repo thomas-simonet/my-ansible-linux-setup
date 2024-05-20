@@ -15,14 +15,13 @@ packages_to_install:
     - htop
     - vim
     - nano
-    - zsh
     - logrotate
     - wget
     - curl
     - gzip
     - zip
     - unzip
+    - zsh
     - fzf
     - fontconfig
     - zoxide
-    - nvim
