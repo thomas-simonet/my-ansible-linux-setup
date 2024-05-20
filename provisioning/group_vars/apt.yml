@@ -21,7 +21,3 @@ packages_to_install:
     - gzip
     - zip
     - unzip
-    - zsh
-    - fzf
-    - fontconfig
-    - zoxide
