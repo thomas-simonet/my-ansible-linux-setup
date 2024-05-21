@@ -6,8 +6,8 @@ After=docker.service
 [Service]
 type=simple
 Restart=always
-ExecStart=/usr/bin/docker-compose -f /mnt/docker/traefik/docker-compose.yml up
-ExecStop=/usr/bin/docker-compose -f /mnt/docker/traefik/docker-compose.yml stop
+ExecStart=/usr/bin/docker compose -f /mnt/docker/traefik/docker-compose.yml up
+ExecStop=/usr/bin/docker compose -f /mnt/docker/traefik/docker-compose.yml stop
 SyslogIdentifier=traefik
 
 [Install]
