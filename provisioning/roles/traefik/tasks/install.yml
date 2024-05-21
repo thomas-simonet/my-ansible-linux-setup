@@ -1,0 +1,35 @@
+---
+- name: Ensure directories exist
+  ansible.builtin.file:
+    path: /mnt/docker/traefik/{{ item.path }}
+    state: directory
+    owner: "{{default_username}}"
+    group: "{{default_username}}"
+    mode: "0750"
+  with_filetree: templates/compose/
+  when: item.state == 'directory'
+
+- name: Ensure config files exist
+  ansible.builtin.template:
+    src: '{{ item.src }}'
+    dest: /mnt/docker/traefik/{{ item.path }}
+    owner: "{{ default_username }}"
+    group: "{{ default_username }}"
+    mode: 0640
+  with_filetree: templates/compose/
+  when: item.state == 'file'
+
+- name : Generate certs for traefik (For vagrant)
+  ansible.builtin.shell:
+    cmd: |
+      wget traefik.me/fullchain.pem -O cert.pem
+      wget traefik.me/privkey.pem -O privkey.pem
+    chdir: /mnt/docker/traefik/certs
+  become_user: "{{ default_username }}"
+  when: is_vagrant
+
+- name: Ensure Traefik systemd service installed
+  ansible.builtin.template:
+    src: "systemd/traefik.service"
+    dest: "/etc/systemd/system/docker-traefik.service"
+    mode: 0640

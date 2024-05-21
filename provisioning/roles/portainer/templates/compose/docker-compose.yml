@@ -4,7 +4,6 @@ services:
     image: portainer/portainer-ce:2.20.2
     container_name: portainer
     hostname: portainer
-    restart: unless-stopped
     ports:
       - 127.0.0.1:9443:9443
     volumes:

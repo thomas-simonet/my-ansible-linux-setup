@@ -3,7 +3,6 @@
   vars_files:
     - group_vars/all.yml
     - group_vars/apt.yml
-    - group_vars/docker.yml
   vars:
     is_vagrant: false
   become: true
@@ -32,5 +31,8 @@
     # - role: rsyslog
     #   tags: rsyslog
 
-    - role: compose
-      tags: compose
+    - role: traefik
+      tags: traefik
+
+    - role: portainer
+      tags: portainer

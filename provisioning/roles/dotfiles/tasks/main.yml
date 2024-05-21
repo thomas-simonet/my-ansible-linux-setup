@@ -18,7 +18,7 @@
     group: "{{ default_username }}"
     mode: 0755
 
-- name : Install nerds fonts
+- name : Install dotfiles
   ansible.builtin.shell:
     cmd: sh install-dotfiles.sh
     chdir: "/home/{{default_username}}"

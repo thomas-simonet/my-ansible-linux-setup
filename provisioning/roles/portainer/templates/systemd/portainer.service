@@ -1,0 +1,14 @@
+[Unit]
+Description=Portainer container
+Requires=docker.service
+After=docker.service
+
+[Service]
+type=simple
+Restart=always
+ExecStart=/usr/bin/docker-compose -f /mnt/docker/portainer/docker-compose.yml up
+ExecStop=/usr/bin/docker-compose -f /mnt/docker/portainer/docker-compose.yml stop
+SyslogIdentifier=portainer
+
+[Install]
+WantedBy=default.target

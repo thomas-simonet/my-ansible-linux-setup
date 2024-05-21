@@ -63,3 +63,12 @@
   loop:
     - docker.service
     - containerd.service
+
+- name: Ensure global networks are created
+  community.general.docker_network:
+    name: "{{ item }}"
+    driver: bridge
+  become_user: "{{ default_username }}"
+  loop:
+    - app
+    - dev

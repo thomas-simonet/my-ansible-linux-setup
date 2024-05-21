@@ -5,15 +5,6 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# Set the directory we want to store zinit and plugins
-ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
-
-# Download Zinit, if it's not there yet
-if [ ! -d "$ZINIT_HOME" ]; then
-   mkdir -p "$(dirname $ZINIT_HOME)"
-   git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
-fi
-
 # Source/Load zinit
 source "${ZINIT_HOME}/zinit.zsh"
 
@@ -23,19 +14,22 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k
 # Add in zsh plugins
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-completions
-zinit light zsh-users/zsh-autosuggestions
-zinit light Aloxaf/fzf-tab
 
 # Add in snippets
 zinit snippet OMZP::git
 zinit snippet OMZP::ansible
-# zinit snippet OMZP::docker
-# zinit snippet OMZP::docker-compose
+zinit snippet OMZP::docker
+zinit snippet OMZP::docker-compose
 zinit snippet OMZP::composer
 zinit snippet OMZP::command-not-found
 
 # Load completions
 autoload -Uz compinit && compinit
+
+# fzf-tab needs to be loaded after compinit
+# https://github.com/Aloxaf/fzf-tab?tab=readme-ov-file#install
+zinit light Aloxaf/fzf-tab
+zinit light zsh-users/zsh-autosuggestions
 
 zinit cdreplay -q
 
@@ -65,12 +59,14 @@ setopt hist_find_no_dups
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu no
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls -A --color $realpath'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
 # Aliases
 alias ls='ls --color'
 alias c='clear'
+alias ..='cd ..'
+alias ...='cd ../..'
 
 # Shell integrations
 # eval "$(fzf --zsh)"
