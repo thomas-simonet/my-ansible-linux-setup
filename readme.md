@@ -5,14 +5,12 @@
 - [ ] Remplacer le fichier "install-dotfiles.sh" par un "ansible.builtin.shell" ?
 - [ ] Tuto sur l'utilisation de Fzf
 - [ ] Tuto sur l'utilisation de Zoxide
-- [X] Ajouter une tasks "Install packages" pour les packages spécifique à ce role
 - [ ] Autocompletion docker / docker compose
+- [ ] Fix "cd:1: maximum nested function level reached; increase FUNCNEST?"
 
 ### Compose
 
 - [ ] Faire en sorte que les containers dans le dossier compose se lance automatiquement après un reboot
-- [X] Tuto comment acceder aux containers
-- [X] Certificalt SSL valide en local
 - [ ] (Traefik) Mot de passe pour le dashboard
 
 ### Autres
