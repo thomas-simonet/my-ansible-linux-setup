@@ -1,5 +1,13 @@
 ---
-- name: Ensure directories exist
+- name: Create main directory
+  ansible.builtin.file:
+    path: /mnt/docker/portainer
+    state: directory
+    owner: "{{default_username}}"
+    group: "{{default_username}}"
+    mode: "0750"
+
+- name: Create sub directories
   ansible.builtin.file:
     path: /mnt/docker/portainer/{{ item.path }}
     state: directory

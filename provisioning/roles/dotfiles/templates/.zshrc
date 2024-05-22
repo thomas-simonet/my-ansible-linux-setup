@@ -75,6 +75,8 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 # Aliases
 alias ls='ls -laF --color'
 alias c='clear'
+
+alias home='cd ~'
 alias ..='cd ..'
 alias ...='cd ../..'
 

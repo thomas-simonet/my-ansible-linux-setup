@@ -20,7 +20,7 @@
       sudo rmdir /media/VBoxGuestAdditions
     chdir: /
 
-- name : Generate certs for traefik (For vagrant)
+- name : Generate certs for traefik=
   ansible.builtin.shell:
     cmd: |
       wget traefik.me/fullchain.pem -O cert.pem

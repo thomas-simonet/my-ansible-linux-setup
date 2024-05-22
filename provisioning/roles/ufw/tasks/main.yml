@@ -1,40 +1,40 @@
 ---
-- name: Block all incoming requests
-  community.general.ufw:
-    rule: deny
-    direction: "in"
+- name: Configure ufw defaults
+  ansible.builtin.ufw:
+    direction: "{{ item.direction }}"
+    policy: "{{ item.policy }}"
+  loop:
+    - { direction: 'incoming', policy: 'deny' }
+    - { direction: 'outgoing', policy: 'deny' }
+  notify: reload ufw
 
-- name: Block all outgoing requests
-  community.general.ufw:
-    rule: deny
-    direction: "out"
-
-- name: Allow incoming access to tcp port {{item}}
+- name: Configure ufw allow rules
   community.general.ufw:
     rule: allow
-    port: "{{ item }}"
-    proto: tcp
-    direction: "in"
+    port: "{{item.port}}"
+    proto: "{{item.proto}}"
+    direction: "{{item.dir}}"
   loop:
-    - 80
-    - 443
-    - 22
+    - { port: '80', proto: 'tcp', dir: 'in' }
+    - { port: '443', proto: 'tcp', dir: 'in' }
+    - { port: '22', proto: 'tcp', dir: 'in' }
+    - { port: '80', proto: 'tcp', dir: 'in' }
+    - { port: '443', proto: 'tcp', dir: 'out' }
+    - { port: '53', proto: 'udp', dir: 'out' }
+  notify: reload ufw
 
-- name: Allow outgoing access to tcp port {{item}}
+- name: Limit SSH connection rate
   community.general.ufw:
-    rule: allow
-    port: "{{ item }}"
+    rule: limit
+    port: 22
     proto: tcp
-    direction: "out"
-  loop:
-    - 80
-    - 443
+  notify: reload ufw
 
 - name: Enable logging
   community.general.ufw:
     logging: 'on'
+  notify: reload ufw
 
 - name: Enable firewall
   community.general.ufw:
     state: enabled
-  notify: reload ufw

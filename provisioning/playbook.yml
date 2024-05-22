@@ -9,7 +9,7 @@
   roles:
     - role: common
       tags: common
-    
+
     - role: user
       tags: user
 
@@ -19,8 +19,8 @@
     - role: ufw
       tags: ufw
 
-    # - role: ssh
-    #   tags: ssh
+    - role: ssh
+      tags: ssh
 
     - role: dotfiles
       tags: dotfiles
