@@ -4,8 +4,6 @@ services:
     image: portainer/portainer-ce:2.20.2
     container_name: portainer
     hostname: portainer
-    ports:
-      - 127.0.0.1:9443:9443
     volumes:
       - /mnt/docker/portainer/data:/data
       - /var/run/docker.sock:/var/run/docker.sock
@@ -18,7 +16,7 @@ services:
       - "traefik.http.routers.portainer.rule=Host(`portainer-192-168-56-18.traefik.me`)"
       - "traefik.http.routers.portainer.service=portainer"
       - "traefik.http.routers.portainer.tls=true"
-      - "traefik.http.services.portainer.loadbalancer.server.port=9443"
+      - "traefik.http.services.portainer.loadbalancer.server.port=9000"
 
 networks:
   app:

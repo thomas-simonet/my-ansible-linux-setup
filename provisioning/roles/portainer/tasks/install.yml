@@ -19,8 +19,13 @@
   with_filetree: templates/compose/
   when: item.state == 'file'
 
-- name: Ensure Portainer systemd service installed
+- name: Ensure Portainer systemd service is installed
   ansible.builtin.template:
     src: "systemd/portainer.service"
     dest: "/etc/systemd/system/docker-portainer.service"
     mode: 0640
+
+- name: Make sure Portainer service is running
+  ansible.builtin.systemd_service:
+    state: started
+    name: docker-portainer.service

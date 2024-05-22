@@ -24,11 +24,11 @@ Vagrant.configure("2") do |config|
     ansible.compatibility_mode = "2.0"
   end
 
-  config.vm.provision :ansible do |ansible|
-    ansible.playbook = "provisioning/vagrant.yml"
-    ansible.extra_vars = { is_vagrant: true }
+  # config.vm.provision :ansible do |ansible|
+    # ansible.playbook = "provisioning/vagrant.yml"
+    # ansible.extra_vars = { is_vagrant: true }
     # Solve "Vagrant gathered an unknown Ansible version"
-    ansible.compatibility_mode = "2.0"
-  end
+    # ansible.compatibility_mode = "2.0"
+  # end
 
 end

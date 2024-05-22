@@ -28,8 +28,8 @@
     - role: docker
       tags: docker
 
-    # - role: rsyslog
-    #   tags: rsyslog
+    - role: rsyslog
+      tags: rsyslog
 
     - role: traefik
       tags: traefik

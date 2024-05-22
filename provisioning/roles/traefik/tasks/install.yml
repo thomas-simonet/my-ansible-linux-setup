@@ -33,3 +33,8 @@
     src: "systemd/traefik.service"
     dest: "/etc/systemd/system/docker-traefik.service"
     mode: 0640
+
+- name: Make sure Traefik service is running
+  ansible.builtin.systemd_service:
+    state: started
+    name: docker-traefik.service

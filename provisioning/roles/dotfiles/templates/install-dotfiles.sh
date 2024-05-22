@@ -1,12 +1,11 @@
 #!/bin/bash
 
-# Set the directory we want to store zinit and plugins
-export ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+DOCKER_COMPLETIONS="${HOME}/.cache/zinit/completions/_docker"
 
-# Download Zinit, if it's not there yet
-if [ ! -d "$ZINIT_HOME" ]; then
-   mkdir -p "$(dirname $ZINIT_HOME)"
-   git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+# Download docker completions, if it's not there
+if [ ! -f "${DOCKER_COMPLETIONS}" ]; then
+  mkdir -p "$(dirname $DOCKER_COMPLETIONS)"
+  wget -P "$(dirname $DOCKER_COMPLETIONS)" https://raw.githubusercontent.com/docker/cli/master/contrib/completion/zsh/_docker
 fi
 
 echo "Downloading nerd-fonts..."
