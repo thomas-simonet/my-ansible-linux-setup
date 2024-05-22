@@ -7,20 +7,20 @@
     is_vagrant: false
   become: true
   roles:
-    # - role: oefenweb.fail2ban
-    #   tags: fail2ban
-
     - role: common
       tags: common
+    
+    - role: user
+      tags: user
 
-    # - role: ufw
-    #   tags: ufw
+    - role: fail2ban
+      tags: fail2ban
+
+    - role: ufw
+      tags: ufw
 
     # - role: ssh
     #   tags: ssh
-
-    - role: user
-      tags: user
 
     - role: dotfiles
       tags: dotfiles
@@ -31,8 +31,13 @@
     - role: rsyslog
       tags: rsyslog
 
+    # applications
     - role: traefik
       tags: traefik
 
     - role: portainer
       tags: portainer
+    # /end applications
+
+    - role: vagrant
+      tags: vagrant

@@ -9,13 +9,3 @@ host_ssh_key: "/home/thomas/.ssh/hetzner.pub"
 # generate random passwords for default user and root user
 default_password: "{{lookup('password', '/dev/null length=15 chars=ascii_letters,digits,punctuation')}}"
 root_password: "{{lookup('password', '/dev/null length=15 chars=ascii_letters,digits,punctuation')}}"
-
-# default sshd port
-sshd_port: 22
-
-# fail2ban
-fail2ban_services:
-  - name: sshd
-    port: "{{ sshd_port }}"
-    maxretry: 5
-    bantime: 10m

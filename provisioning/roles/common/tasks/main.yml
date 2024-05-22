@@ -28,15 +28,3 @@
   notify:
     - restart ntp
     - restart cron
-
-# - name: Make fail2ban work with ufw
-#   lineinfile:
-#     dest: "{{item}}"
-#     regexp: "^banaction"
-#     line: "banaction = ufw"
-#     state: present
-#   with_items:
-#     - /etc/fail2ban/jail.conf
-#     - /etc/fail2ban/jail.local
-#   notify:
-#     - restart fail2ban

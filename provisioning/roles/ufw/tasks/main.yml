@@ -1,23 +1,38 @@
 ---
-- name: Limit SSH connection rate
+- name: Block all incoming requests
   community.general.ufw:
-      rule: limit
-      port: "{{ sshd_port }}"
-      proto: tcp
+    rule: deny
+    direction: "in"
 
-- name: Enable logging
+- name: Block all outgoing requests
   community.general.ufw:
-    logging: 'on'
+    rule: deny
+    direction: "out"
 
-- name: Allow all access to tcp port {{item}}
+- name: Allow incoming access to tcp port {{item}}
   community.general.ufw:
     rule: allow
     port: "{{ item }}"
     proto: tcp
+    direction: "in"
   loop:
     - 80
     - 443
-    - "{{ sshd_port }}"
+    - 22
+
+- name: Allow outgoing access to tcp port {{item}}
+  community.general.ufw:
+    rule: allow
+    port: "{{ item }}"
+    proto: tcp
+    direction: "out"
+  loop:
+    - 80
+    - 443
+
+- name: Enable logging
+  community.general.ufw:
+    logging: 'on'
 
 - name: Enable firewall
   community.general.ufw:

@@ -19,15 +19,6 @@
   with_filetree: templates/compose/
   when: item.state == 'file'
 
-- name : Generate certs for traefik (For vagrant)
-  ansible.builtin.shell:
-    cmd: |
-      wget traefik.me/fullchain.pem -O cert.pem
-      wget traefik.me/privkey.pem -O privkey.pem
-    chdir: /mnt/docker/traefik/certs
-  become_user: "{{ default_username }}"
-  when: is_vagrant
-
 - name: Ensure Traefik systemd service installed
   ansible.builtin.template:
     src: "systemd/traefik.service"

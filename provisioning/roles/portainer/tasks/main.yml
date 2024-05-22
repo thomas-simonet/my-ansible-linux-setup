@@ -3,4 +3,5 @@
     - ansible.builtin.include_tasks: "{{ role_path }}/tasks/install.yml"
   tags:
     - install-all
+    - install-app
     - install-portainer

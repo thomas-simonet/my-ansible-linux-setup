@@ -1,0 +1,29 @@
+---
+- name: Install packages
+  ansible.builtin.apt:
+    pkg: 
+      - linux-headers-5.15.0-107-generic
+      - dkms
+    state: present
+    update_cache: yes
+    allow_unauthenticated: yes
+
+- name : Install Virtualbox Guest Additions
+  ansible.builtin.shell:
+    cmd: |
+      wget https://download.virtualbox.org/virtualbox/7.0.0_BETA3/VBoxGuestAdditions_7.0.0_BETA3.iso
+      sudo mkdir /media/VBoxGuestAdditions
+      sudo mount -o loop,ro VBoxGuestAdditions_7.0.0_BETA3.iso /media/VBoxGuestAdditions
+      sudo sh /media/VBoxGuestAdditions/VBoxLinuxAdditions.run
+      rm VBoxGuestAdditions_7.0.0_BETA3.iso
+      sudo umount /media/VBoxGuestAdditions
+      sudo rmdir /media/VBoxGuestAdditions
+    chdir: /
+
+- name : Generate certs for traefik (For vagrant)
+  ansible.builtin.shell:
+    cmd: |
+      wget traefik.me/fullchain.pem -O cert.pem
+      wget traefik.me/privkey.pem -O privkey.pem
+    chdir: /mnt/docker/traefik/certs
+  become_user: "{{ default_username }}"

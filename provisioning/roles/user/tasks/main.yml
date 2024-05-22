@@ -27,14 +27,14 @@
     key: "{{ lookup('file', '{{host_ssh_key}}') }}"
   when: is_vagrant == false
 
-- name: Change root password
-  ansible.builtin.user:
-    name: root
-    password: "{{root_password | password_hash('sha512')}}"
-    update_password: "always"
+# - name: Change root password
+#   ansible.builtin.user:
+#     name: root
+#     password: "{{root_password | password_hash('sha512')}}"
+#     update_password: "always"
 
-- debug:
-    msg: "user '{{default_username}}' generated password: {{default_password}}"
+# - debug:
+#     msg: "user '{{default_username}}' generated password: {{default_password}}"
 
-- debug:
-    msg: "user 'root' generated password: {{root_password}}"
+# - debug:
+#     msg: "user 'root' generated password: {{root_password}}"
