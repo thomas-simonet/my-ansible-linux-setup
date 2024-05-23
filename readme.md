@@ -1,21 +1,8 @@
 ## Todos
 
-### dotfiles
-
-- [ ] Remplacer le fichier "install-dotfiles.sh" par un "ansible.builtin.shell" ?
-- [ ] Tuto sur l'utilisation de Fzf
-- [ ] Tuto sur l'utilisation de Zoxide
-- [ ] Autocompletion docker / docker compose
-- [ ] Fix "cd:1: maximum nested function level reached; increase FUNCNEST?"
-
-### Compose
-
-- [ ] Faire en sorte que les containers dans le dossier compose se lance automatiquement après un reboot
+- [ ] (Dotfiles) Fix "cd:1: maximum nested function level reached; increase FUNCNEST?"
 - [ ] (Traefik) Mot de passe pour le dashboard
 
-### Autres
-
-- [ ] Installer les Guest Additions qu'une seule fois
 
 ## Installation
 
@@ -59,7 +46,7 @@ export VAGRANT_WSL_WINDOWS_ACCESS_USER_HOME_PATH="/mnt/c/Users/YOUR_USERNAME/"
 export PATH="$PATH:/mnt/C:/Program Files/Oracle/VirtualBox"
 ```
 
-=> Remplacer "YOUR_USERNAME" par votre nom d'utilisateur sous Windows
+=> Remplacer "YOUR_USERNAME" par le nom de votre utilisateur sous Windows
 
 Editer le fichier "/etc/wsl.conf"
 
