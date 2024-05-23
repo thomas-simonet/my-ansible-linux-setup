@@ -1,0 +1,40 @@
+---
+- name: Configure ufw defaults
+  ansible.builtin.ufw:
+    direction: "{{ item.direction }}"
+    policy: "{{ item.policy }}"
+  loop:
+    - { direction: 'incoming', policy: 'deny' }
+    - { direction: 'outgoing', policy: 'deny' }
+  notify: reload ufw
+
+- name: Configure ufw allow rules
+  community.general.ufw:
+    rule: allow
+    port: "{{item.port}}"
+    proto: "{{item.proto}}"
+    direction: "{{item.dir}}"
+  loop:
+    - { port: '80', proto: 'tcp', dir: 'in' }
+    - { port: '443', proto: 'tcp', dir: 'in' }
+    - { port: '22', proto: 'tcp', dir: 'in' }
+    - { port: '80', proto: 'tcp', dir: 'in' }
+    - { port: '443', proto: 'tcp', dir: 'out' }
+    - { port: '53', proto: 'udp', dir: 'out' }
+  notify: reload ufw
+
+- name: Limit SSH connection rate
+  community.general.ufw:
+    rule: limit
+    port: 22
+    proto: tcp
+  notify: reload ufw
+
+- name: Enable logging
+  community.general.ufw:
+    logging: 'on'
+  notify: reload ufw
+
+- name: Enable firewall
+  community.general.ufw:
+    state: enabled

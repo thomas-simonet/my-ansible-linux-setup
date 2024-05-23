@@ -1,0 +1,40 @@
+---
+- name: Install packages
+  ansible.builtin.apt:
+    pkg:
+      - zsh
+      - fzf
+      - fontconfig
+      - zoxide
+    state: present
+    update_cache: yes
+    allow_unauthenticated: yes
+
+- name: Copy install-dotfiles.sh in /home/{{default_username}}
+  ansible.builtin.template:
+    src: install-dotfiles.sh
+    dest: "/home/{{ default_username }}"
+    owner: "{{ default_username }}"
+    group: "{{ default_username }}"
+    mode: 0755
+
+- name : Run script
+  ansible.builtin.shell:
+    cmd: sh install-dotfiles.sh
+    chdir: "/home/{{default_username}}"
+  become_user: "{{ default_username }}"
+
+- name: Copy .zshrc in /home/{{default_username}}
+  ansible.builtin.template:
+    src: .zshrc
+    dest: "/home/{{ default_username }}/.zshrc"
+    owner: "{{ default_username }}"
+    group: "{{ default_username }}"
+    backup: yes
+
+- name: chsh to /usr/bin/zsh for {{default_username}}
+  ansible.builtin.user:
+    name: "{{item}}"
+    shell: /usr/bin/zsh
+  with_items:
+    - "{{default_username}}"

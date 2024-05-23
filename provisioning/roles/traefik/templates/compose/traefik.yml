@@ -31,12 +31,10 @@ providers:
 
 log:
   level: ERROR
-  filePath: "/var/log/traefik.log"
   maxBackups: 5
   maxAge: 7
   compress: true
   noColor: true
 
 accessLog:
-  filePath: "/var/log/access.log"
   bufferingSize: 100

@@ -8,36 +8,25 @@
   become: true
   roles:
     - role: common
-      tags: common
 
     - role: user
-      tags: user
 
     - role: fail2ban
-      tags: fail2ban
 
     - role: ufw
-      tags: ufw
 
     - role: ssh
-      tags: ssh
 
     - role: dotfiles
-      tags: dotfiles
 
     - role: docker
-      tags: docker
 
     - role: rsyslog
-      tags: rsyslog
 
     # applications
     - role: traefik
-      tags: traefik
 
     - role: portainer
-      tags: portainer
     # /end applications
 
     - role: vagrant
-      tags: vagrant

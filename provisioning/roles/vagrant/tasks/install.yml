@@ -20,10 +20,12 @@
       sudo rmdir /media/VBoxGuestAdditions
     chdir: /
 
-- name : Generate certs for traefik=
+- name : Generate certs for traefik
   ansible.builtin.shell:
     cmd: |
       wget traefik.me/fullchain.pem -O cert.pem
       wget traefik.me/privkey.pem -O privkey.pem
     chdir: /mnt/docker/traefik/certs
   become_user: "{{ default_username }}"
+  tags:
+    - install-traefik

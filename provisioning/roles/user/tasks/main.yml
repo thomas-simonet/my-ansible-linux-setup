@@ -1,40 +1,6 @@
 ---
-- name: Update default user, belonging to sudo group
-  ansible.builtin.user:
-    name: "{{default_username}}"
-    password: "{{default_password | password_hash('sha512')}}"
-    groups: "sudo"
-    create_home: true
-    shell: "/bin/bash"
-    generate_ssh_key: yes
-    ssh_key_bits: 2048
-    ssh_key_file: .ssh/id_rsa
-    update_password: "always"
-    state: present
-
-- name: Ensure sudo group has sudo privileges without password
-  lineinfile:
-    dest: /etc/sudoers
-    state: present
-    regexp: "^%sudo"
-    line: "%sudo ALL=(ALL) NOPASSWD:ALL"
-    validate: "/usr/sbin/visudo -cf %s"
-
-- name: Set authorized key taken from file
-  ansible.posix.authorized_key:
-    user: "{{default_username}}"
-    state: present
-    key: "{{ lookup('file', '{{host_ssh_key}}') }}"
-  when: is_vagrant == false
-
-# - name: Change root password
-#   ansible.builtin.user:
-#     name: root
-#     password: "{{root_password | password_hash('sha512')}}"
-#     update_password: "always"
-
-# - debug:
-#     msg: "user '{{default_username}}' generated password: {{default_password}}"
-
-# - debug:
-#     msg: "user 'root' generated password: {{root_password}}"
+- block:
+    - ansible.builtin.include_tasks: "{{ role_path }}/tasks/install.yml"
+  tags:
+    - install-all
+    - install-user
