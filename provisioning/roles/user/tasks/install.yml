@@ -13,7 +13,7 @@
     state: present
 
 - name: Ensure sudo group has sudo privileges without password
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/sudoers
     state: present
     regexp: "^%sudo"

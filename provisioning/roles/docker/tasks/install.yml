@@ -12,7 +12,7 @@
     state: present
 
 - name: Get architecture
-  shell: dpkg --print-architecture
+  ansible.builtin.shell: dpkg --print-architecture
   register: deb_architecture
 
 - name: Add Docker repository

@@ -7,8 +7,8 @@
       - fontconfig
       - zoxide
     state: present
-    update_cache: yes
-    allow_unauthenticated: yes
+    update_cache: true
+    allow_unauthenticated: true
 
 - name: Copy install-dotfiles.sh in /home/{{default_username}}
   ansible.builtin.template:

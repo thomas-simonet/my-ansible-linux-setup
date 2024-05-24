@@ -14,13 +14,13 @@
     mode: 0640
 
 - name: Start fail2ban service
-  service:
+  ansible.builtin.service:
     name: fail2ban
     state: started
   become: true
 
 - name: Enable fail2ban service
-  service:
+  ansible.builtin.service:
     name: fail2ban
     enabled: true
   become: true

@@ -5,13 +5,13 @@
 
 - name: Install packages
   ansible.builtin.apt:
-    pkg: "{{packages_to_install}}"
+    pkg: "{{ packages_to_install }}"
     state: present
-    update_cache: yes
-    allow_unauthenticated: yes
+    update_cache: true
+    allow_unauthenticated: true
 
 - name: Enable compress on logrotate
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/logrotate.conf
     regexp: "^#?compress"
     line: "compress"
@@ -19,10 +19,10 @@
 
 - name: Configure timezone
   community.general.timezone:
-    name: "{{timezone}}"
+    name: "{{ timezone }}"
 
 - name: Configure ntp client and restart it
-  template:
+  ansible.builtin.template:
     src: ntp.conf.j2
     dest: /etc/ntp.conf
   notify:

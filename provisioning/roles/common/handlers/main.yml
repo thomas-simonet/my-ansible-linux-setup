@@ -1,10 +1,10 @@
 ---
 - name: restart ntp
-  service:
+  ansible.builtin.service:
     name: ntp
     state: restarted
 
 - name: restart cron
-  service:
+  ansible.builtin.service:
     name: cron
     state: restarted

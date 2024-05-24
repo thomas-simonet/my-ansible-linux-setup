@@ -1,6 +1,6 @@
 ---
 - name: Ensures that fully-qualified domain names are used in log messages
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/rsyslog.conf
     regexp: "^PreserveFQDN"
     line: "$PreserveFQDN on"
