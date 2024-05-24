@@ -12,6 +12,9 @@
 sudo apt-get update
 sudo apt-get install python3-pip git libffi-dev libssl-dev -y
 pip install --user ansible pywinrm
+
+# Install ansible-lint for linting or ansible vscode extensions
+pip3 install ansible-lint
 ```
 
 #### Installer les roles :
