@@ -18,7 +18,7 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.provision :ansible do |ansible|
-    ansible.playbook = "provisioning/playbook.yml"
+    ansible.playbook = "playbook.yml"
     ansible.extra_vars = { is_vagrant: true }
     # Solve "Vagrant gathered an unknown Ansible version"
     ansible.compatibility_mode = "2.0"
