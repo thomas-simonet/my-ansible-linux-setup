@@ -1,2 +1,6 @@
 vagrant-ssh
 .vagrant
+inventory
+host_vars/*
+!/host_vars/.gitkeep
+.vscode

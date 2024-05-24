@@ -1,10 +1,10 @@
 services:
   traefik:
-    image: traefik:v3.0
+    image: traefik:{{ traefik_version }}
     container_name: traefik
     hostname: traefik
     environment:
-      - TZ=Europe/Paris
+      - TZ={{ timezone }}
     ports:
       - "80:80"
       - "443:443"
@@ -17,7 +17,7 @@ services:
       - app
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.dashboard.rule=Host(`traefik-192-168-56-18.traefik.me`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
+      - "traefik.http.routers.dashboard.rule=Host(`{{ traefik_hostname }}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
       - "traefik.http.routers.dashboard.service=api@internal"
       - "traefik.http.routers.dashboard.entrypoints=https"
       - "traefik.http.routers.dashboard.tls=true"

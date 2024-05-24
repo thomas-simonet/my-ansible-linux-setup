@@ -3,6 +3,18 @@
 default_username: thomas
 timezone: Europe/Paris
 
+# Hostname
+# https://traefik.me/ est utilisé pour fournir un certificat SSL valide en local.
+hostname: "192-168-56-18.traefik.me"
+
+# Traefik
+traefik_hostname: "traefik-{{ hostname }}"
+traefik_version: "v3.0"
+
+# Portainer
+portainer_hostname: "portainer-{{ hostname }}"
+portainer_version: "2.20.2"
+
 # SSH key
 host_ssh_key: "/home/thomas/.ssh/hetzner.pub"
 
