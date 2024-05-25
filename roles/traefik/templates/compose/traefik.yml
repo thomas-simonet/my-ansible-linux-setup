@@ -37,4 +37,4 @@ log:
   noColor: true
 
 accessLog:
-  bufferingSize: 100
+  bufferingSize: 0
