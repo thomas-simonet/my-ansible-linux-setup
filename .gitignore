@@ -3,4 +3,3 @@ vagrant-ssh
 inventory
 host_vars/*
 !/host_vars/.gitkeep
-.vscode

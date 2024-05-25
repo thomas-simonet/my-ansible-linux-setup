@@ -67,18 +67,19 @@ setopt hist_find_no_dups
 
 # Completion styling
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
-# zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
-# zstyle ':completion:*' menu no
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zstyle ':completion:*' menu no
 # zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls -A --color $realpath'
 # zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
 # Aliases
-alias ls='ls -laF --color'
-alias c='clear'
+alias ls="eza --color=always --long --git --no-filesize --icons=always --all --no-time --no-user --no-permissions"
+alias c="clear"
+alias home="cd ~"
+alias ..="cd .."
+alias ...="cd ../.."
 
-alias home='cd ~'
-alias ..='cd ..'
-alias ...='cd ../..'
+export FPATH="${HOME}/.cache/zinit/completions/eza:$FPATH"
 
 # Shell integrations
 # eval "$(fzf --zsh)"

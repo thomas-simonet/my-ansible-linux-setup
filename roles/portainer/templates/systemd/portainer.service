@@ -5,6 +5,7 @@ After=docker.service
 
 [Service]
 Restart=on-failure
+ExecStartPre=docker network ls | grep -q "app" && echo true || docker network create "app"
 ExecStart=/usr/bin/docker compose -f /mnt/docker/portainer/docker-compose.yml up
 ExecStop=/usr/bin/docker compose -f /mnt/docker/portainer/docker-compose.yml stop
 SyslogIdentifier=portainer

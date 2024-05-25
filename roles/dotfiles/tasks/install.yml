@@ -2,6 +2,8 @@
 - name: Install packages
   ansible.builtin.apt:
     pkg:
+      - wget
+      - gpg
       - zsh
       - fzf
       - fontconfig
@@ -23,6 +25,7 @@
     cmd: sh install-dotfiles.sh
     chdir: "/home/{{default_username}}"
   become_user: "{{ default_username }}"
+  become: true
 
 - name: Copy .zshrc in /home/{{default_username}}
   ansible.builtin.template:
