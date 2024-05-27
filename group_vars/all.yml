@@ -15,8 +15,12 @@ traefik_version: "v3.0"
 portainer_hostname: "portainer-{{ hostname }}"
 portainer_version: "2.20.2"
 
+# Graylog
+graylog_hostname: "Graylog-{{ hostname }}"
+graylog_version: "6.0.2"
+
 # SSH key
-host_ssh_key: "/home/thomas/.ssh/hetzner.pub"
+host_ssh_key: null
 
 # generate random passwords for default user and root user
 default_password: "{{lookup('password', '/dev/null length=15 chars=ascii_letters,digits,punctuation')}}"

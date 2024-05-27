@@ -27,6 +27,8 @@
     - role: traefik
 
     - role: portainer
+
+    - role: graylog
     # /end applications
 
     - role: vagrant

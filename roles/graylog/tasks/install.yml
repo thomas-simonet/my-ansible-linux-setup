@@ -1,0 +1,39 @@
+---
+- name: Create main directory
+  ansible.builtin.file:
+    path: /mnt/docker/graylog
+    state: directory
+    owner: "{{default_username}}"
+    group: "{{default_username}}"
+    mode: "0750"
+
+- name: Create sub directories
+  ansible.builtin.file:
+    path: /mnt/docker/graylog/{{ item.path }}
+    state: directory
+    owner: "{{default_username}}"
+    group: "{{default_username}}"
+    mode: "0750"
+  with_filetree: templates/compose/
+  when: item.state == 'directory'
+
+- name: Ensure config files exist
+  ansible.builtin.template:
+    src: '{{ item.src }}'
+    dest: /mnt/docker/graylog/{{ item.path }}
+    owner: "{{ default_username }}"
+    group: "{{ default_username }}"
+    mode: 0640
+  with_filetree: templates/compose/
+  when: item.state == 'file'
+
+- name: Ensure graylog systemd service is installed
+  ansible.builtin.template:
+    src: "systemd/graylog.service"
+    dest: "/etc/systemd/system/docker-graylog.service"
+    mode: 0640
+
+- name: Make sure graylog service is running
+  ansible.builtin.systemd_service:
+    state: started
+    name: docker-graylog.service
