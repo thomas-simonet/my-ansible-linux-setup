@@ -19,8 +19,8 @@
   ansible.builtin.apt_repository:
     repo: >-
       deb [arch={{ deb_architecture.stdout }} signed-by=/etc/apt/keyrings/docker.gpg]
-      https://download.docker.com/linux/ubuntu {{ ansible_lsb.codename }} stable
-    filename: docker.list
+      https://download.docker.com/linux/ubuntu {{ ubuntu_version }} stable
+    filename: docker
     state: present
 
 - name: Install Docker and related packages

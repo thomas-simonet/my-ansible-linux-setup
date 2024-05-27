@@ -1,5 +1,6 @@
 ---
 # general settings
+ubuntu_version: jammy
 default_username: thomas
 timezone: Europe/Paris
 

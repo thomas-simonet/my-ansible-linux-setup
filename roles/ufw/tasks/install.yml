@@ -1,13 +1,4 @@
 ---
-- name: Configure ufw defaults
-  ansible.builtin.ufw:
-    direction: "{{ item.direction }}"
-    policy: "{{ item.policy }}"
-  loop:
-    - { direction: 'incoming', policy: 'deny' }
-    - { direction: 'outgoing', policy: 'deny' }
-  notify: reload ufw
-
 - name: Configure ufw allow rules
   community.general.ufw:
     rule: allow
@@ -20,6 +11,7 @@
     - { port: '80', proto: 'tcp', dir: 'out' }
     - { port: '443', proto: 'tcp', dir: 'out' }
     - { port: '53', proto: 'udp', dir: 'out' }
+    # - { port: '25', proto: 'udp', dir: 'out' } // SMTP
   notify: reload ufw
 
 - name: Limit SSH connection rate
@@ -37,4 +29,3 @@
 - name: Enable firewall
   community.general.ufw:
     state: enabled
-  become: true

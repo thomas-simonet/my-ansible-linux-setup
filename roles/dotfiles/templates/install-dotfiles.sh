@@ -23,7 +23,10 @@ if [ ! -d "${EZA_COMPLETIONS}" ]; then
   cd "$EZA_COMPLETIONS" && git clone https://github.com/eza-community/eza.git .
 fi
 
-wget -qO- https://raw.githubusercontent.com/eza-community/eza/main/deb.asc | sudo gpg --dearmor -o --yes /etc/apt/keyrings/gierens.gpg
+if [ ! -f "/etc/apt/keyrings/gierens.gpg" ]; then
+  wget -qO- https://raw.githubusercontent.com/eza-community/eza/main/deb.asc | sudo gpg --dearmor -o /etc/apt/keyrings/gierens.gpg
+fi
+
 echo "deb [signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable main" | sudo tee /etc/apt/sources.list.d/gierens.list
 sudo chmod 644 /etc/apt/keyrings/gierens.gpg /etc/apt/sources.list.d/gierens.list
 sudo apt-get update
