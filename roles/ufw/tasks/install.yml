@@ -17,8 +17,7 @@
   loop:
     - { port: '80', proto: 'tcp', dir: 'in' }
     - { port: '443', proto: 'tcp', dir: 'in' }
-    - { port: '22', proto: 'tcp', dir: 'in' }
-    - { port: '80', proto: 'tcp', dir: 'in' }
+    - { port: '80', proto: 'tcp', dir: 'out' }
     - { port: '443', proto: 'tcp', dir: 'out' }
     - { port: '53', proto: 'udp', dir: 'out' }
   notify: reload ufw

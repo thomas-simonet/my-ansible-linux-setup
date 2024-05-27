@@ -1,0 +1,88 @@
+services:
+
+  graylog:
+    image: graylog/graylog:{{ graylog_version }}
+    container_name: graylog
+    hostname: graylog
+    depends_on:
+      - mongodb
+      - opensearch
+    ports:
+      # Graylog web interface and REST API
+      - "9000:9000/tcp"
+      # Beats
+      - "5044:5044/tcp"
+      # Syslog TCP
+      - "5140:5140/tcp"
+      # Syslog UDP
+      - "5140:5140/udp"
+      # GELF TCP
+      - "12201:12201/tcp"
+      # GELF UDP
+      - "12201:12201/udp"
+      # Forwarder data
+      - "13301:13301/tcp"
+      # Forwarder config
+      - "13302:13302/tcp"
+    environment:
+      - GRAYLOG_NODE_ID_FILE= "/usr/share/graylog/data/config/node-id"
+      - GRAYLOG_HTTP_BIND_ADDRESS= "0.0.0.0:9000"
+      - GRAYLOG_ELASTICSEARCH_HOSTS= "http://opensearch:9200"
+      - GRAYLOG_MONGODB_URI="mongodb://mongodb:27017/graylog"
+      # To make reporting (headless_shell) work inside a Docker container
+      - GRAYLOG_REPORT_DISABLE_SANDBOX: "true"
+      # CHANGE ME (must be at least 16 characters)!
+      - GRAYLOG_PASSWORD_SECRET= "somepasswordpepper"
+      # Password: "admin"
+      - GRAYLOG_ROOT_PASSWORD_SHA2= "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"
+      - GRAYLOG_HTTP_EXTERNAL_URI= "http://127.0.0.1:9000/"
+    volumes:
+      - /mnt/docker/graylog/data/gl/data:/usr/share/graylog/data/data
+      - /mnt/docker/graylog/data/gl/journal:/usr/share/graylog/data/journal
+    networks:
+      - app
+      - graylog
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=app"
+      - "traefik.http.routers.graylog.entrypoints=https"
+      - "traefik.http.routers.graylog.rule=Host(`{{ graylog_hostname }}`)"
+      - "traefik.http.routers.graylog.service=graylog"
+      - "traefik.http.routers.graylog.tls=true"
+      - "traefik.http.services.graylog.loadbalancer.server.port=9000"
+
+  mongodb:
+    image: mongo:8.0.0-rc4-jammy
+    container_name: mongodb
+    hostname: mongodb
+    volumes:
+      - /mnt/docker/graylog/data/db:/data
+    networks:
+      - graylog
+
+  opensearch:
+    image: opensearchproject/opensearch:2.14.0
+    container_name: opensearch
+    hostname: opensearch
+    ports:
+      - "9200:9200"
+      - "9600:9600"
+    environment:
+      - "OPENSEARCH_JAVA_OPTS=-Xms1g -Xmx1g"
+      - "bootstrap.memory_lock=true"
+      - "discovery.type=single-node"
+      - "action.auto_create_index=false"
+      - "plugins.security.ssl.http.enabled=false"
+      - "plugins.security.disabled=true"
+      # Can generate a password for `OPENSEARCH_INITIAL_ADMIN_PASSWORD` using a linux device via:
+      # tr -dc A-Z-a-z-0-9_@#%^-_=+ < /dev/urandom  | head -c${1:-32}
+      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=+_8r#wliY3Pv5-HMIf4qzXImYzZf-M=M
+    volumes:
+      - /mnt/docker/graylog/data/search:/data
+    networks:
+      - graylog
+
+networks:
+  app:
+    external: true
+  graylog:

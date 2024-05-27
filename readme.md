@@ -61,6 +61,25 @@ options = "metadata,umask=77,fmask=11"
 mountFsTab = false
 ```
 
+## Dotfiles
+
+Sous windows, installez les nerds fonts :
+
+```
+choco install nerd-fonts-hack
+```
+
+Puis sous vscode :
+
+```
+{
+  "terminal.integrated.fontFamily": "'Hack Nerd Font'",
+  "terminal.integrated.fontSize": 12
+}
+```
+
+Si nous n'utilisez pas vscode, il faut parametrer la police dans votre terminal
+
 ## Connexion SSH
 
 ```
