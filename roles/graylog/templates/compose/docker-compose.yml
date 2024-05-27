@@ -84,5 +84,5 @@ services:
 
 networks:
   app:
-    external: true
+    name: app
   graylog:
