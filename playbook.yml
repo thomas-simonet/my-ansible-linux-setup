@@ -28,7 +28,7 @@
 
     - role: portainer
 
-    - role: graylog
+    - role: grafana
     # /end applications
 
     - role: vagrant
