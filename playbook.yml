@@ -29,6 +29,18 @@
     - role: portainer
 
     - role: grafana
+
+    # - role: diun
+
+    # - role: freshrss
+
+    # - role: readeck
+
+    # - role: maelie
+
+    # - role: immich
+
+    # - role: coder
     # /end applications
 
     - role: vagrant

@@ -11,7 +11,7 @@ pip install --user ansible pywinrm
 pip3 install ansible-lint
 ```
 
-#### Installer les roles :
+#### Installer les pre-requis :
 
 ```
 ansible-galaxy role install -r ./provisioning/requirements.yml
@@ -55,7 +55,7 @@ options = "metadata,umask=77,fmask=11"
 mountFsTab = false
 ```
 
-## Dotfiles
+### Dotfiles
 
 Sous windows, installez les nerds fonts :
 
@@ -63,16 +63,8 @@ Sous windows, installez les nerds fonts :
 choco install nerd-fonts-hack
 ```
 
-Puis sous vscode :
+Le police est selectionnée par défaut dans Visual Studio Code via la configuration dans .vscode.
 
-```
-{
-  "terminal.integrated.fontFamily": "'Hack Nerd Font'",
-  "terminal.integrated.fontSize": 12
-}
-```
-
-Si nous n'utilisez pas vscode, il faut parametrer la police dans votre terminal
 
 ## Connexion SSH
 
