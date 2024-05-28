@@ -2,6 +2,7 @@
 # general settings
 ubuntu_version: jammy
 default_username: thomas
+default_email: contact@thomassimonet.fr
 timezone: Europe/Paris
 
 # Hostname

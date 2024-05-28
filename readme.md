@@ -1,9 +1,3 @@
-## Todos
-
-- [ ] (Dotfiles) Fix "cd:1: maximum nested function level reached; increase FUNCNEST?"
-- [ ] (Traefik) Mot de passe pour le dashboard
-
-
 ## Installation
 
 ### Installation de Ansible (WSL)
