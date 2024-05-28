@@ -79,7 +79,8 @@ alias home="cd ~"
 alias ..="cd .."
 alias ...="cd ../.."
 
-export FPATH="${HOME}/.cache/zinit/completions/eza:$FPATH"
+export FPATH="$FPATH:$HOME/.cache/zinit/completions/eza"
+export PATH="$PATH:$HOME/bin"
 
 # Shell integrations
 # eval "$(fzf --zsh)"

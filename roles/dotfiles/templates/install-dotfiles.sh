@@ -33,6 +33,14 @@ sudo apt-get update
 sudo apt-get install -y eza
 # /end eza
 
+# Install just
+if [ ! -d "~/bin" ]; then
+  mkdir -p ~/bin
+fi
+
+curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | sh -s -- --to ~/bin
+# /end just
+
 # Delete this script
 rm ${HOME}/install-dotfiles.sh
 

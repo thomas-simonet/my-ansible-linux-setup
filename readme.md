@@ -89,6 +89,30 @@ L'adresse IP par défaut de la VM est "192.168.56.18".
 
 * Portainer est par défaut accessible à l'adresse https://portainer-192-168-56-18.traefik.me
 
+* Grafana est par défaut accessible à l'adresse https://grafana-192-168-56-18.traefik.me
+
+## Installer du command runner "just"
+
+https://github.com/casey/just
+
+Just est installé par défaut dans le role "dotfiles", mais voici comment installer just sur WSL ou autres.
+
+```
+# create ~/bin
+mkdir -p ~/bin
+
+# download and extract just to ~/bin/just
+curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | sh -s -- --to ~/bin
+
+# add `~/bin` to the paths that your shell searches for executables
+# this line should be added to your shells initialization file,
+# e.g. `~/.bashrc` or `~/.zshrc`
+export PATH="$PATH:$HOME/bin"
+
+# just should now be executable
+just --help
+```
+
 ## Debug
 
 #### Fix "WARNING: UNPROTECTED PRIVATE KEY FILE!"
