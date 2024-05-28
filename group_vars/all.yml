@@ -19,7 +19,6 @@ portainer_version: "2.20.2"
 
 # Grafana
 grafana_hostname: "grafana-{{ hostname }}"
-loki_hostname: "loki-{{ hostname }}"
 
 # SSH key
 host_ssh_key: null
