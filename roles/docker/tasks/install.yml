@@ -53,7 +53,7 @@
     owner: "root"
     group: "root"
     mode: 0644
-  notify: restart docker
+  notify: Restart docker
 
 - name: Enable and start Docker services
   ansible.builtin.systemd:
