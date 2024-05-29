@@ -1,4 +1,10 @@
 ---
+- name: Ensure rsyslog is present
+  ansible.builtin.apt:
+    pkg:
+      - rsyslog
+    state: present
+
 - name: Ensures that fully-qualified domain names are used in log messages
   ansible.builtin.lineinfile:
     dest: /etc/rsyslog.conf
@@ -14,5 +20,8 @@
     group: root
     mode: u=rw,g=r,o=r
   notify: 
-   - restart rsyslog
-   - restart docker
+   - Restart rsyslog
+   - Restart docker
+
+- name: Apply configuration (flush handlers)
+  meta: flush_handlers

@@ -2,20 +2,11 @@
 - hosts: all
   vars_files:
     - group_vars/all.yml
-    - group_vars/apt.yml
   vars:
     is_vagrant: false
   become: true
   roles:
     - role: common
-
-    - role: user
-
-    - role: fail2ban
-
-    - role: ufw
-
-    - role: ssh
 
     - role: dotfiles
 

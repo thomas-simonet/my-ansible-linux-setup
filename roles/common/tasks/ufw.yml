@@ -1,4 +1,9 @@
 ---
+- name: Ensure ufw package is present
+  ansible.builtin.apt:
+    state: present
+    package: ufw
+
 - name: Configure ufw allow rules
   community.general.ufw:
     rule: allow
@@ -12,20 +17,24 @@
     - { port: '443', proto: 'tcp', dir: 'out' }
     - { port: '53', proto: 'udp', dir: 'out' }
     # - { port: '25', proto: 'udp', dir: 'out' } // SMTP
-  notify: reload ufw
+  notify: Reload ufw
 
 - name: Limit SSH connection rate
   community.general.ufw:
     rule: limit
     port: 22
     proto: tcp
-  notify: reload ufw
+  notify: Reload ufw
 
 - name: Enable logging
   community.general.ufw:
     logging: 'on'
-  notify: reload ufw
+  notify: Reload ufw
 
-- name: Enable firewall
+- name: Apply configuration (flush handlers)
+  meta: flush_handlers
+
+- name: Start and enable ufw
   community.general.ufw:
     state: enabled
+  become: true

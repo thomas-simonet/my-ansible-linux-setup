@@ -1,0 +1,31 @@
+---
+- name: Upgrade packages
+  ansible.builtin.apt:
+    upgrade: full
+
+- name: Install packages
+  ansible.builtin.apt:
+    pkg:
+      - python3-pip
+      - ca-certificates
+      - git
+      - acl
+      - screen
+      - net-tools
+      - ntp
+      - sudo
+      - ufw
+      - build-essential
+      - jq
+      - htop
+      - vim
+      - nano
+      - logrotate
+      - wget
+      - curl
+      - gzip
+      - zip
+      - unzip
+    state: present
+    update_cache: true
+    allow_unauthenticated: true

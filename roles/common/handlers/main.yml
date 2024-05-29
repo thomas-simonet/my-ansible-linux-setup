@@ -1,10 +1,26 @@
 ---
-- name: restart ntp
+- name: Restart ssh
   ansible.builtin.service:
-    name: ntp
+    name: ssh
     state: restarted
+    enabled: true
+  become: true
 
-- name: restart cron
+- name: Restart crond
   ansible.builtin.service:
     name: cron
     state: restarted
+    enabled: true
+  become: true
+
+- name: Restart fail2ban
+  ansible.builtin.service:
+    name: fail2ban
+    state: restarted
+    enabled: true
+  become: true
+
+- name: Reload ufw
+  ansible.builtin.ufw:
+    state: reloaded
+  become: true
