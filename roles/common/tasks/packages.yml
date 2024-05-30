@@ -1,9 +1,9 @@
 ---
-- name: Upgrade packages
+- name: Packages | Upgrade packages
   ansible.builtin.apt:
     upgrade: full
 
-- name: Install packages
+- name: Packages | Install packages
   ansible.builtin.apt:
     pkg:
       - python3-pip

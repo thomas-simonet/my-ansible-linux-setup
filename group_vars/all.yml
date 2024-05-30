@@ -4,8 +4,14 @@ ubuntu_version: jammy
 default_username: thomas
 default_email: contact@thomassimonet.fr
 timezone: Europe/Paris
-default_password: "{{lookup('password', '/dev/null length=15 chars=ascii_letters,digits,punctuation')}}"
-root_password: "{{lookup('password', '/dev/null length=15 chars=ascii_letters,digits,punctuation')}}"
+
+default_password: "{{lookup('ansible.builtin.password', '/dev/null length=15 chars=ascii_letters,digits,punctuation')}}"
+root_password: "{{lookup('ansible.builtin.password', '/dev/null length=15 chars=ascii_letters,digits,punctuation')}}"
+
+
+## SSH
+ssh_authorized_key: "{{ lookup('ansible.builtin.file', '/path/to/key.pub') }}"
+
 
 # Hostname
 server_hostname: "192-168-56-18.traefik.me"

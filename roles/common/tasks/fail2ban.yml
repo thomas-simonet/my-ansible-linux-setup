@@ -1,11 +1,11 @@
 ---
-- name: Ensure fail2ban is present
+- name: Fail2ban | Ensure fail2ban is present
   ansible.builtin.apt:
     pkg:
       - fail2ban
     state: present
 
-- name: Ensure config files exist
+- name: Fail2ban | Ensure config files exist
   ansible.builtin.template:
     src: fail2ban.local.conf.j2
     dest: /etc/fail2ban/jail.d/
@@ -13,10 +13,10 @@
     group: root
     mode: "0755"
 
-- name: Apply configuration (flush handlers)
-  meta: flush_handlers
+- name: Fail2ban | Apply configuration (flush handlers)
+  ansible.builtin.meta: flush_handlers
 
-- name: Start and enable fail2ban
+- name: Fail2ban | Start and enable fail2ban
   ansible.builtin.service:
     name: fail2ban
     state: started

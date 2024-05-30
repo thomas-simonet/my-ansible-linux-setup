@@ -1,0 +1,1 @@
+ssh_authorized_key: "{{ lookup('file', '/home/thomas/.ssh/hetzner.pub') }}"

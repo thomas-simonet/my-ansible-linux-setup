@@ -1,12 +1,12 @@
 ---
-- name: Remove any PermitRootLogin instruction
+- name: SSH | Remove any PermitRootLogin instruction
   ansible.builtin.lineinfile:
     dest: /etc/ssh/sshd_config
     regexp: "^PermitRootLogin"
     state: absent
   notify: Restart ssh
 
-- name: Disable SSH root login
+- name: SSH | Disable SSH root login
   ansible.builtin.lineinfile:
     dest: /etc/ssh/sshd_config
     regexp: "^PermitRootLogin"
@@ -14,7 +14,7 @@
     state: present
   notify: Restart ssh
 
-- name: Disable password authentication
+- name: SSH | Disable password authentication
   ansible.builtin.lineinfile:
     dest: /etc/ssh/sshd_config
     regexp: "^#?PasswordAuthentication"
@@ -22,5 +22,11 @@
     state: present
   notify: Restart ssh
 
-- name: Apply configuration (flush handlers)
-  meta: flush_handlers
+- name: SSH | Add authorized keys
+  ansible.builtin.authorized_key:
+    user: "{{ default_username }}"
+    state: present
+    key: "{{ ssh_authorized_keys }}"
+
+- name: SSH | Apply configuration (flush handlers)
+  ansible.builtin.meta: flush_handlers

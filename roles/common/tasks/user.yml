@@ -1,18 +1,14 @@
 ---
-- name: Update default user, belonging to sudo group
+- name: User | Update default user, belonging to sudo group
   ansible.builtin.user:
-    name: "{{default_username}}"
-    password: "{{default_password | password_hash('sha512')}}"
+    name: "{{ default_username }}"
+    password: "{{ default_password | password_hash('sha512') }}"
     groups: "sudo"
     create_home: true
-    shell: "/bin/bash"
-    generate_ssh_key: yes
-    ssh_key_bits: 2048
-    ssh_key_file: .ssh/id_rsa
     update_password: "always"
     state: present
 
-- name: Ensure sudo group has sudo privileges without password
+- name: User | Ensure sudo group has sudo privileges without password
   ansible.builtin.lineinfile:
     dest: /etc/sudoers
     state: present
