@@ -14,9 +14,6 @@ entryPoints:
           scheme: https
   https:
     address: ":443"
-    http:
-      tls:
-        options: intermediate@file
 
 providers:
   file:
@@ -31,9 +28,6 @@ providers:
 
 log:
   level: ERROR
-  maxBackups: 5
-  maxAge: 7
-  compress: true
   noColor: true
 
 accessLog:
