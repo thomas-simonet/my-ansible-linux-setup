@@ -1,7 +1,9 @@
 vagrant-ssh
 .vagrant
-inventory
-host_vars/*
+# host_vars/*
 !/host_vars/.gitkeep
 .env
 data/certs/*.pem
+
+# inventory
+# production.yml

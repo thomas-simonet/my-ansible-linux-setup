@@ -1,15 +1,15 @@
 ---
-- name: Set timezone
+- name: Datetime | Set timezone
   community.general.timezone:
     name: "{{ timezone }}"
   when: timezone is defined
 
-- name: Install systemd-timesyncd time synchronization service
+- name: Datetime | Install systemd-timesyncd time synchronization service
   ansible.builtin.apt:
     state: present
     package: systemd-timesyncd
 
-- name: Start systemd-timesyncd time synchronization service
+- name: Datetime | Start systemd-timesyncd time synchronization service
   ansible.builtin.service:
     name: systemd-timesyncd
     state: started

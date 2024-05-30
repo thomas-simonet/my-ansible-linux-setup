@@ -1,25 +1,24 @@
 ---
-- hosts: all
+- name: Setup homelab
+  hosts: all
   vars_files:
     - group_vars/all.yml
-  vars:
-    is_vagrant: false
   become: true
   roles:
     - role: common
 
-    - role: dotfiles
+    # - role: dotfiles
 
-    - role: docker
+    # - role: docker
 
-    - role: rsyslog
+    # - role: rsyslog
 
     # applications
-    - role: traefik
+    # - role: traefik
 
-    - role: portainer
+    # - role: portainer
 
-    - role: grafana
+    # - role: grafana
 
     # - role: diun
 
@@ -34,4 +33,4 @@
     # - role: coder
     # /end applications
 
-    - role: vagrant
+    # - role: vagrant
