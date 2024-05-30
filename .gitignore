@@ -4,3 +4,4 @@ inventory
 host_vars/*
 !/host_vars/.gitkeep
 .env
+data/certs/*.pem

@@ -27,6 +27,28 @@
   with_filetree: templates/compose/
   when: item.state == 'file'
 
+
+- name : Generate local certs for traefik
+  ansible.builtin.shell:
+    cmd: |
+      wget traefik.me/fullchain.pem -O cert.pem
+      wget traefik.me/privkey.pem -O key.pem
+    chdir: /mnt/docker/traefik/certs
+  become_user: "{{ default_username }}"
+  when: is_vagrant == true
+
+
+- name: Create {{ traefik_hostname }} A record to point to {{ server_ip_address }}
+  community.general.cloudflare_dns:
+    zone: "{{ server_hostname }}"
+    record: traefik
+    type: A
+    value: "{{ server_ip_address }}"
+    account_email: "{{ cf_account_email }}"
+    account_api_token: "{{ cf_account_api_token }}"
+  register: record
+  when: is_vagrant == false
+
 - name: Ensure Traefik systemd service installed
   ansible.builtin.template:
     src: "systemd/traefik.service"
