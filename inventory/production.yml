@@ -1,0 +1,7 @@
+all:
+  hosts:
+    thomassimonet.dev:
+      ansible_host: 116.202.24.220
+      ansible_port: 22
+      ansible_user: "root"
+      ansible_ssh_private_key_file: "{{ lookup("community.general.bitwarden_secrets_manager", "3312d15a-8f2f-4ae8-9577-b181008de1fd") }}"

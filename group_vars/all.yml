@@ -9,6 +9,10 @@ default_password: "{{lookup('ansible.builtin.password', '/dev/null length=15 cha
 root_password: "{{lookup('ansible.builtin.password', '/dev/null length=15 chars=ascii_letters,digits,punctuation')}}"
 
 
+# vagrant
+is_vagrant: true
+
+
 ## SSH
 ssh_authorized_key: "{{ lookup('ansible.builtin.file', '/path/to/key.pub') }}"
 
@@ -33,8 +37,8 @@ grafana_hostname: "grafana-192-168-56-18.traefik.me"
 
 
 # SSL
-ssl_certificat: "{{ lookup('ansible.builtin.file', '/data/certs/cert.pem') }}"
-ssl_private_key: "{{ lookup('ansible.builtin.file', '/data/certs/key.pem') }}"
+ssl_certificat: "{{ lookup('ansible.builtin.file', '/path/to/cert.pem') }}"
+ssl_private_key: "{{ lookup('ansible.builtin.file', '/path/to/key.pem') }}"
 
 
 # SSH key

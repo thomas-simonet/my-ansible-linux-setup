@@ -1,1 +1,15 @@
-ssh_authorized_key: "{{ lookup('file', '/home/thomas/.ssh/hetzner.pub') }}"
+env_vars:
+  BWS_ACCESS_TOKEN: 0.a715ecfc-7348-4955-8640-b17e00e32ce8.tsJHuIDGjFVWw3r6UkcS0cTukvqEy2:seXYWJZzBKjZ7cjrLaBuyA==
+
+
+# vagrant
+is_vagrant: false
+
+
+# keys
+ssh_authorized_key: "{{ lookup('ansible.builtin.file', '/home/thomas/.ssh/hetzner.pub') }}"
+
+
+# SSL
+ssl_certificat: "{{ lookup('ansible.builtin.file', '/data/certs/cert.pem') }}"
+ssl_private_key: "{{ lookup('ansible.builtin.file', '/data/certs/key.pem') }}"
