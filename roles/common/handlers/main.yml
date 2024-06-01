@@ -6,13 +6,6 @@
     enabled: true
   become: true
 
-- name: Restart crond
-  ansible.builtin.service:
-    name: cron
-    state: restarted
-    enabled: true
-  become: true
-
 - name: Restart fail2ban
   ansible.builtin.service:
     name: fail2ban
@@ -21,6 +14,6 @@
   become: true
 
 - name: Reload ufw
-  ansible.builtin.ufw:
+  community.general.ufw:
     state: reloaded
   become: true

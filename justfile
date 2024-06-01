@@ -1,3 +1,5 @@
+set dotenv-load
+ 
 inventory := ".vagrant/provisioners/ansible/inventory/vagrant_ansible_inventory"
 
 [group('ansible')]
@@ -11,3 +13,7 @@ production *args:
 [group('ansible')]
 stagging *args:
     ansible-playbook -i {{inventory}} playbook.yml {{ args }}
+
+[group('vagrant')]
+get-ssh-config:
+    vagrant ssh-config > vagrant-ssh

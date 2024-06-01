@@ -1,5 +1,12 @@
+.env
+
 vagrant-ssh
 .vagrant
+
+inventory/*
+
+host_vars/*.yml
 !/host_vars/.gitkeep
-.env
-data/certs/*.pem
+
+data/certs/*
+!data/certs/.gitkeep

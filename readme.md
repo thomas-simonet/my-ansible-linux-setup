@@ -65,6 +65,10 @@ choco install nerd-fonts-hack
 
 Le police est selectionnée par défaut dans Visual Studio Code via la configuration dans .vscode.
 
+## Récuperer les secrets depuis bitwarden
+
+Se référer à la documentation officielle https://bitwarden.com/help/ansible-integration/
+
 
 ## Connexion SSH
 

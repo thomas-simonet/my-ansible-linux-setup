@@ -12,7 +12,6 @@
       - acl
       - screen
       - net-tools
-      - ntp
       - sudo
       - ufw
       - build-essential

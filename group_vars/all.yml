@@ -5,16 +5,12 @@ default_username: thomas
 default_email: contact@thomassimonet.fr
 timezone: Europe/Paris
 
-default_password: "{{lookup('ansible.builtin.password', '/dev/null length=15 chars=ascii_letters,digits,punctuation')}}"
-root_password: "{{lookup('ansible.builtin.password', '/dev/null length=15 chars=ascii_letters,digits,punctuation')}}"
+default_password: "{{ lookup('ansible.builtin.password', '/dev/null length=15 chars=ascii_letters,digits,punctuation') }}"
+root_password: "{{ lookup('ansible.builtin.password', '/dev/null length=15 chars=ascii_letters,digits,punctuation') }}"
 
 
 # vagrant
 is_vagrant: true
-
-
-## SSH
-ssh_authorized_key: "{{ lookup('ansible.builtin.file', '/path/to/key.pub') }}"
 
 
 # Hostname
@@ -34,18 +30,3 @@ portainer_version: "2.20.2"
 
 # Grafana
 grafana_hostname: "grafana-192-168-56-18.traefik.me"
-
-
-# SSL
-ssl_certificat: "{{ lookup('ansible.builtin.file', '/path/to/cert.pem') }}"
-ssl_private_key: "{{ lookup('ansible.builtin.file', '/path/to/key.pem') }}"
-
-
-# SSH key
-ssh_key: null
-
-
-# Cloudflare
-cf_account_email: "contact@thomassimonet.fr"
-cf_account_api_token: "2aaf367ca7fc9946afd67a1030030cae35c39"
-cf_zone_id: "891f1ca7c9abd06e3163a50de9bfed57"

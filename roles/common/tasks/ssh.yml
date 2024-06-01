@@ -10,7 +10,7 @@
   ansible.builtin.lineinfile:
     dest: /etc/ssh/sshd_config
     regexp: "^PermitRootLogin"
-    line: "PermitRootLogin prohibit-password"
+    line: "PermitRootLogin no"
     state: present
   notify: Restart ssh
 
@@ -22,11 +22,19 @@
     state: present
   notify: Restart ssh
 
+- name: SSH | Increase LogLevel to VERBOSE
+  ansible.builtin.lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "^LogLevel"
+    line: "LogLevel VERBOSE"
+    state: present
+  notify: Restart ssh
+
 - name: SSH | Add authorized keys
-  ansible.builtin.authorized_key:
+  ansible.posix.authorized_key:
     user: "{{ default_username }}"
     state: present
-    key: "{{ ssh_authorized_keys }}"
+    key: "{{ ssh_public_key }}"
 
 - name: SSH | Apply configuration (flush handlers)
   ansible.builtin.meta: flush_handlers
