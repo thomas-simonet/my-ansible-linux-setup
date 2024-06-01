@@ -14,14 +14,9 @@ Vagrant.configure("2") do |config|
     # Solve "Stderr: VBoxManage.exe: error: RawFile#0 failed to create the raw output file /dev/null (VERR_PATH_NOT_FOUND)"
     vb.customize [ "modifyvm", :id, "--uartmode1", "disconnected" ]
     vb.customize [ "modifyvm", :id, "--name", "homelab" ]
+    vb.memory = 2048
+    vb.cpus = 2
     vb.linked_clone = true
-  end
-
-  config.vm.provision :ansible do |ansible|
-    ansible.playbook = "playbook.yml"
-    ansible.extra_vars = { is_vagrant: true }
-    # Solve "Vagrant gathered an unknown Ansible version"
-    ansible.compatibility_mode = "2.0"
   end
 
 end
