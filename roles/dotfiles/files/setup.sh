@@ -14,7 +14,7 @@ fi
 
 
 # ------------------------------------
-# Install nerd fonts
+# Install nerd-fonts
 # ------------------------------------
 wget -P ~/.local/share/fonts https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FiraCode.tar.xz \
 && cd ~/.local/share/fonts && tar xf FiraCode.tar.xz && rm FiraCode.tar.xz && fc-cache -fv
@@ -46,11 +46,11 @@ sudo apt-get install -y eza
 # ------------------------------------
 # Install just
 # ------------------------------------
-if [ ! -d "~/bin" ]; then
-  mkdir -p ~/bin
+if [ ! -d "~/.local/bin" ]; then
+  mkdir -p ~/.local/bin
 fi
 
-curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | sh -s -- --to ~/bin
+curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | sh -s -- --to ~/.local/bin
 # /end just
 
 
@@ -58,6 +58,12 @@ curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | sh -s -- 
 # Install Atuin
 # ------------------------------------
 bash <(curl --proto '=https' --tlsv1.2 -sSf https://setup.atuin.sh)
+
+
+# ------------------------------------
+# Install Zoxide
+# ------------------------------------
+curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
 
 
 # ------------------------------------

@@ -81,9 +81,9 @@ alias ..="cd .."
 alias ...="cd ../.."
 
 export FPATH="$FPATH:$HOME/.cache/zinit/completions/eza"
-export PATH="$PATH:$HOME/bin"
+export PATH="$PATH:$HOME/.local/bin"
 
 # Shell integrations
 # eval "$(fzf --zsh)"
-# eval "$(zoxide init --cmd cd zsh)"
+eval "$(zoxide init zsh)"
 eval "$(atuin init zsh)"
