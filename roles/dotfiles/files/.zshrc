@@ -23,6 +23,7 @@ zinit ice depth=1; zinit light romkatv/powerlevel10k
 # Add in zsh plugins
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-completions
+zinit load atuinsh/atuin
 
 # Add in snippets
 zinit snippet OMZL::git.zsh
@@ -73,7 +74,7 @@ zstyle ':completion:*' menu no
 # zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
 # Aliases
-alias ls="eza --color=always --long --git --no-filesize --icons=always --all --no-time --no-user --no-permissions"
+alias ls="eza --color=always --long --git --no-filesize --icons=always --all --no-time"
 alias c="clear"
 alias home="cd ~"
 alias ..="cd .."
@@ -85,3 +86,4 @@ export PATH="$PATH:$HOME/bin"
 # Shell integrations
 # eval "$(fzf --zsh)"
 # eval "$(zoxide init --cmd cd zsh)"
+eval "$(atuin init zsh)"
