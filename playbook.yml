@@ -4,10 +4,11 @@
   vars_files:
     - group_vars/all.yml
   become: true
+
   roles:
     - role: common
 
-    # - role: dotfiles
+    - role: dotfiles
 
     # - role: docker
 

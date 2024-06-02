@@ -12,32 +12,28 @@
     update_cache: true
     allow_unauthenticated: true
 
-- name: Copy install-dotfiles.sh in /home/{{default_username}}
-  ansible.builtin.template:
-    src: install-dotfiles.sh
+- name: Copy file {{ item }} in /home/{{ default_username }}
+  ansible.builtin.copy:
+    src: "files/{{ item }}"
     dest: "/home/{{ default_username }}"
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
-    mode: 0755
+    mode: '0644'
+  loop:
+    - .p10k.zsh
+    - .zshrc
+    - setup.sh
 
-- name : Run script
+- name : Run setup.sh
   ansible.builtin.shell:
-    cmd: sh install-dotfiles.sh
-    chdir: "/home/{{default_username}}"
+    cmd: bash setup.sh
+    chdir: "/home/{{ default_username }}"
   become_user: "{{ default_username }}"
   become: true
 
-- name: Copy .zshrc in /home/{{default_username}}
-  ansible.builtin.template:
-    src: .zshrc
-    dest: "/home/{{ default_username }}/.zshrc"
-    owner: "{{ default_username }}"
-    group: "{{ default_username }}"
-    backup: yes
-
-- name: chsh to /usr/bin/zsh for {{default_username}}
+- name: chsh to /usr/bin/zsh for {{ default_username }}
   ansible.builtin.user:
-    name: "{{item}}"
+    name: "{{ item }}"
     shell: /usr/bin/zsh
   with_items:
-    - "{{default_username}}"
+    - "{{ default_username }}"
