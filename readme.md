@@ -119,3 +119,4 @@ https://www.schakko.de/2020/01/10/fixing-unprotected-key-file-when-using-ssh-or-
 ## Ressources
 
 https://thedatabaseme.de/2022/02/20/vagrant-up-running-vagrant-under-wsl2/
+https://www.commandprompt.com/blog/docker-logging-with-rsyslog/
