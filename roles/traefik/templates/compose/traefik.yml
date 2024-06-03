@@ -26,7 +26,7 @@ providers:
     exposedByDefault: false
 
 log:
-  level: ERROR
+  level: DEBUG
   noColor: true
 
 accessLog:

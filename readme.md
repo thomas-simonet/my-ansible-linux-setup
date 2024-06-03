@@ -1,5 +1,17 @@
 ## Installation
 
+## Version
+
+Fonctionne avec
+
+```
+Ansible 2.16.6
+Vagrant 2.4.1
+VirtualBox 7.0.14
+---
+Python 3.10.12
+```
+
 ### Installation de Ansible (WSL)
 
 ```

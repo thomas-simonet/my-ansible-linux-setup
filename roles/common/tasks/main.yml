@@ -1,41 +1,41 @@
 ---
 - name: Import packages configuration tasks
-  import_tasks: packages.yml
+  ansible.builtin.import_tasks: packages.yml
   become: true
   tags:
     - install-common
     - install-packages
 
 - name: Import user configuration tasks
-  import_tasks: user.yml
+  ansible.builtin.import_tasks: user.yml
   become: true
   tags:
     - install-common
     - install-user
 
 - name: Import fail2ban configuration tasks
-  import_tasks: fail2ban.yml
+  ansible.builtin.import_tasks: fail2ban.yml
   become: true
   tags:
     - install-common
     - install-fail2ban
 
 - name: Import datetime configuration tasks
-  import_tasks: datetime.yml
+  ansible.builtin.import_tasks: datetime.yml
   become: true
   tags:
     - install-common
     - install-datetime
 
 - name: Import ufw configuration tasks
-  import_tasks: ufw.yml
+  ansible.builtin.import_tasks: ufw.yml
   become: true
   tags:
     - install-common
     - install-ufw
 
 - name: Import ssh configuration tasks
-  import_tasks: ssh.yml
+  ansible.builtin.import_tasks: ssh.yml
   become: true
   tags:
     - install-common

@@ -14,7 +14,7 @@
 
     - role: rsyslog
 
-    - role: reboot
+    # - role: reboot
 
     # applications
     - role: traefik

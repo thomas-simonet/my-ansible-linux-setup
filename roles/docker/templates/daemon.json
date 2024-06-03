@@ -4,5 +4,6 @@
         "syslog-address": "unixgram:///dev/log",
         "tag" : "docker/{% raw %}{{.Name}}{% endraw %}"
     },
-    "data-root": "/mnt/docker-data"
+    "data-root": "/mnt/docker-data",
+    "metrics-addr": "127.0.0.1:9323"
 }
