@@ -10,7 +10,7 @@ root_password: "{{ lookup('ansible.builtin.password', '/dev/null length=15 chars
 
 
 # Bitwarden Secret Manager
-bws_access_token: "{{ lookup('env', 'BWS_ACCESS_TOKEN') }}"
+bws_access_token: "{{ lookup('ansible.builtin.env', 'BWS_ACCESS_TOKEN') }}"
 
 
 # vagrant
@@ -21,22 +21,22 @@ is_vagrant: true
 ssh_public_key: "{{ lookup('bitwarden.secrets.lookup', '09b491cd-de30-403e-8a16-b18101625e58', access_token=bws_access_token) }}"
 
 
+# ------------------------------------
+# Applications
+# ------------------------------------
+
 # Hostname
 server_hostname: "192-168-56-18.traefik.me"
 server_ip_address: "116.202.24.220"
-
 
 # Traefik
 traefik_hostname: "traefik-192-168-56-18.traefik.me"
 traefik_version: "v3.0"
 
-
-# Portainer
-portainer_hostname: "portainer-192-168-56-18.traefik.me"
-portainer_version: "2.20.2"
-
-
-# Grafana
+# Monitoring
 grafana_hostname: "grafana-192-168-56-18.traefik.me"
-
 prometheus_hostname: "prometheus-192-168-56-18.traefik.me"
+
+# ------------------------------------
+# End Applications
+# ------------------------------------

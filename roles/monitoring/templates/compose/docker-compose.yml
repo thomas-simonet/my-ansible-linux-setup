@@ -4,21 +4,20 @@ services:
     image: grafana/grafana:11.0.0
     container_name: grafana
     hostname: grafana
-    environment:
+    # environment:
       # - GF_SMTP_ENABLED=true
       # - GF_SMTP_FROM_ADDRESS=${SMTP_FROM:-noreply@example.com}
       # - GF_SMTP_HOST=${SMTP_HOST:-smtp.example.com:587}
       # - GF_SMTP_PASSWORD=${SMTP_PASSWORD:-myp@ssw0rd}
       # - GF_SMTP_USER=${SMTP_USERNAME:-noreply@example.com}
       # - GF_SERVER_ROOT_URL=https://{{ grafana_hostname }}
-    volumes:
+    # volumes:
       # - /mnt/docker/monitoring/grafana:/var/lib/grafana
     networks:
       - app
       - monitoring
     labels:
       - traefik.enable=true
-      - traefik.docker.network=app
       - traefik.http.routers.grafana.entrypoints=https
       - traefik.http.routers.grafana.rule=Host(`{{ grafana_hostname }}`)
       - traefik.http.routers.grafana.service=grafana
@@ -29,36 +28,27 @@ services:
     image: prom/prometheus:v2.52.0
     container_name: monitoring-prometheus
     hostname: monitoring-prometheus
-    entrypoint: /bin/sh
+    user: 1002:1002
+    extra_hosts:
+      - "host.docker.internal=host-gateway"
     command:
-      - -c
-      - |
-        chown -R 65534:root /prometheus /etc/prometheus
-        if [ ! -f /etc/prometheus/prometheus.yml ]; then
-          wget --no-cache -q https://git.io/JucIT -O /etc/prometheus/prometheus.yml
-        fi
-        prometheus --config.file=/etc/prometheus/prometheus.yml \
-        --storage.tsdb.path=/prometheus \
-        --storage.tsdb.retention.time=7d \
-        --storage.tsdb.retention.size=1GB \
-        --web.console.libraries=/usr/share/prometheus/console_libraries \
-        --web.console.templates=/usr/share/prometheus/consoles \
-        --web.route-prefix=/prometheus \
-        --web.external-url=https://{{ prometheus_hostname }}
+        - --config.file=/etc/prometheus/prometheus.yml
+        - --storage.tsdb.path=/prometheus
+        - --storage.tsdb.retention.size=1GB
+        - --web.external-url=https://{{ prometheus_hostname }}
     volumes:
-      # - /mnt/docker/monitoring/prometheus:/prometheus
-      # - /mnt/docker/monitoring/prometheus/config:/etc/prometheus/
+      - /mnt/docker/monitoring/prometheus/data:/prometheus
+      - /mnt/docker/monitoring/prometheus/config:/etc/prometheus
     networks:
       - app
       - monitoring
     labels:
       - traefik.enable=true
-      - traefik.docker.network=app
-      - traefik.http.routers.grafana-prom.entrypoints=https
-      - traefik.http.routers.grafana-prom.rule=Host(`{{ prometheus_hostname }}`)
-      - traefik.http.routers.grafana-prom.service=grafana-prom
-      - traefik.http.routers.grafana-prom.tls=true
-      - traefik.http.services.grafana-prom.loadbalancer.server.port=9090
+      - traefik.http.routers.prometheus.entrypoints=https
+      - traefik.http.routers.prometheus.rule=Host(`{{ prometheus_hostname }}`)
+      - traefik.http.routers.prometheus.service=prometheus
+      - traefik.http.routers.prometheus.tls=true
+      - traefik.http.services.prometheus.loadbalancer.server.port=9090
       # - traefik.http.routers.grafana-prom.middlewares=grafana-prom-auth
       # - traefik.http.middlewares.grafana-prom-auth.basicauth.users=${PROM_USER:-admin}:${PROM_PASSWORD:-htpasswd}
 
@@ -76,11 +66,11 @@ services:
       - monitoring
 
   node-exporter:
-    image: prom/node-exporter:v1.8.5
+    image: prom/node-exporter:v1.8.1
     container_name: monitoring-node-exporter
     hostname: monitoring-node-exporter
-    # environment:
-      # {% raw %}- NODE_ID={{.Node.ID}}{% endraw %}
+    environment:
+      {{ "- NODE_ID={{.Node.ID}}" }}
     volumes:
       - /sys:/host/sys:ro
       - /:/rootfs:ro
