@@ -55,6 +55,9 @@
     mode: 0644
   notify: Restart docker
 
+- name: Apply configuration (flush handlers)
+  ansible.builtin.meta: flush_handlers
+
 - name: Enable and start Docker services
   ansible.builtin.systemd:
     name: "{{ item }}"

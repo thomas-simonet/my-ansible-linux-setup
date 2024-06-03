@@ -10,9 +10,11 @@
 
     - role: dotfiles
 
-    # - role: docker
+    - role: docker
 
-    # - role: rsyslog
+    - role: rsyslog
+
+    - role: reboot
 
     # applications
     # - role: traefik
