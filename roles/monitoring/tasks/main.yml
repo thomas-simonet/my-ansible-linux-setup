@@ -1,0 +1,7 @@
+---
+- block:
+    - ansible.builtin.include_tasks: install.yml
+  tags:
+    - install-all
+    - install-app
+    - install-monitoring

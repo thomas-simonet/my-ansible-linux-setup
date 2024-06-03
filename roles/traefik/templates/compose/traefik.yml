@@ -24,7 +24,6 @@ providers:
     watch: true
     network: app
     exposedByDefault: false
-    defaultRule: "{% raw %}HostRegexp(`{{ index .Labels \"com.docker.compose.service\"}}.traefik.me`,`{{ index .Labels \"com.docker.compose.service\"}}-{dashed-ip:.*}.traefik.me`){% endraw %}"
 
 log:
   level: ERROR

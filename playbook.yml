@@ -17,9 +17,9 @@
     - role: reboot
 
     # applications
-    # - role: traefik
+    - role: traefik
 
-    # - role: portainer
+    - role: monitoring
 
     # - role: grafana
 

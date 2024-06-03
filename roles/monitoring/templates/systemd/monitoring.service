@@ -1,0 +1,13 @@
+[Unit]
+Description=Monitoring container
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=on-failure
+ExecStart=/usr/bin/docker compose -f /mnt/docker/monitoring/docker-compose.yml up
+ExecStop=/usr/bin/docker compose -f /mnt/docker/monitoring/docker-compose.yml stop
+SyslogIdentifier=monitoring
+
+[Install]
+WantedBy=default.target

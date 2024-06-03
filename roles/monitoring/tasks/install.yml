@@ -1,7 +1,7 @@
 ---
 - name: Create main directory
   ansible.builtin.file:
-    path: /mnt/docker/traefik
+    path: /mnt/docker/monitoring
     state: directory
     owner: "{{default_username}}"
     group: "{{default_username}}"
@@ -9,7 +9,7 @@
 
 - name: Create sub directories
   ansible.builtin.file:
-    path: /mnt/docker/traefik/{{ item.path }}
+    path: /mnt/docker/monitoring/{{ item.path }}
     state: directory
     owner: "{{default_username}}"
     group: "{{default_username}}"
@@ -20,29 +20,20 @@
 - name: Ensure config files exist
   ansible.builtin.template:
     src: '{{ item.src }}'
-    dest: /mnt/docker/traefik/{{ item.path }}
+    dest: /mnt/docker/monitoring/{{ item.path }}
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
     mode: 0640
   with_filetree: templates/compose/
   when: item.state == 'file'
 
-- name : Generate local certs for traefik
-  ansible.builtin.shell:
-    cmd: |
-      wget traefik.me/fullchain.pem -O cert.pem
-      wget traefik.me/privkey.pem -O key.pem
-    chdir: /mnt/docker/traefik/certs
-  become_user: "{{ default_username }}"
-  when: is_vagrant == true
-
-- name: Ensure Traefik systemd service installed
+- name: Ensure monitoring systemd service installed
   ansible.builtin.template:
-    src: "systemd/traefik.service"
-    dest: "/etc/systemd/system/docker-traefik.service"
+    src: "systemd/monitoring.service"
+    dest: "/etc/systemd/system/docker-monitoring.service"
     mode: 0640
 
-- name: Make sure Traefik service is running
+- name: Make sure monitoring service is running
   ansible.builtin.systemd_service:
     state: started
-    name: docker-traefik.service
+    name: docker-monitoring.service
