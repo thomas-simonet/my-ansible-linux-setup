@@ -38,3 +38,5 @@ portainer_version: "2.20.2"
 
 # Grafana
 grafana_hostname: "grafana-192-168-56-18.traefik.me"
+
+prometheus_hostname: "prometheus-192-168-56-18.traefik.me"

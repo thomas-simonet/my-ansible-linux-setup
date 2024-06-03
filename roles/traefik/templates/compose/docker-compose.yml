@@ -4,8 +4,7 @@ services:
     container_name: traefik
     hostname: traefik
     environment:
-      - TZ: {{ timezone }}
-      # - TRAEFIK_DASHBOARD_CREDENTIALS: ${TRAEFIK_DASHBOARD_CREDENTIALS}
+      - TZ={{ timezone }}
     ports:
       - "80:80"
       - "443:443"
@@ -13,26 +12,18 @@ services:
       - /mnt/docker/traefik/traefik.yml:/etc/traefik/traefik.yml:ro
       - /mnt/docker/traefik/config.yml:/etc/traefik/config.yml:ro
       - /mnt/docker/traefik/certs:/etc/ssl/traefik:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - app
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=app"
-
       - "traefik.http.routers.dashboard.rule=Host(`{{ traefik_hostname }}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
       - "traefik.http.routers.dashboard.service=api@internal"
       - "traefik.http.routers.dashboard.entrypoints=https"
       - "traefik.http.routers.dashboard.tls=true"
       - "traefik.http.routers.traefik.tls.domains[0].main={{ server_hostname }}"
       - "traefik.http.routers.traefik.tls.domains[0].sans=*-{{ server_hostname }}"
-
-      # - "traefik.http.middlewares.traefik-auth.basicauth.users=${TRAEFIK_DASHBOARD_CREDENTIALS}"
-
-      # prod
-      # - "traefik.http.routers.dashboard.rule=Host(`traefik.thomassimonet.dev`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
-      # - "traefik.http.routers.traefik-secure.tls.domains[0].main=thomassimonet.dev"
-      # - "traefik.http.routers.traefik-secure.tls.domains[0].sans=*.thomassimonet.dev"
 
 networks:
   app:
