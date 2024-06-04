@@ -1,6 +1,7 @@
 ---
-- block:
-    - ansible.builtin.include_tasks: install.yml
+- name: Import dotfiles installation tasks
   tags:
     - install-all
     - install-dotfiles
+  block:
+    - ansible.builtin.include_tasks: install.yml

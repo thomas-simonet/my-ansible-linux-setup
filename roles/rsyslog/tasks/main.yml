@@ -1,6 +1,7 @@
 ---
-- block:
-    - ansible.builtin.include_tasks: install.yml
+- name: Import rsyslog installation tasks
   tags:
     - install-all
     - install-rsyslog
+  block:
+    - ansible.builtin.include_tasks: install.yml

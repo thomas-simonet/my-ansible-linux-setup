@@ -1,5 +1,6 @@
 ---
-- block:
-    - ansible.builtin.include_tasks: reboot.yml
+- name: Import reboot tasks
   tags:
     - reboot
+  block:
+    - ansible.builtin.include_tasks: reboot.yml

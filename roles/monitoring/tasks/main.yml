@@ -1,7 +1,8 @@
 ---
-- block:
-    - ansible.builtin.include_tasks: install.yml
+- name: Import monitoring installation tasks
   tags:
     - install-all
     - install-app
     - install-monitoring
+  block:
+    - ansible.builtin.include_tasks: install.yml

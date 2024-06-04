@@ -5,7 +5,7 @@
     state: directory
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
-    mode: 0755
+    mode: "0755"
 
 - name: Create sub directories
   ansible.builtin.file:
@@ -13,9 +13,9 @@
     state: directory
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
-    mode: 0755
-  with_filetree: templates/compose/
-  when: item.state == 'directory'
+    mode: "0755"
+  with_community.general.filetree: templates/compose/
+  when: item.state == directory
 
 - name: Ensure config files exist
   ansible.builtin.template:
@@ -23,24 +23,25 @@
     dest: /mnt/docker/traefik/{{ item.path }}
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
-    mode: 0644
-  with_filetree: templates/compose/
-  when: item.state == 'file'
+    mode: "0644"
+  with_community.general.filetree: templates/compose/
+  when: item.state == file
 
-- name : Generate local certs for traefik
+- name: Generate local certs for traefik
   ansible.builtin.shell:
     cmd: |
       wget traefik.me/fullchain.pem -O cert.pem
       wget traefik.me/privkey.pem -O key.pem
     chdir: /mnt/docker/traefik/certs
   become_user: "{{ default_username }}"
-  when: is_vagrant == true
+  become: true
+  when: is_vagrant
 
 - name: Ensure Traefik systemd service installed
   ansible.builtin.template:
     src: systemd/traefik.service
     dest: /etc/systemd/system/docker-traefik.service
-    mode: 0644
+    mode: "0644"
 
 - name: Make sure Traefik service is running
   ansible.builtin.systemd_service:
