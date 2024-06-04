@@ -14,14 +14,10 @@
 
     - role: rsyslog
 
-    # - role: reboot
-
     # applications
     - role: traefik
 
     - role: monitoring
-
-    # - role: grafana
 
     # - role: diun
 
@@ -33,7 +29,11 @@
 
     # - role: immich
 
+    # - role: rsshub
+
     # - role: coder
     # /end applications
+
+    - role: reboot
 
     # - role: vagrant
