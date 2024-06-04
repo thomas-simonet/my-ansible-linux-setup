@@ -7,9 +7,9 @@
 - name: UFW | Configure ufw allow rules
   community.general.ufw:
     rule: allow
-    port: "{{item.port}}"
-    proto: "{{item.proto}}"
-    direction: "{{item.dir}}"
+    port: "{{ item.port }}"
+    proto: "{{ item.proto }}"
+    direction: "{{ item.dir }}"
   loop:
     - { port: '80', proto: 'tcp', dir: 'in' }
     - { port: '443', proto: 'tcp', dir: 'in' }
@@ -28,7 +28,7 @@
 
 - name: UFW | Enable logging
   community.general.ufw:
-    logging: 'on'
+    logging: "on"
   notify: Reload ufw
 
 - name: UFW | Apply configuration (flush handlers)

@@ -1,26 +1,19 @@
 global:
   scrape_interval:     30s
   evaluation_interval: 30s
+  external_labels:
+    monitor: "codelab-monitor"
 
 scrape_configs:
   - job_name: prometheus
-    metrics_path: /prometheus/metrics
+    metrics_path: /metrics
     static_configs:
-      - targets: ['localhost:9090']
+      - targets: ["localhost:9090"]
 
-  - job_name: docker
+  - job_name: node-exporter
     static_configs:
-      - targets: ["host.docker.internal:9323"]
+      - targets: ["monitoring-node-exporter:9100"]
 
-  #   dns_sd_configs:
-  #   - names:
-  #     - tasks.node-exporter
-  #     type: A
-  #     port: 9100
-
-  # - job_name: cadvisor
-  #   dns_sd_configs:
-  #   - names:
-  #     - tasks.cadvisor
-  #     type: A
-  #     port: 8080
+  - job_name: cadvisor
+    static_configs:
+      - targets: ["monitoring-cadvisor:8080"]

@@ -11,7 +11,7 @@
     dest: /etc/fail2ban/jail.d/
     owner: root
     group: root
-    mode: "0755"
+    mode: 0755
 
 - name: Fail2ban | Apply configuration (flush handlers)
   ansible.builtin.meta: flush_handlers

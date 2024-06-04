@@ -3,27 +3,27 @@
   ansible.builtin.file:
     path: /mnt/docker/traefik
     state: directory
-    owner: "{{default_username}}"
-    group: "{{default_username}}"
-    mode: "0755"
+    owner: "{{ default_username }}"
+    group: "{{ default_username }}"
+    mode: 0755
 
 - name: Create sub directories
   ansible.builtin.file:
     path: /mnt/docker/traefik/{{ item.path }}
     state: directory
-    owner: "{{default_username}}"
-    group: "{{default_username}}"
-    mode: "0755"
+    owner: "{{ default_username }}"
+    group: "{{ default_username }}"
+    mode: 0755
   with_filetree: templates/compose/
   when: item.state == 'directory'
 
 - name: Ensure config files exist
   ansible.builtin.template:
-    src: '{{ item.src }}'
+    src: "{{ item.src }}"
     dest: /mnt/docker/traefik/{{ item.path }}
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
-    mode: "0644"
+    mode: 0644
   with_filetree: templates/compose/
   when: item.state == 'file'
 
@@ -38,9 +38,9 @@
 
 - name: Ensure Traefik systemd service installed
   ansible.builtin.template:
-    src: "systemd/traefik.service"
-    dest: "/etc/systemd/system/docker-traefik.service"
-    mode: "0644"
+    src: systemd/traefik.service
+    dest: /etc/systemd/system/docker-traefik.service
+    mode: 0644
 
 - name: Make sure Traefik service is running
   ansible.builtin.systemd_service:
