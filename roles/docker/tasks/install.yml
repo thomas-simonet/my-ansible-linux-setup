@@ -3,7 +3,7 @@
   ansible.builtin.file:
     path: /etc/apt/keyrings
     state: directory
-    mode: 0755
+    mode: "0755"
 
 - name: Add Docker's official GPG key
   ansible.builtin.apt_key:
@@ -12,8 +12,9 @@
     state: present
 
 - name: Get architecture
-  ansible.builtin.shell: dpkg --print-architecture
+  ansible.builtin.command: dpkg --print-architecture
   register: deb_architecture
+  changed_when: deb_architecture.rc != 0
 
 - name: Add Docker repository
   ansible.builtin.apt_repository:
@@ -52,7 +53,7 @@
     dest: /etc/docker/daemon.json
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
   notify: Restart docker
 
 - name: Apply configuration (flush handlers)

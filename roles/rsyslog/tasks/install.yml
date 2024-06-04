@@ -18,16 +18,16 @@
     dest: /etc/rsyslog.d/docker.conf
     owner: root
     group: root
-    mode: 0644
-  notify: 
-   - Restart rsyslog
-   - Restart docker
+    mode: "0644"
+  notify:
+    - Restart rsyslog
+    - Restart docker
 
 - name: Add rsyslog rules for logrotate
-  template:
+  ansible.builtin.template:
     src: logrotate.conf
     dest: /etc/logrotate.d/rsyslog
-    mode: 0644
+    mode: "0644"
 
 - name: Apply configuration (flush handlers)
-  meta: flush_handlers
+  ansible.builtin.meta: flush_handlers

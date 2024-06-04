@@ -1,6 +1,7 @@
 ---
-- block:
-    - ansible.builtin.include_tasks: install.yml
+- name: Import docker installation tasks
   tags:
     - install-all
     - install-docker
+  block:
+    - ansible.builtin.include_tasks: install.yml

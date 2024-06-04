@@ -1,14 +1,14 @@
 ---
 - name: Install packages
   ansible.builtin.apt:
-    pkg: 
+    pkg:
       - linux-headers-5.15.0-107-generic
       - dkms
     state: present
-    update_cache: yes
-    allow_unauthenticated: yes
+    update_cache: true
+    allow_unauthenticated: true
 
-- name : Install Virtualbox Guest Additions
+- name: Install Virtualbox Guest Additions
   ansible.builtin.shell:
     cmd: |
       wget https://download.virtualbox.org/virtualbox/7.0.0_BETA3/VBoxGuestAdditions_7.0.0_BETA3.iso

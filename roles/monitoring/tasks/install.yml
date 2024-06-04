@@ -3,7 +3,7 @@
   ansible.builtin.file:
     path: /mnt/docker/monitoring
     state: directory
-    owner: "{{ default_username}}"
+    owner: "{{ default_username }}"
     group: "{{ default_username }}"
     mode: "0755"
 
@@ -14,7 +14,7 @@
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
     mode: "0755"
-  with_filetree: templates/compose/
+  with_community.general.filetree: templates/compose/
   when: item.state == "directory"
 
 - name: Ensure config files exist
@@ -24,7 +24,7 @@
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
     mode: "0644"
-  with_filetree: templates/compose/
+  with_community.general.filetree: templates/compose/
   when: item.state == "file"
 
 - name: Ensure monitoring systemd service installed

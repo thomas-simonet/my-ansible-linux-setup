@@ -11,26 +11,26 @@
     update_cache: true
     allow_unauthenticated: true
 
-- name: Copy file {{ item }} in /home/{{ default_username }}
+- name: Copy files in home directory of default user
   ansible.builtin.copy:
     src: "files/{{ item }}"
     dest: "/home/{{ default_username }}"
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
-    mode: 0644
+    mode: "0644"
   loop:
     - .p10k.zsh
     - .zshrc
     - setup.sh
 
-- name : Run setup.sh
+- name: Run setup.sh
   ansible.builtin.shell:
     cmd: bash setup.sh
     chdir: "/home/{{ default_username }}"
   become_user: "{{ default_username }}"
   become: true
 
-- name: chsh to /usr/bin/zsh for {{ default_username }}
+- name: Chsh to /usr/bin/zsh for {{ default_username }}
   ansible.builtin.user:
     name: "{{ item }}"
     shell: /usr/bin/zsh

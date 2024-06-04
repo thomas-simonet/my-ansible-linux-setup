@@ -1,5 +1,6 @@
 ---
-- block:
-    - ansible.builtin.include_tasks: install.yml
+- name: Import vagrant installation tasks
   tags:
     - install-vagrant
+  block:
+    - ansible.builtin.include_tasks: install.yml
