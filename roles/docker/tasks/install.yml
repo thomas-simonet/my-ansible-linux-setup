@@ -49,9 +49,9 @@
 - name: Copy docker daemon config
   ansible.builtin.template:
     src: daemon.json
-    dest: "/etc/docker/daemon.json"
-    owner: "root"
-    group: "root"
+    dest: /etc/docker/daemon.json
+    owner: root
+    group: root
     mode: 0644
   notify: Restart docker
 
