@@ -40,3 +40,9 @@
   tags:
     - install-common
     - install-ssh
+
+- name: Disable unattended upgrades
+  ansible.builtin.lineinfile:
+    dest: /etc/apt/apt.conf.d/20auto-upgrades
+    search_string: 'Unattended-Upgrade'
+    line: 'APT::Periodic::Unattended-Upgrade "0";'
