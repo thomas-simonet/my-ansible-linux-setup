@@ -3,7 +3,6 @@ services:
   grafana:
     image: grafana/grafana:11.0.0
     container_name: grafana
-    hostname: grafana
     # environment:
       # - GF_SMTP_ENABLED=true
       # - GF_SMTP_FROM_ADDRESS=${SMTP_FROM:-noreply@example.com}
@@ -27,15 +26,12 @@ services:
   prometheus:
     image: prom/prometheus:v2.52.0
     container_name: monitoring-prometheus
-    hostname: monitoring-prometheus
     user: 1002:1002
-    extra_hosts:
-      - "host.docker.internal=host-gateway"
     command:
-        - --config.file=/etc/prometheus/prometheus.yml
-        - --storage.tsdb.path=/prometheus
-        - --storage.tsdb.retention.size=1GB
-        - --web.external-url=https://{{ prometheus_hostname }}
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --storage.tsdb.retention.size=1GB
+      - --web.external-url=https://{{ prometheus_hostname }}
     volumes:
       - /mnt/docker/monitoring/prometheus/data:/prometheus
       - /mnt/docker/monitoring/prometheus/config:/etc/prometheus
@@ -55,7 +51,6 @@ services:
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:v0.49.1
     container_name: monitoring-cadvisor
-    hostname: monitoring-cadvisor
     command: -docker_only=true
     volumes:
       - /:/rootfs:ro
@@ -68,7 +63,6 @@ services:
   node-exporter:
     image: prom/node-exporter:v1.8.1
     container_name: monitoring-node-exporter
-    hostname: monitoring-node-exporter
     environment:
       {{ "- NODE_ID={{.Node.ID}}" }}
     volumes:

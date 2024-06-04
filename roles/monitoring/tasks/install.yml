@@ -15,17 +15,17 @@
     group: "{{ default_username }}"
     mode: "0755"
   with_filetree: templates/compose/
-  when: item.state == 'directory'
+  when: item.state == "directory"
 
 - name: Ensure config files exist
   ansible.builtin.template:
-    src: '{{ item.src }}'
+    src: "{{ item.src }}"
     dest: /mnt/docker/monitoring/{{ item.path }}
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
     mode: "0644"
   with_filetree: templates/compose/
-  when: item.state == 'file'
+  when: item.state == "file"
 
 - name: Ensure monitoring systemd service installed
   ansible.builtin.template:

@@ -10,4 +10,4 @@ ExecStop=/usr/bin/docker compose -f /mnt/docker/portainer/docker-compose.yml sto
 SyslogIdentifier=portainer
 
 [Install]
-WantedBy=default.target
+WantedBy=multi-user.target

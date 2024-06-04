@@ -17,7 +17,7 @@
     dest: "/home/{{ default_username }}"
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
-    mode: '0644'
+    mode: 0644
   loop:
     - .p10k.zsh
     - .zshrc

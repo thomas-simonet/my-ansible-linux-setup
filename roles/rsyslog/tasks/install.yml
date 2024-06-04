@@ -18,7 +18,7 @@
     dest: /etc/rsyslog.d/docker.conf
     owner: root
     group: root
-    mode: u=rw,g=r,o=r
+    mode: 0644
   notify: 
    - Restart rsyslog
    - Restart docker
