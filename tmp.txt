@@ -1,0 +1,12 @@
+# Create a venv
+python -m venv $PWD/.venv
+
+# Activate env
+source .venv/bin/activate
+
+# Ensure pip is installed
+python -m ensurepip --upgrade
+
+pip install docker
+
+pip freeze > requirements.txt
