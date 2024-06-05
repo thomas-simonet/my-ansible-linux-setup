@@ -28,3 +28,8 @@
     state: present
     update_cache: true
     allow_unauthenticated: true
+
+# Required for community.docker.docker_secret
+- name: Packages | Install python requirements
+  ansible.builtin.command:
+    cmd: pip install docker

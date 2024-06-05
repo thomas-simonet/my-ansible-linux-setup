@@ -1,11 +1,11 @@
 services:
   traefik:
     image: traefik:{{ traefik_version }}
-    container_name: traefik
+    # container_name: traefik
     hostname: traefik
     environment:
       - TZ={{ timezone }}
-      - TRAEFIK_AUTH_USER_PASSWORD_FILE: "/run/secrets/TRAEFIK_AUTH_USER_PASSWORD"
+      - TRAEFIK_AUTH_USER_PASSWORD_FILE="/run/secrets/TRAEFIK_AUTH_USER_PASSWORD"
     ports:
       - "80:80"
       - "443:443"
