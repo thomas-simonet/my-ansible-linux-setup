@@ -5,6 +5,7 @@ services:
     hostname: traefik
     environment:
       - TZ={{ timezone }}
+      - TRAEFIK_AUTH_USER_PASSWORD_FILE: "/run/secrets/TRAEFIK_AUTH_USER_PASSWORD"
     ports:
       - "80:80"
       - "443:443"
@@ -24,6 +25,13 @@ services:
       - "traefik.http.routers.dashboard.tls=true"
       - "traefik.http.routers.traefik.tls.domains[0].main={{ server_hostname }}"
       - "traefik.http.routers.traefik.tls.domains[0].sans=*-{{ server_hostname }}"
+      - "traefik.http.middlewares.traefik.basicauth.users=${TRAEFIK_AUTH_USER_PASSWORD}"
+    secrets:
+      - TRAEFIK_AUTH_USER_PASSWORD
+
+secrets:
+  TRAEFIK_AUTH_USER_PASSWORD:
+    external: true
 
 networks:
   app:

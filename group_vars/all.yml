@@ -8,18 +8,8 @@ timezone: Europe/Paris
 default_password: "{{ lookup('ansible.builtin.password', '/dev/null length=15 chars=ascii_letters,digits,punctuation') }}"
 root_password: "{{ lookup('ansible.builtin.password', '/dev/null length=15 chars=ascii_letters,digits,punctuation') }}"
 
-
-# Bitwarden Secret Manager
-bws_access_token: "{{ lookup('ansible.builtin.env', 'BWS_ACCESS_TOKEN') }}"
-
-
 # vagrant
 is_vagrant: true
-
-
-# SSH Keys
-ssh_public_key: "{{ lookup('bitwarden.secrets.lookup', '09b491cd-de30-403e-8a16-b18101625e58', access_token=bws_access_token) }}"
-
 
 # ------------------------------------
 # Applications
