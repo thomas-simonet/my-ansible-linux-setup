@@ -1,3 +1,5 @@
 ---
 collections:
   - name: bitwarden.secrets
+  - name: community.docker
+    version: 3.10.3

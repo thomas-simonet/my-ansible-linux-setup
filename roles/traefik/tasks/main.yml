@@ -1,8 +1,8 @@
 ---
 - name: Import traefik installation tasks
   tags:
-    - install-all
     - install-app
     - install-traefik
   block:
     - ansible.builtin.include_tasks: install.yml
+    - ansible.builtin.include_tasks: swarm.yml
