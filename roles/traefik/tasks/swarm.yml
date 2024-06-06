@@ -1,0 +1,58 @@
+---
+- name: Docker Swarm | Create secret TRAEFIK_AUTH_USER_PASSWORD
+  community.docker.docker_secret:
+    name: "TRAEFIK_AUTH_USER_PASSWORD"
+    data: "{{ TRAEFIK_AUTH_USER_PASSWORD }}"
+    state: present
+
+- name: Docker Swarm | Create service traefik
+  community.docker.docker_swarm_service:
+    name: traefik
+    image: "traefik:{{ traefik_version }}"
+    hostname: traefik
+    env:
+      TZ: "{{ timezone }}"
+      TRAEFIK_AUTH_USER_PASSWORD_FILE: "/run/secrets/TRAEFIK_AUTH_USER_PASSWORD"
+    restart_config:
+      condition: on-failure
+      delay: 15s
+      max_attempts: 5
+    publish:
+      - published_port: 80
+        target_port: 80
+      - published_port: 443
+        target_port: 443
+    mounts:
+      - source: /mnt/docker/traefik/traefik.yml
+        target: /etc/traefik/traefik.yml
+        type: bind
+        readonly: yes
+      - source: /mnt/docker/traefik/config.yml
+        target: /etc/traefik/config.yml
+        type: bind
+        readonly: yes
+      - source: /mnt/docker/traefik/certs
+        target: /etc/ssl/traefik
+        type: bind
+        readonly: yes
+      - source: /var/run/docker.sock
+        target: /var/run/docker.sock
+        type: bind
+    placement:
+      # Required to access Swarm API https://doc.traefik.io/traefik/providers/swarm/#docker-api-access
+      constraints:
+        - node.role == manager
+    networks:
+      - name: "app"
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.dashboard.rule: "Host(`{{ traefik_hostname }}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
+      traefik.http.routers.dashboard.service: "api@internal"
+      traefik.http.routers.dashboard.entrypoints: "https"
+      traefik.http.routers.dashboard.tls: "true"
+      traefik.http.routers.traefik.tls.domains[0].main: "{{ server_hostname }}"
+      traefik.http.routers.traefik.tls.domains[0].sans: "{{ server_hostname }}"
+      traefik.http.middlewares.traefik.basicauth.users: ${TRAEFIK_AUTH_USER_PASSWORD}
+    secrets:
+      - secret_name: TRAEFIK_AUTH_USER_PASSWORD
+        filename: "/run/secrets/TRAEFIK_AUTH_USER_PASSWORD"

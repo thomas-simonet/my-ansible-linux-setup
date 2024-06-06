@@ -1,5 +1,11 @@
 ---
-- name: Init a new swarm with default parameters
+- name: Docker swarm | Init a new swarm
   community.docker.docker_swarm:
     state: present
     advertise_addr: 127.0.0.1
+
+- name: Docker swarm | Create network
+  community.docker.docker_network:
+    name: app
+    driver: overlay
+    scope: swarm
