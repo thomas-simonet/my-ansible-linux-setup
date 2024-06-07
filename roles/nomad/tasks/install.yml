@@ -1,0 +1,35 @@
+---
+- name: Upgrade packages
+  ansible.builtin.apt:
+    upgrade: full
+
+- name: Install the required packages.
+  ansible.builtin.apt:
+    pkg:
+      - wget
+      - gpg
+      - coreutils
+    state: present
+    update_cache: true
+    allow_unauthenticated: true
+
+- name: Add the HashiCorp GPG key
+  ansible.builtin.apt_key:
+    url: https://apt.releases.hashicorp.com/gpg
+    keyring: /usr/share/keyrings/hashicorp-archive-keyring.gpg
+    state: present
+
+- name: Add the official HashiCorp Linux repository
+  ansible.builtin.apt_repository:
+    repo: >-
+      deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg]
+      https://apt.releases.hashicorp.com {{ ubuntu_version }} main
+    filename: hashicorp
+    state: present
+
+- name: Install Nomad
+  ansible.builtin.apt:
+    pkg:
+      - nomad
+    state: present
+    update_cache: true

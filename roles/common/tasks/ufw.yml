@@ -13,6 +13,7 @@
   loop:
     - { port: '80', proto: 'tcp', dir: 'in' }
     - { port: '443', proto: 'tcp', dir: 'in' }
+    - { port: '4646', proto: 'tcp', dir: 'in' } # Nomad
     - { port: '80', proto: 'tcp', dir: 'out' }
     - { port: '443', proto: 'tcp', dir: 'out' }
     - { port: '53', proto: 'udp', dir: 'out' }
