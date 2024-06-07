@@ -9,16 +9,18 @@
   roles:
     - role: common
 
-    - role: dotfiles
+    # - role: dotfiles
 
     - role: docker
 
-    - role: rsyslog
+    - role: nomad
+
+    # - role: rsyslog
 
     # applications
-    - role: traefik
+    # - role: traefik
 
-    - role: monitoring
+    # - role: monitoring
 
     # - role: diun
 

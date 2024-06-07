@@ -1,0 +1,6 @@
+---
+- name: Import nomad installation tasks
+  tags:
+    - install-nomad
+  block:
+    - ansible.builtin.include_tasks: install.yml
