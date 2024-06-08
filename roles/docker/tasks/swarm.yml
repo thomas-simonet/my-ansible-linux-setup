@@ -2,10 +2,11 @@
 - name: Docker swarm | Init a new swarm
   community.docker.docker_swarm:
     state: present
-    advertise_addr: 127.0.0.1
+    advertise_addr: "{{ server_ip_address }}"
 
 - name: Docker swarm | Create network
   community.docker.docker_network:
-    name: app
+    name: traefik-public
     driver: overlay
-    scope: swarm
+    attachable: true
+    # scope: swarm

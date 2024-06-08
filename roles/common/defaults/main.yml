@@ -1,4 +1,3 @@
-
 BITWARDEN_SSH_PUBLIC_KEY_ID: "{{ lookup('ansible.builtin.env', 'BITWARDEN_SSH_PUBLIC_KEY_ID') }}"
 
 # SSH Keys

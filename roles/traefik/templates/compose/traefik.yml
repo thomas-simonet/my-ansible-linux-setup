@@ -20,13 +20,14 @@ providers:
     filename: "/etc/traefik/config.yml"
     watch: true
   swarm:
-    endpoint: "tcp://127.0.0.1:2377"
+    endpoint: "unix:///var/run/docker.sock"
+    watch: true
     exposedByDefault: false
-    network: app
+    network: traefik-public
   docker:
     endpoint: unix:///var/run/docker.sock
     watch: true
-    network: app
+    network: traefik-public
     exposedByDefault: false
 
 log:

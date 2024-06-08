@@ -17,7 +17,7 @@ is_vagrant: true
 
 # Hostname
 server_hostname: "192-168-56-18.traefik.me"
-server_ip_address: "116.202.24.220"
+server_ip_address: "192.168.56.18"
 
 # Traefik
 traefik_hostname: "traefik-192-168-56-18.traefik.me"

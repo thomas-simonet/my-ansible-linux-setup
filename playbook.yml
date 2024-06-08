@@ -13,12 +13,10 @@
 
     - role: docker
 
-    - role: nomad
-
-    # - role: rsyslog
+    - role: rsyslog
 
     # applications
-    # - role: traefik
+    - role: traefik
 
     # - role: monitoring
 
