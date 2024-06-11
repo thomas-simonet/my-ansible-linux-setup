@@ -4,10 +4,3 @@
     - install-docker
   block:
     - ansible.builtin.include_tasks: install.yml
-
-- name: Init docker swarm
-  tags:
-    - install-docker
-    - install-swarm
-  block:
-    - ansible.builtin.include_tasks: swarm.yml
