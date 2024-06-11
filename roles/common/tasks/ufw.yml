@@ -16,18 +16,6 @@
     - { port: '80', proto: 'tcp', dir: 'out' }
     - { port: '443', proto: 'tcp', dir: 'out' }
     - { port: '53', proto: 'udp', dir: 'out' }
-
-    - { port: '2377', proto: 'tcp', dir: 'in' }
-    - { port: '2377', proto: 'tcp', dir: 'out' }
-
-    - { port: '7946', proto: 'tcp', dir: 'in' }
-    - { port: '7946', proto: 'tcp', dir: 'out' }
-
-    - { port: '7946', proto: 'udp', dir: 'in' }
-    - { port: '7946', proto: 'udp', dir: 'out' }
-
-    - { port: '4789', proto: 'udp', dir: 'in' }
-    - { port: '4789', proto: 'udp', dir: 'out' }
     # - { port: '25', proto: 'udp', dir: 'out' } // SMTP
   notify: Reload ufw
 
