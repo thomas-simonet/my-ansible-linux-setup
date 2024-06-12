@@ -37,12 +37,6 @@
   become: true
   when: is_vagrant
 
-# - name: Create secret TRAEFIK_AUTH_USER_PASSWORD
-#   community.docker.docker_secret:
-#     name: "TRAEFIK_AUTH_USER_PASSWORD"
-#     data: "{{ TRAEFIK_AUTH_USER_PASSWORD }}"
-#     state: present
-
 - name: Ensure Traefik systemd service installed
   ansible.builtin.template:
     src: systemd/traefik.service

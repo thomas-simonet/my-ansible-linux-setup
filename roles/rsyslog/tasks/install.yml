@@ -1,8 +1,9 @@
 ---
-- name: Ensure rsyslog is present
+- name: Ensure requirements are installed
   ansible.builtin.apt:
     pkg:
       - rsyslog
+      - logrotate
     state: present
 
 - name: Ensures that fully-qualified domain names are used in log messages

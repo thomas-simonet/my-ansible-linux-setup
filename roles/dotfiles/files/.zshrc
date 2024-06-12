@@ -83,6 +83,10 @@ alias ...="cd ../.."
 export FPATH="$FPATH:$HOME/.cache/zinit/completions/eza"
 export PATH="$PATH:$HOME/.local/bin"
 
+# https://developer.hashicorp.com/vagrant/docs/other/wsl
+export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"
+export PATH="$PATH:/mnt/c/Program Files/Oracle/VirtualBox"
+
 # Shell integrations
 # eval "$(fzf --zsh)"
 eval "$(zoxide init zsh)"
