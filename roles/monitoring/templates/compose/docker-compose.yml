@@ -81,6 +81,4 @@ services:
 
 networks:
   app:
-    name: app
   monitoring:
-    name: monitoring
