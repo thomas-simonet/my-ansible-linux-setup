@@ -1,0 +1,21 @@
+services:
+  openobserve:
+    image: public.ecr.aws/zinclabs/openobserve:latest
+    environment:
+      ZO_ROOT_USER_EMAIL: "contact@thomassimonet.fr"
+      ZO_ROOT_USER_PASSWORD: "Complexpass#123"
+    ports:
+      - "5080:5080"
+    volumes:
+      - /mnt/docker/openobserve/data:/data
+    networks:
+      - app
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.openobserve.dashboard.rule=Host(`{{ openobserve_hostname }}`)"
+      - "traefik.http.openobserve.dashboard.service=openobserve"
+      - "traefik.http.openobserve.dashboard.entrypoints=https"
+      - "traefik.http.openobserve.dashboard.tls=true"
+
+networks:
+  app:

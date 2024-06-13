@@ -27,6 +27,9 @@ traefik_version: "v3.0"
 grafana_hostname: "grafana-192-168-56-18.traefik.me"
 prometheus_hostname: "prometheus-192-168-56-18.traefik.me"
 
+# Openobserve
+openobserve_hostname: "openobserve-192-168-56-18.traefik.me"
+
 # ------------------------------------
 # End Applications
 # ------------------------------------

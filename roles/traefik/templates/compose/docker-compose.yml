@@ -15,6 +15,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - app
+      - diun-watch
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.dashboard.rule=Host(`{{ traefik_hostname }}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
@@ -25,7 +26,8 @@ services:
       - "traefik.http.routers.dashboard.tls.domains[0].sans=*-{{ server_hostname }}"
       - "traefik.http.middlewares.admin-auth.basicauth.users={{ TRAEFIK_AUTH_USER_PASSWORD }}"
       - "traefik.http.routers.dashboard.middlewares=admin-auth"
+      - "diun.enable=true"
 
 networks:
   app:
-    name: app
+  diun-watch:

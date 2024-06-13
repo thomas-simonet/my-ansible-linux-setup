@@ -1,0 +1,8 @@
+---
+- name: Import openobserve installation tasks
+  tags:
+    - install-app
+    - install-openobserve
+  block:
+    - ansible.builtin.include_tasks: install.yml
+    - ansible.builtin.include_tasks: ufw.yml

@@ -1,0 +1,21 @@
+services:
+  diun:
+    image: crazymax/diun:latest
+    container_name: diun
+    hostname: diun
+    command: serve
+    environment:
+      - TZ={{ timezone }}
+      - LOG_LEVEL=info
+      - LOG_JSON=false
+    volumes:
+      - "/mnt/docker/diun/data:/data"
+      - "/mnt/docker/diun/diun.yml:/etc/diun/diun.yml:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    networks:
+      - diun-watch
+    labels:
+      - diun.enable=true
+
+networks:
+  diun-watch:

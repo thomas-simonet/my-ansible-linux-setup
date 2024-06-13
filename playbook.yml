@@ -18,9 +18,14 @@
     # applications
     - role: traefik
 
-    # - role: monitoring
+    - role: monitoring
 
-    # - role: diun
+    - role: openobserve
+
+    - role: diun
+
+    # - role: gotify
+    # https://crazymax.dev/diun/notif/gotify/
 
     # - role: freshrss
 
