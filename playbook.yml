@@ -24,8 +24,7 @@
 
     - role: diun
 
-    # - role: gotify
-    # https://crazymax.dev/diun/notif/gotify/
+    - role: gotify
 
     # - role: freshrss
 

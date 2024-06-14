@@ -1,0 +1,7 @@
+---
+- name: Import diun installation tasks
+  tags:
+    - install-app
+    - install-diun
+  block:
+    - ansible.builtin.include_tasks: install.yml
