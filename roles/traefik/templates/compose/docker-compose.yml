@@ -30,4 +30,6 @@ services:
 
 networks:
   app:
+    name: app
   diun-watch:
+    name: diun-watch

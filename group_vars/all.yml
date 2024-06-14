@@ -30,6 +30,9 @@ prometheus_hostname: "prometheus-192-168-56-18.traefik.me"
 # Openobserve
 openobserve_hostname: "openobserve-192-168-56-18.traefik.me"
 
+# Gotify
+gotify_hostname: "gotify-192-168-56-18.traefik.me"
+
 # ------------------------------------
 # End Applications
 # ------------------------------------

@@ -15,6 +15,14 @@ defaults:
     - update
   sortTags: reverse
 
+notif:
+  gotify:
+    endpoint: http://gotify:80
+    token: Token123456
+    # tokenFile:
+    priority: 1
+    timeout: 10s
+
 providers:
   docker:
     watchStopped: false

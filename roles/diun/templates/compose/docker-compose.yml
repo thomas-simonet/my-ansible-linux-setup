@@ -8,6 +8,7 @@ services:
       - TZ={{ timezone }}
       - LOG_LEVEL=info
       - LOG_JSON=false
+      - LOG_NOCOLOR=true
     volumes:
       - "/mnt/docker/diun/data:/data"
       - "/mnt/docker/diun/diun.yml:/etc/diun/diun.yml:ro"
@@ -15,7 +16,8 @@ services:
     networks:
       - diun-watch
     labels:
-      - diun.enable=true
+      - "diun.enable=true"
 
 networks:
   diun-watch:
+    name: diun-watch

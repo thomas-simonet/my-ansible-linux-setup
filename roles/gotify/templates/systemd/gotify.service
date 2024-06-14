@@ -1,0 +1,13 @@
+[Unit]
+Description=Gotify container
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=on-failure
+ExecStart=/usr/bin/docker compose -f /mnt/docker/gotify/docker-compose.yml up
+ExecStop=/usr/bin/docker compose -f /mnt/docker/gotify/docker-compose.yml stop
+SyslogIdentifier=gotify
+
+[Install]
+WantedBy=multi-user.target
