@@ -34,7 +34,7 @@
   ansible.posix.authorized_key:
     user: "{{ default_username }}"
     state: present
-    key: "{{ SSH_PUBLIC_KEY }}"
+    key: "{{ lookup('ansible.builtin.file', './data/keys/public.key') }}"
 
 - name: SSH | Apply configuration (flush handlers)
   ansible.builtin.meta: flush_handlers

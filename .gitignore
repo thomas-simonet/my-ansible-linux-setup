@@ -4,9 +4,11 @@
 vagrant-ssh
 .vagrant
 
+data/keys/*.key
+
 inventory/*
 
-host_vars/*.yml
+host_vars/*
 !/host_vars/.gitkeep
 
 data/certs/*

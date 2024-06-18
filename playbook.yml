@@ -3,7 +3,6 @@
   hosts: all
   vars_files:
     - group_vars/all.yml
-    - group_vars/env.yml
   become: true
 
   roles:
@@ -18,13 +17,15 @@
     # applications
     - role: traefik
 
-    - role: monitoring
+    # - role: monitoring
 
-    - role: openobserve
+    # - role: openobserve
 
     - role: diun
 
     - role: gotify
+
+    - role: restic
 
     # - role: freshrss
 

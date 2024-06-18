@@ -18,7 +18,7 @@ defaults:
 notif:
   gotify:
     endpoint: http://gotify:80
-    token: Token123456
+    token: AGmm325yxMEB8JU
     # tokenFile:
     priority: 1
     timeout: 10s

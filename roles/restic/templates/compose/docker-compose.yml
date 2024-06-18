@@ -1,0 +1,52 @@
+services:
+  restic:
+    image: mazzolino/restic:1.7.2
+    container_name: restic
+    hostname: restic
+    environment:
+      - RUN_ON_STARTUP=true
+      - BACKUP_CRON=0 30 3 * * *
+      - RESTIC_REPOSITORY=
+      - RESTIC_PASSWORD=
+      - RESTIC_BACKUP_SOURCES=/mnt/docker
+      - RESTIC_FORGET_ARGS=>-
+        --keep-last 10
+        --keep-daily 7
+        --keep-weekly 5
+        --keep-monthly 12
+      - B2_ACCOUNT_ID=xxxxxxx
+      - B2_ACCOUNT_KEY=yyyyyyyy
+      - TZ={{ timezone }}
+    volumes:
+      - /mnt/docker:/mnt/docker:ro
+    labels:
+      - "diun.enable=true"
+
+  prune:
+    image: mazzolino/restic:1.7.2
+    container_name: restic-prune
+    hostname: restic-prune
+    environment:
+      - SKIP_INIT=true
+      - RUN_ON_STARTUP=true
+      - PRUNE_CRON=0 0 4 * * *
+      - RESTIC_REPOSITORY=
+      - RESTIC_PASSWORD=
+      - B2_ACCOUNT_ID=
+      - B2_ACCOUNT_KEY=
+      - TZ={{ timezone }}
+
+  check:
+    image: mazzolino/restic:1.7.2
+    container_name: restic-check
+    hostname: restic-check
+    environment:
+      - RUN_ON_STARTUP=false
+      - CHECK_CRON=0 15 5 * * *
+      - RESTIC_CHECK_ARGS=>-
+        --read-data-subset=10%
+      - RESTIC_REPOSITORY=
+      - RESTIC_PASSWORD=
+      - B2_ACCOUNT_ID=
+      - B2_ACCOUNT_KEY=
+      - TZ={{ timezone }}

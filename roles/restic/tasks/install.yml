@@ -1,7 +1,7 @@
 ---
 - name: Create main directory
   ansible.builtin.file:
-    path: /mnt/docker/gotify
+    path: /mnt/docker/restic
     state: directory
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
@@ -9,7 +9,7 @@
 
 - name: Create sub directories
   ansible.builtin.file:
-    path: /mnt/docker/gotify/{{ item.path }}
+    path: /mnt/docker/restic/{{ item.path }}
     state: directory
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
@@ -20,20 +20,20 @@
 - name: Ensure config files exist
   ansible.builtin.template:
     src: "{{ item.src }}"
-    dest: /mnt/docker/gotify/{{ item.path }}
+    dest: /mnt/docker/restic/{{ item.path }}
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
     mode: "0644"
   with_community.general.filetree: templates/compose/
   when: item.state == "file"
 
-- name: Ensure gotify systemd service installed
-  ansible.builtin.template:
-    src: systemd/gotify.service
-    dest: /etc/systemd/system/docker-gotify.service
-    mode: "0644"
+# - name: Ensure restic systemd service installed
+#   ansible.builtin.template:
+#     src: systemd/restic.service
+#     dest: /etc/systemd/system/docker-restic.service
+#     mode: "0644"
 
-- name: Make sure gotify service is running
-  ansible.builtin.systemd_service:
-    state: started
-    name: docker-gotify.service
+# - name: Make sure restic service is running
+#   ansible.builtin.systemd_service:
+#     state: started
+#     name: docker-restic.service

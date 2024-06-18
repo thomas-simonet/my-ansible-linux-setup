@@ -4,6 +4,8 @@ services:
     container_name: diun
     hostname: diun
     command: serve
+    security_opt:
+      - no-new-privileges:true
     environment:
       - TZ={{ timezone }}
       - LOG_LEVEL=info

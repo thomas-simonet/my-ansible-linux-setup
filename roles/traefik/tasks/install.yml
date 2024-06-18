@@ -27,6 +27,15 @@
   with_community.general.filetree: templates/compose/
   when: item.state == "file"
 
+- name: Add a user to a password file and ensure permissions are set
+  community.general.htpasswd:
+    path: /mnt/docker/traefik/auth
+    name: "{{ lookup('ansible.builtin.env', 'traefik_auth_user') }}"
+    password: "{{ lookup('ansible.builtin.env', 'traefik_auth_password') }}"
+    owner: "{{ default_username }}"
+    group: "{{ default_username }}"
+    mode: 0640
+
 - name: Generate local certs for traefik
   ansible.builtin.shell:
     cmd: |
