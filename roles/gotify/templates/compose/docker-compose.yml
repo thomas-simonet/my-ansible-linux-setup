@@ -3,8 +3,11 @@ services:
     image: gotify/server:2.4.0
     container_name: gotify
     hostname: gotify
+    security_opt:
+      - no-new-privileges:true
     environment:
-      - GOTIFY_DEFAULTUSER_PASS=custom
+      - GOTIFY_DEFAULTUSER_NAME={{ lookup('ansible.builtin.env', 'gotify_username') }}
+      - GOTIFY_DEFAULTUSER_PASS={{ lookup('ansible.builtin.env', 'gotify_password') }}
     volumes:
       - /mnt/gotify/data:/app/data
     networks:
@@ -16,6 +19,7 @@ services:
       - "traefik.http.routers.gotify.service=gotify"
       - "traefik.http.routers.gotify.entrypoints=https"
       - "traefik.http.routers.gotify.tls=true"
+      - "traefik.http.services.gotify.loadbalancer.server.port=80"
       - "diun.enable=true"
 
 networks:

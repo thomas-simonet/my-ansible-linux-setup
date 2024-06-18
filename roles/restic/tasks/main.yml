@@ -1,0 +1,7 @@
+---
+- name: Import restic installation tasks
+  tags:
+    - install-app
+    - install-restic
+  block:
+    - ansible.builtin.include_tasks: install.yml

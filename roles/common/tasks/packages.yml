@@ -2,6 +2,8 @@
 - name: Packages | Upgrade packages
   ansible.builtin.apt:
     upgrade: full
+    update_cache: true
+  become: true
 
 - name: Packages | Install packages
   ansible.builtin.apt:
@@ -28,11 +30,13 @@
     state: present
     update_cache: true
     allow_unauthenticated: true
+  become: true
 
 - name: Packages | Install python requirements
   ansible.builtin.pip:
     name:
       - docker # Required for community.docker.docker_secret
       - requests==2.32.2 # Required for community.docker
+      - passlib # Required for community.general.htpasswd
     state: present
   become: true

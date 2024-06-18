@@ -5,8 +5,14 @@ After=docker.service
 
 [Service]
 Restart=on-failure
+
+ExecStartPre=/usr/bin/docker compose -f /mnt/docker/traefik/docker-compose.yml stop
+ExecStartPre=/usr/bin/docker container rm traefik
 ExecStart=/usr/bin/docker compose -f /mnt/docker/traefik/docker-compose.yml up
+
 ExecStop=/usr/bin/docker compose -f /mnt/docker/traefik/docker-compose.yml stop
+ExecStop=/usr/bin/docker container rm traefik
+
 SyslogIdentifier=traefik
 
 [Install]

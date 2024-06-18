@@ -1,7 +1,7 @@
 ---
-- name: Import diun installation tasks
+- name: Import gotify installation tasks
   tags:
     - install-app
-    - install-diun
+    - install-gotify
   block:
     - ansible.builtin.include_tasks: install.yml
