@@ -1,4 +1,21 @@
 ---
+# - name: Create an app token in gotify
+#   ansible.builtin.uri:
+#     url: "https://{{ gotify_hostname }}/application"
+#     method: POST
+#     user: "{{ lookup('ansible.builtin.env', 'GOTIFY_USERNAME') }}"
+#     password: "{{ lookup('ansible.builtin.env', 'GOTIFY_PASSWORD') }}"
+#     force_basic_auth: true
+#     headers: 
+#       accept: "application/json"
+#     body: 
+#       id: 4
+#       name: Diun
+#       description: Diun Notification Server
+#     body_format: json
+#     status_code: 200
+#   register: application
+
 - name: Create main directory
   ansible.builtin.file:
     path: /mnt/docker/diun
@@ -33,7 +50,12 @@
     dest: /etc/systemd/system/docker-diun.service
     mode: "0644"
 
+- name: Ensure systemd is reloaded
+  ansible.builtin.service:
+    daemon_reload: true
+
 - name: Make sure diun service is running
   ansible.builtin.systemd_service:
-    state: started
     name: docker-diun.service
+    enabled: true
+    state: started

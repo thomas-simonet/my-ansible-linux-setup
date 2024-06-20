@@ -4,15 +4,16 @@ services:
     container_name: gotify
     hostname: gotify
     security_opt:
-      - no-new-privileges:true
+      - "no-new-privileges=true"
     environment:
-      - GOTIFY_DEFAULTUSER_NAME={{ lookup('ansible.builtin.env', 'gotify_username') }}
-      - GOTIFY_DEFAULTUSER_PASS={{ lookup('ansible.builtin.env', 'gotify_password') }}
+      - "GOTIFY_DEFAULTUSER_NAME={{ lookup('ansible.builtin.env', 'GOTIFY_USERNAME') }}"
+      - "GOTIFY_DEFAULTUSER_PASS={{ lookup('ansible.builtin.env', 'GOTIFY_PASSWORD') }}"
     volumes:
-      - /mnt/gotify/data:/app/data
+      - "/mnt/gotify/data:/app/data"
     networks:
-      - app
-      - diun-watch
+      - "app"
+      - "diun-watch"
+      - "notification"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.gotify.rule=Host(`{{ gotify_hostname }}`)"
@@ -24,6 +25,8 @@ services:
 
 networks:
   app:
-    name: app
+    external: true
   diun-watch:
-    name: diun-watch
+    external: true
+  notification:
+    external: true

@@ -1,0 +1,7 @@
+---
+- name: Import apprise installation tasks
+  tags:
+    - install-app
+    - install-apprise
+  block:
+    - ansible.builtin.include_tasks: install.yml

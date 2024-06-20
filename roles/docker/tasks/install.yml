@@ -67,3 +67,11 @@
   loop:
     - docker.service
     - containerd.service
+
+- name: Create networks
+  community.docker.docker_network:
+    name: "{{ item }}"
+  loop:
+    - app
+    - diun-watch
+    - notification

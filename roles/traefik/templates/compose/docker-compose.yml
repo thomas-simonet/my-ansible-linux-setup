@@ -4,21 +4,21 @@ services:
     container_name: traefik
     hostname: traefik
     security_opt:
-      - no-new-privileges:true
+      - "no-new-privileges=true"
     environment:
-      - TZ={{ timezone }}
+      - "TZ={{ timezone }}"
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - /mnt/docker/traefik/traefik.yml:/etc/traefik/traefik.yml:ro
-      - /mnt/docker/traefik/config.yml:/etc/traefik/config.yml:ro
-      - /mnt/docker/traefik/certs:/etc/ssl/traefik:ro
-      - /mnt/docker/traefik/auth:/etc/traefik/auth:ro
-      - /var/run/docker.sock:/var/run/docker.sock
+      - "/mnt/docker/traefik/traefik.yml:/etc/traefik/traefik.yml:ro"
+      - "/mnt/docker/traefik/config.yml:/etc/traefik/config.yml:ro"
+      - "/mnt/docker/traefik/certs:/etc/ssl/traefik:ro"
+      - "/mnt/docker/traefik/basic_auth:/etc/traefik/basic_auth:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock"
     networks:
-      - app
-      - diun-watch
+      - "app"
+      - "diun-watch"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.dashboard.rule=Host(`{{ traefik_hostname }}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
@@ -27,12 +27,12 @@ services:
       - "traefik.http.routers.dashboard.tls=true"
       - "traefik.http.routers.dashboard.tls.domains[0].main={{ server_hostname }}"
       - "traefik.http.routers.dashboard.tls.domains[0].sans=*-{{ server_hostname }}"
-      - "traefik.http.middlewares.admin-auth.basicauth.usersfile=/etc/traefik/auth"
-      - "traefik.http.routers.dashboard.middlewares=admin-auth"
+      - "traefik.http.middlewares.traefik-auth.basicauth.usersfile=/etc/traefik/basic_auth/traefik"
+      - "traefik.http.routers.dashboard.middlewares=traefik-auth"
       - "diun.enable=true"
 
 networks:
   app:
-    name: app
+    external: true
   diun-watch:
-    name: diun-watch
+    external: true

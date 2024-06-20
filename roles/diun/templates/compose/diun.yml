@@ -16,12 +16,10 @@ defaults:
   sortTags: reverse
 
 notif:
-  gotify:
-    endpoint: http://gotify:80
-    token: AGmm325yxMEB8JU
-    # tokenFile:
-    priority: 1
-    timeout: 10s
+  discord:
+    webhookURL: "{{ discord_webhook_updates }}"
+    renderFields: true
+    timeout: 30s
 
 providers:
   docker:
