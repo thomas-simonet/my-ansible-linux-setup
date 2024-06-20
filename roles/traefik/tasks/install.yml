@@ -29,9 +29,9 @@
 
 - name: Add a user to a password file and ensure permissions are set
   community.general.htpasswd:
-    path: /mnt/docker/traefik/auth
-    name: "{{ lookup('ansible.builtin.env', 'traefik_auth_user') }}"
-    password: "{{ lookup('ansible.builtin.env', 'traefik_auth_password') }}"
+    path: /mnt/docker/traefik/basic_auth/traefik
+    name: "{{ lookup('ansible.builtin.env', 'TRAEFIK_AUTH_USER') }}"
+    password: "{{ lookup('ansible.builtin.env', 'TRAEFIK_AUTH_PASSWORD') }}"
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
     mode: 0640
@@ -52,7 +52,12 @@
     dest: /etc/systemd/system/docker-traefik.service
     mode: "0644"
 
+- name: Ensure systemd is reloaded
+  ansible.builtin.service:
+    daemon_reload: true
+
 - name: Make sure Traefik service is running
   ansible.builtin.systemd_service:
-    state: started
     name: docker-traefik.service
+    enabled: true
+    state: started

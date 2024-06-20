@@ -5,7 +5,7 @@
     password: "{{ default_password | password_hash('sha512') }}"
     groups: "sudo"
     create_home: true
-    update_password: "always"
+    update_password: "on_create"
     state: present
 
 - name: User | Ensure sudo group has sudo privileges without password
@@ -15,3 +15,4 @@
     regexp: "^%sudo"
     line: "%sudo ALL=(ALL) NOPASSWD:ALL"
     validate: "/usr/sbin/visudo -cf %s"
+  when: is_vagrant

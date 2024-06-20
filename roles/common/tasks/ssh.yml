@@ -35,6 +35,7 @@
     user: "{{ default_username }}"
     state: present
     key: "{{ lookup('ansible.builtin.file', './data/keys/public.key') }}"
+  notify: Restart ssh
 
 - name: SSH | Apply configuration (flush handlers)
   ansible.builtin.meta: flush_handlers

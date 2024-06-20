@@ -3,12 +3,13 @@
   hosts: all
   vars_files:
     - group_vars/all.yml
+    - group_vars/discord.yml
   become: true
 
   roles:
     - role: common
 
-    # - role: dotfiles
+    - role: dotfiles
 
     - role: docker
 
@@ -17,15 +18,11 @@
     # applications
     - role: traefik
 
-    # - role: monitoring
-
-    # - role: openobserve
-
     - role: diun
 
-    - role: gotify
-
     - role: restic
+
+    - role: apprise
 
     # - role: freshrss
 
@@ -41,5 +38,3 @@
     # /end applications
 
     - role: reboot
-
-    # - role: vagrant

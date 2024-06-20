@@ -24,14 +24,16 @@ traefik_hostname: "traefik-192-168-56-18.traefik.me"
 traefik_version: "v3.0"
 
 # Monitoring
-grafana_hostname: "grafana-192-168-56-18.traefik.me"
-prometheus_hostname: "prometheus-192-168-56-18.traefik.me"
+# grafana_hostname: "grafana-192-168-56-18.traefik.me"
+# prometheus_hostname: "prometheus-192-168-56-18.traefik.me"
 
 # Openobserve
-openobserve_hostname: "openobserve-192-168-56-18.traefik.me"
+# openobserve_hostname: "openobserve-192-168-56-18.traefik.me"
 
 # Gotify
 gotify_hostname: "gotify-192-168-56-18.traefik.me"
+
+apprise_hostname: "apprise-192-168-56-18.traefik.me"
 
 # ------------------------------------
 # End Applications

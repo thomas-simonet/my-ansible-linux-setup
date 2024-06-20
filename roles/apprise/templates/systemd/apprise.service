@@ -1,0 +1,20 @@
+[Unit]
+Description=Apprise container
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=on-failure
+
+ExecStartPre=/usr/bin/sh -c '/usr/bin/docker stop apprise-api 2>/dev/null || true'
+ExecStartPre=/usr/bin/sh -c '/usr/bin/docker rm apprise-api 2>/dev/null || true'
+
+ExecStart=/usr/bin/docker compose -f /mnt/docker/apprise/docker-compose.yml up
+
+ExecStop=/usr/bin/sh -c '/usr/bin/docker stop apprise-api 2>/dev/null || true'
+ExecStop=/usr/bin/sh -c '/usr/bin/docker rm apprise-api 2>/dev/null || true'
+
+SyslogIdentifier=apprise
+
+[Install]
+WantedBy=multi-user.target
