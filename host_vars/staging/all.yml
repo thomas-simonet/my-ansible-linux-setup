@@ -1,0 +1,14 @@
+---
+ubuntu_version: jammy
+default_username: thomas
+default_email: contact@thomassimonet.fr
+timezone: Europe/Paris
+default_password: "{{ lookup('ansible.builtin.env', 'DEFAULT_PASSWORD') }}"
+is_vagrant: true
+server_hostname: "192-168-56-18.traefik.me"
+server_ip_address: "192.168.56.18"
+traefik_hostname: "traefik-192-168-56-18.traefik.me"
+traefik_version: "v3.0"
+apprise_hostname: "apprise-192-168-56-18.traefik.me"
+discord_webhook_backups: "https://discord.com/api/webhooks/1253394894647726080/aDDj3MKO8_iodGzmy7N1-VWyYwt5UyCyEsdwhI7gIfnrrLBFO5umHVoycbJHvZWx9l0-"
+discord_webhook_updates: "https://discord.com/api/webhooks/1253456842302947454/-nfGjaCgTfzxGiovStPW5NcTlo0D5kkc-y2z0Kvm92qGDofG1TArctO6-9l_6Doxp-zw"

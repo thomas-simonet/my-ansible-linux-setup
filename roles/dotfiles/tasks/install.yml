@@ -32,7 +32,5 @@
 
 - name: Chsh to /usr/bin/zsh for {{ default_username }}
   ansible.builtin.user:
-    name: "{{ item }}"
+    name: "{{ default_username }}"
     shell: /usr/bin/zsh
-  with_items:
-    - "{{ default_username }}"
