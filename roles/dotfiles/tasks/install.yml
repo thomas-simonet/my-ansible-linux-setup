@@ -1,32 +1,16 @@
 ---
-- name: Install packages
-  ansible.builtin.apt:
-    pkg:
-      - wget
-      - gpg
-      - zsh
-      - fzf
-      - fontconfig
-    state: present
-    update_cache: true
-    allow_unauthenticated: true
-
-- name: Copy files in home directory of default user
-  ansible.builtin.copy:
-    src: "files/{{ item }}"
-    dest: "/home/{{ default_username }}"
-    owner: "{{ default_username }}"
-    group: "{{ default_username }}"
-    mode: "0644"
-  loop:
-    - .p10k.zsh
-    - .zshrc
-    - setup.sh
+- name: Clone my dotfiles repo
+  ansible.builtin.git:
+    repo: https://github.com/thomas-simonet/my-dotfiles
+    dest: ~/dotfiles
+    clone: true
+    update: true
+    accept_hostkey: true
 
 - name: Run setup.sh
   ansible.builtin.shell:
     cmd: bash setup.sh
-    chdir: "/home/{{ default_username }}"
+    chdir: "/home/{{ default_username }}/dotfiles/setup"
   become_user: "{{ default_username }}"
   become: true
 

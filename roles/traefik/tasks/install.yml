@@ -17,11 +17,12 @@
   loop:
     - basic_auth
     - certs
+    - logs
 
 - name: Ensure config files exist
   ansible.builtin.template:
     src: "templates/compose/{{ item }}.j2"
-    dest: "/mnt/docker/traefik/{{ item }}.yml"
+    dest: "/mnt/docker/traefik/{{ item }}"
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
     mode: "0644"
@@ -37,7 +38,7 @@
     password: "{{ lookup('ansible.builtin.env', 'TRAEFIK_AUTH_PASSWORD') }}"
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
-    mode: 0640
+    mode: "0640"
 
 - name: Generate local certs for traefik
   ansible.builtin.shell:

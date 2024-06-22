@@ -28,7 +28,7 @@
 - name: Ensure config files exist
   ansible.builtin.template:
     src: "compose/{{ item }}.j2"
-    dest: "/mnt/docker/apprise/{{ item }}.yml"
+    dest: "/mnt/docker/apprise/{{ item }}"
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
     mode: "0644"

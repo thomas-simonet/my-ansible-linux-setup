@@ -10,7 +10,7 @@
 - name: Ensure config files exist
   ansible.builtin.template:
     src: "compose/{{ item }}.j2"
-    dest: "/mnt/docker/restic/{{ item }}.yml"
+    dest: "/mnt/docker/restic/{{ item }}"
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
     mode: "0644"
