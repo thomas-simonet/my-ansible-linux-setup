@@ -26,8 +26,20 @@ providers:
     exposedByDefault: false
 
 log:
+  filePath: "/var/log/traefik/traefik.log"
   level: DEBUG
   noColor: true
+  maxSize: 100
+  maxBackups: 5
+  maxAge: 7
+  compress: true
 
 accessLog:
-  bufferingSize: 0
+  filePath: "/var/log/traefik/access.log"
+  bufferingSize: 100
+
+{# metrics:
+  prometheus:
+    addEntryPointsLabels: true
+    addRoutersLabels: true
+    addServicesLabels: true #}
