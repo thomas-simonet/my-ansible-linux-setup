@@ -74,7 +74,7 @@ zstyle ':completion:*' menu no
 # zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
 # Aliases
-alias ls="eza --color=always --long --git --no-filesize --icons=always --all --no-time"
+alias ls="eza --color=always --long --git --no-filesize --icons=always --all"
 alias c="clear"
 alias home="cd ~"
 alias ..="cd .."

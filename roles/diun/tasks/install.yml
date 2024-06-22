@@ -1,21 +1,4 @@
 ---
-# - name: Create an app token in gotify
-#   ansible.builtin.uri:
-#     url: "https://{{ gotify_hostname }}/application"
-#     method: POST
-#     user: "{{ lookup('ansible.builtin.env', 'GOTIFY_USERNAME') }}"
-#     password: "{{ lookup('ansible.builtin.env', 'GOTIFY_PASSWORD') }}"
-#     force_basic_auth: true
-#     headers: 
-#       accept: "application/json"
-#     body: 
-#       id: 4
-#       name: Diun
-#       description: Diun Notification Server
-#     body_format: json
-#     status_code: 200
-#   register: application
-
 - name: Create main directory
   ansible.builtin.file:
     path: /mnt/docker/diun
@@ -24,25 +7,25 @@
     group: "{{ default_username }}"
     mode: "0755"
 
-- name: Create sub directories
+- name: Create directories
   ansible.builtin.file:
-    path: /mnt/docker/diun/{{ item.path }}
+    path: /mnt/docker/diun/{{ item }}
     state: directory
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
     mode: "0755"
-  with_community.general.filetree: templates/compose/
-  when: item.state == "directory"
+  loop:
+    - data
 
 - name: Ensure config files exist
   ansible.builtin.template:
-    src: "{{ item.src }}"
-    dest: /mnt/docker/diun/{{ item.path }}
+    src: "compose/{{ item }}.j2"
+    dest: "/mnt/docker/diun/{{ item }}.yml"
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
     mode: "0644"
-  with_community.general.filetree: templates/compose/
-  when: item.state == "file"
+  loop:
+    - docker-compose.yml
 
 - name: Ensure diun systemd service installed
   ansible.builtin.template:

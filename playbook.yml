@@ -1,11 +1,7 @@
 ---
 - name: Setup homelab
   hosts: all
-  vars_files:
-    - group_vars/all.yml
-    - group_vars/discord.yml
   become: true
-
   roles:
     - role: common
 
@@ -23,18 +19,6 @@
     - role: restic
 
     - role: apprise
-
-    # - role: freshrss
-
-    # - role: readeck
-
-    # - role: maelie
-
-    # - role: immich
-
-    # - role: rsshub
-
-    # - role: coder
     # /end applications
 
     - role: reboot
