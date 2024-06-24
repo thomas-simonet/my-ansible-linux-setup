@@ -1,10 +1,3 @@
-# Basic configuration
-# ===================
-
-# Enable/disable root login
-PermitRootLogin no
-
-
 # Security configuration
 # ======================
 
@@ -14,8 +7,6 @@ Protocol 2
 # Make sure sshd checks file modes and ownership before accepting logins. This prevents accidental misconfiguration.
 StrictModes yes
 
-# Logging, obsoletes QuietMode and FascistLogging
-SyslogFacility AUTH
 LogLevel VERBOSE
 
 
@@ -37,6 +28,9 @@ MaxSessions 10
 # If the number of unauthenticated connections reaches X, then Y% of new connection attempts will be dropped
 # This percentage scales linearly until the number of connections reaches Z, at which point all new connections will be dropped
 MaxStartups 10:30:60
+
+# Enable/disable root login
+PermitRootLogin no
 
 # Enable public key authentication
 PubkeyAuthentication yes
@@ -64,6 +58,8 @@ KerberosTicketCleanup yes
 GSSAPIAuthentication no
 GSSAPICleanupCredentials yes
 
+AllowAgentForwarding yes
+
 # Network
 # -------
 
@@ -86,7 +82,7 @@ X11Forwarding no
 X11UseLocalhost yes
 
 # Only allow login for specified users
-AllowUsers {{ default_username }}
+AllowUsers {{ default_username }} root
 
 
 # Misc. configuration
