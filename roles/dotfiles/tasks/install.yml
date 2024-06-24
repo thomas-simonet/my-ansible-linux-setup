@@ -1,12 +1,18 @@
 ---
 - name: Clone my dotfiles repo
   ansible.builtin.git:
-    repo: https://github.com/thomas-simonet/my-dotfiles
-    dest: ~/dotfiles
+    repo: git@github.com:thomas-simonet/my-dotfiles.git
+    dest: "/home/{{ default_username }}/.dotfiles"
     clone: true
     update: true
-    accept_hostkey: true
-    key_file: "~/.ssh/github.key"
+
+- name: Update ownership of dotfiles folder
+  file:
+    path: "/home/{{ default_username }}/.dotfiles"
+    owner: "{{ default_username }}"
+    group: "{{ default_username }}"
+    state: directory
+    recurse: yes
 
 - name: Run setup.sh
   ansible.builtin.shell:
