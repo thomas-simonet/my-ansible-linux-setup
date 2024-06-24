@@ -14,8 +14,8 @@
     state: present
 
 - name: Add rsyslog rules for Docker
-  ansible.builtin.copy:
-    src: templates/docker.conf
+  ansible.builtin.template:
+    src: docker.conf.j2
     dest: /etc/rsyslog.d/docker.conf
     owner: root
     group: root
@@ -26,7 +26,7 @@
 
 - name: Add rsyslog rules for logrotate
   ansible.builtin.template:
-    src: logrotate.conf
+    src: logrotate.conf.j2
     dest: /etc/logrotate.d/rsyslog
     mode: "0644"
 
