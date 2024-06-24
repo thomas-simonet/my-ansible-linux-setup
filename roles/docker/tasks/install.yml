@@ -49,7 +49,7 @@
 
 - name: Copy docker daemon config
   ansible.builtin.template:
-    src: daemon.json
+    src: daemon.json.j2
     dest: /etc/docker/daemon.json
     owner: root
     group: root

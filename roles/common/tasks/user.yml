@@ -16,3 +16,11 @@
     line: "%sudo ALL=(ALL) NOPASSWD:ALL"
     validate: "/usr/sbin/visudo -cf %s"
   when: is_vagrant
+
+- name: User | Copy github ssh private key
+  ansible.builtin.copy:
+    src: ./data/keys/github.key
+    dest: /etc/foo.conf
+    owner: "{{ default_username }}"
+    group: "{{ default_username }}"
+    mode: "0600"
