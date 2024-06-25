@@ -19,6 +19,8 @@
     - role: restic
 
     - role: apprise
+
+    - role: monitoring
     # /end applications
 
     - role: reboot
