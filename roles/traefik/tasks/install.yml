@@ -50,6 +50,10 @@
   become: true
   when: is_vagrant
 
+- name: Print is_vagrant
+  ansible.builtin.debug:
+    msg: "{{ is_vagrant }}"
+
 - name: Copy Cloudflare certs from files
   ansible.builtin.copy:
     content: "{{ item.content }}"
@@ -62,7 +66,7 @@
     - { content: "{{ lookup('ansible.builtin.file', './data/certificates/key.pem') }}", name: key.pem }
   loop_control:
     label: "{{ item.name }}"
-  when: is_vagrant == false
+  when: not is_vagrant|bool
 
 - name: Ensure Traefik systemd service installed
   ansible.builtin.template:

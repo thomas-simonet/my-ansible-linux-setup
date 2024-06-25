@@ -13,5 +13,11 @@
     key: "{{ lookup('ansible.builtin.file', './data/keys/ssh_public.key') }}"
   notify: Restart ssh
 
+- name: Enable SSH forwarding for sudo
+  ansible.builtin.lineinfile:
+    dest: /etc/sudoers
+    insertafter: '^#?\s*Defaults\s+env_keep\b'
+    line: 'Defaults    env_keep += "SSH_AUTH_SOCK"'
+
 - name: SSH | Apply configuration (flush handlers)
   ansible.builtin.meta: flush_handlers
