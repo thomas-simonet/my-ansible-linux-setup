@@ -40,6 +40,7 @@
   tags:
     - install-common
     - install-ssh
+  when: not is_vagrant
 
 - name: Disable unattended upgrades
   ansible.builtin.lineinfile:

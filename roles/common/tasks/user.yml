@@ -16,9 +16,3 @@
     line: "%sudo ALL=(ALL) NOPASSWD:ALL"
     validate: "/usr/sbin/visudo -cf %s"
   when: is_vagrant
-
-- name: enable SSH forwarding for sudo
-  ansible.builtin.lineinfile:
-    dest: /etc/sudoers
-    insertafter: '^#?\s*Defaults\s+env_keep\b'
-    line: 'Defaults    env_keep += "SSH_AUTH_SOCK"'
