@@ -35,18 +35,18 @@
     group: "{{ default_username }}"
     mode: "0644"
 
-- name: Ensure monitoring systemd service installed
-  ansible.builtin.template:
-    src: "systemd/monitoring.service"
-    dest: "/etc/systemd/system/docker-monitoring.service"
-    mode: "0644"
+# - name: Ensure monitoring systemd service installed
+#   ansible.builtin.template:
+#     src: "systemd/monitoring.service"
+#     dest: "/etc/systemd/system/docker-monitoring.service"
+#     mode: "0644"
 
-- name: Ensure systemd is reloaded
-  ansible.builtin.service:
-    daemon_reload: true
+# - name: Ensure systemd is reloaded
+#   ansible.builtin.service:
+#     daemon_reload: true
 
-- name: Make sure monitoring service is running
-  ansible.builtin.systemd_service:
-    name: docker-monitoring.service
-    enabled: true
-    state: started
+# - name: Make sure monitoring service is running
+#   ansible.builtin.systemd_service:
+#     name: docker-monitoring.service
+#     enabled: true
+#     state: started

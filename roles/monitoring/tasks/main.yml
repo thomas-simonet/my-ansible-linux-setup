@@ -1,7 +1,6 @@
 ---
 - name: Import monitoring installation tasks
   tags:
-    - install-all
     - install-app
     - install-monitoring
   block:

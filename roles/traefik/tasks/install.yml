@@ -62,8 +62,8 @@
     group: "{{ default_username }}"
     mode: "0640"
   loop:
-    - { content: "{{ lookup('ansible.builtin.file', './data/certificates/cert.pem') }}", name: cert.pem }
-    - { content: "{{ lookup('ansible.builtin.file', './data/certificates/key.pem') }}", name: key.pem }
+    - { content: "{{ lookup('ansible.builtin.file', './data/certificates/cf_cert.pem') }}", name: cf_cert.pem }
+    - { content: "{{ lookup('ansible.builtin.file', './data/certificates/cf_key.pem') }}", name: cf_key.pem }
   loop_control:
     label: "{{ item.name }}"
   when: not is_vagrant|bool

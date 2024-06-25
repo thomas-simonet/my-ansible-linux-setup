@@ -1,7 +1,7 @@
 all:
   hosts:
     staging:
-      ansible_host: 172.31.176.1
+      ansible_host: 172.23.80.1
       ansible_port: 2222
       ansible_user: "vagrant"
       ansible_ssh_private_key_file: "/home/thomas/dev/my-ansible-linux-setup/.vagrant/machines/default/virtualbox/private_key"
