@@ -5,8 +5,8 @@ services:
     container_name: grafana
     environment:
       - GF_SERVER_ROOT_URL=https://{{ grafana_hostname }}
-    # volumes:
-      # - /mnt/docker/monitoring/grafana:/var/lib/grafana
+    volumes:
+      - /mnt/docker/monitoring/grafana:/var/lib/grafana
     networks:
       - app
       - monitoring
