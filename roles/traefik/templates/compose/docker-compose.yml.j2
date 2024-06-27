@@ -5,6 +5,8 @@ services:
     hostname: traefik
     security_opt:
       - no-new-privileges=true
+    extra_hosts:
+      - host.docker.internal:host-gateway"
     environment:
       - TZ={{ timezone }}
     ports:
