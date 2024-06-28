@@ -20,7 +20,7 @@
 
     - role: apprise
 
-    - role: monitoring
+    - role: netdata
     # /end applications
 
     - role: reboot
