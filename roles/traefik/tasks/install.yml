@@ -21,7 +21,7 @@
 
 - name: Ensure config files exist
   ansible.builtin.template:
-    src: "templates/compose/{{ item }}.j2"
+    src: "compose/{{ item }}.j2"
     dest: "/mnt/docker/traefik/{{ item }}"
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
@@ -49,10 +49,6 @@
   become_user: "{{ default_username }}"
   become: true
   when: is_vagrant
-
-- name: Print is_vagrant
-  ansible.builtin.debug:
-    msg: "{{ is_vagrant }}"
 
 - name: Copy Cloudflare certs from files
   ansible.builtin.copy:

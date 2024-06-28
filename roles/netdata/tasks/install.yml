@@ -1,0 +1,26 @@
+---
+- name: Create main directory
+  ansible.builtin.file:
+    path: /mnt/docker/netdata
+    state: directory
+    owner: "{{ default_username }}"
+    group: "{{ default_username }}"
+    mode: "0755"
+
+- name: Ensure config files exist
+  ansible.builtin.template:
+    src: "compose/{{ item }}.j2"
+    dest: "/mnt/docker/netdata/{{ item }}"
+    owner: "{{ default_username }}"
+    group: "{{ default_username }}"
+    mode: "0644"
+  loop:
+    - compose.yml
+
+- name: Allow access to netdata
+  community.general.ufw:
+    rule: allow
+    port: '19999'
+    proto: tcp
+  notify: Reload ufw
+    # direction: in
