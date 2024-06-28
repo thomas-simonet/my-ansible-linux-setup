@@ -1,7 +1,0 @@
-grafana_image: grafana/grafana:11.0.0
-prometheus_image: prom/prometheus:v2.52.0
-cadvisor_image: gcr.io/cadvisor/cadvisor:v0.49.1
-node_exporter_image: prom/node-exporter:v1.8.1
-
-grafana_hostname: grafana-192.168.56.18.traefik.me
-prometheus_hostname: prometheus-192.168.56.18.traefik.me
