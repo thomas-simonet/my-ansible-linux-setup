@@ -1,7 +1,0 @@
----
-- name: Import netdata installation tasks
-  tags:
-    - install-app
-    - install-netdata
-  block:
-    - ansible.builtin.include_tasks: install.yml

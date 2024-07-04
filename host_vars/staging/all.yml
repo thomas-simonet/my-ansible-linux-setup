@@ -1,14 +1,37 @@
 ---
 ubuntu_version: jammy
+
+# Default user
 default_username: thomas
 default_email: "{{ lookup('ansible.builtin.env', 'DEFAULT_EMAIL') }}"
-timezone: Europe/Paris
 default_password: "{{ lookup('ansible.builtin.env', 'DEFAULT_PASSWORD') }}"
+timezone: Europe/Paris
+
+# Ansible / Vagrant
 is_vagrant: true
+
+# Docker images
+apprise_image: caronc/apprise:1.1.3
+diun_image: crazymax/diun:4.28
+restic_image: mazzolino/restic:1.7.2
+traefik_image: traefik:v3.0
+
+vmagent_image: victoriametrics/vmagent:v1.101.0
+victoriametrics_image: victoriametrics/victoria-metrics:v1.101.0
+grafana_image: grafana/grafana:10.4.2
+vmalert_image: victoriametrics/vmalert:v1.101.0
+alertmanager_image: prom/alertmanager:v0.27.0
+
+# Server hostname
 server_hostname: "192-168-56-18.traefik.me"
 server_ip_address: "192.168.56.18"
-traefik_hostname: "traefik-192-168-56-18.traefik.me"
-traefik_version: "v3.0"
+
+# Applications Hostnames
 apprise_hostname: "apprise-192-168-56-18.traefik.me"
+traefik_hostname: "traefik-192-168-56-18.traefik.me"
+victoriametrics_hostname: victoriametrics-192-168-56-18.traefik.me
+grafana_hostname: grafana-192-168-56-18.traefik.me
+
+# Notifications
 discord_webhook_backups: "{{ lookup('ansible.builtin.env', 'DISCORD_WEBHOOK_BACKUPS') }}"
 discord_webhook_updates: "{{ lookup('ansible.builtin.env', 'DISCORD_WEBHOOK_UPDATES') }}"

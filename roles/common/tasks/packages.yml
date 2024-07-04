@@ -40,3 +40,9 @@
       - passlib # Required for community.general.htpasswd
     state: present
   become: true
+
+- name: Disable unattended upgrades
+  ansible.builtin.lineinfile:
+    dest: /etc/apt/apt.conf.d/20auto-upgrades
+    search_string: 'Unattended-Upgrade'
+    line: 'APT::Periodic::Unattended-Upgrade "0";'

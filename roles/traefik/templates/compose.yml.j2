@@ -1,0 +1,43 @@
+services:
+  traefik:
+    image: {{ traefik_image }}
+    container_name: traefik
+    hostname: traefik
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges=true
+    environment:
+      - TZ={{ timezone }}
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /mnt/docker/traefik/traefik.yml:/etc/traefik/traefik.yml:ro
+      - /mnt/docker/traefik/config.yml:/etc/traefik/config.yml:ro
+      - /mnt/docker/traefik/certs:/etc/ssl/traefik:ro
+      - /mnt/docker/traefik/basic_auth:/etc/traefik/basic_auth:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - app
+      - diun-watch
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.dashboard.rule=Host(`{{ traefik_hostname }}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
+      - traefik.http.routers.dashboard.service=api@internal
+      - traefik.http.routers.dashboard.entrypoints=https
+      - traefik.http.routers.dashboard.tls=true
+      - traefik.http.routers.dashboard.tls.domains[0].main={{ server_hostname }}
+{% if is_vagrant %}
+      - traefik.http.routers.dashboard.tls.domains[0].sans=*-{{ server_hostname }}
+{% else %}
+      - traefik.http.routers.dashboard.tls.domains[0].sans=*.{{ server_hostname }}
+{% endif %}
+      - traefik.http.middlewares.traefik-auth.basicauth.usersfile=/etc/traefik/basic_auth/traefik
+      - traefik.http.routers.dashboard.middlewares=traefik-auth
+      - diun.enable=true
+
+networks:
+  app:
+    external: true
+  diun-watch:
+    external: true

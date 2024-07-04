@@ -1,0 +1,128 @@
+services:
+  vmagent:
+    container_name: vmagent
+    image: [% vmagent_image %]
+    restart: unless-stopped
+    depends_on:
+      - victoriametrics
+    ports:
+      - 127.0.0.1:8429:8429
+    volumes:
+      - /mnt/docker/volumes/monitoring/vmagent/data:/vmagentdata
+      - /mnt/docker/monitoring/vmagent/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    command:
+      - "--promscrape.config=/etc/prometheus/prometheus.yml"
+      - "--remoteWrite.url=http://victoriametrics:8428/api/v1/write"
+    networks:
+      - monitoring
+      - diun-watch
+    labels:
+      - diun.enable=true
+
+  victoriametrics:
+    container_name: victoriametrics
+    image: [% victoriametrics_image %]
+    restart: unless-stopped
+    ports:
+      - 127.0.0.1:8089:8089
+      - 127.0.0.1:8089:8089/udp
+      - 127.0.0.1:2003:2003
+      - 127.0.0.1:2003:2003/udp
+      - 127.0.0.1:4242:4242
+    volumes:
+      - /mnt/docker/volumes/monitoring/victoriametrics/data:/storage
+    command:
+      - "--storageDataPath=/storage"
+      - "--graphiteListenAddr=:2003"
+      - "--opentsdbListenAddr=:4242"
+      - "--httpListenAddr=:8428"
+      - "--influxListenAddr=:8089"
+      - "--vmalert.proxyURL=http://vmalert:8880"
+    networks:
+      - app
+      - monitoring
+      - diun-watch
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.victoriametrics.rule=Host(`[% victoriametrics_hostname %]`) && (PathPrefix(`/vmui`) || PathPrefix(`/vmalert`) || PathPrefix(`/prometheus`))
+      - traefik.http.routers.victoriametrics.service=victoriametrics
+      - traefik.http.routers.victoriametrics.entrypoints=https
+      - traefik.http.routers.victoriametrics.tls=true
+      - traefik.http.services.victoriametrics.loadbalancer.server.port=8428
+      - diun.enable=true
+
+  grafana:
+    container_name: grafana
+    image: [% grafana_image %]
+    restart: unless-stopped
+    user: "1002"
+    depends_on:
+      - victoriametrics
+    volumes:
+      - /mnt/docker/volumes/monitoring/grafana/data:/var/lib/grafana
+      - /mnt/docker/monitoring/grafana/provisioning/datasources/prometheus-datasource:/etc/grafana/provisioning/datasources:ro
+      - /mnt/docker/monitoring/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - /mnt/docker/monitoring/grafana/dashboards/victoriametrics.json:/var/lib/grafana/dashboards/vm.json:ro
+      - /mnt/docker/monitoring/grafana/dashboards/vmagent.json:/var/lib/grafana/dashboards/vmagent.json:ro
+      - /mnt/docker/monitoring/grafana/dashboards/vmalert.json:/var/lib/grafana/dashboards/vmalert.json:ro
+    networks:
+      - app
+      - monitoring
+      - diun-watch
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.grafana.rule=Host(`[% grafana_hostname %]`)
+      - traefik.http.routers.grafana.service=grafana
+      - traefik.http.routers.grafana.entrypoints=https
+      - traefik.http.routers.grafana.tls=true
+      - traefik.http.services.grafana.loadbalancer.server.port=3000
+      - diun.enable=true
+
+  vmalert:
+    container_name: vmalert
+    image: [% vmalert_image %]
+    restart: unless-stopped
+    depends_on:
+      - victoriametrics
+      - alertmanager
+    ports:
+      - 127.0.0.1:8880:8880
+    volumes:
+      - /mnt/docker/monitoring/vmalert:/etc/alerts:ro
+    command:
+      - "--datasource.url=http://victoriametrics:8428/"
+      - "--remoteRead.url=http://victoriametrics:8428/"
+      - "--remoteWrite.url=http://victoriametrics:8428/"
+      - "--notifier.url=http://alertmanager:9093/"
+      - "--rule=/etc/alerts/*.yml"
+      - "--external.url=http://127.0.0.1:3000"
+      {% raw %}- '--external.alert.source=explore?orgId=1&left={"datasource":"VictoriaMetrics","queries":[{"expr":{{$$expr|jsonEscape|queryEscape}},"refId":"A"}],"range":{"from":"now-1h","to":"now"}}'{% endraw %}
+    networks:
+      - monitoring
+      - diun-watch
+    labels:
+      - diun.enable=true
+
+  alertmanager:
+    container_name: alertmanager
+    image: [% alertmanager_image %]
+    restart: unless-stopped
+    ports:
+      - 127.0.0.1:9093:9093
+    volumes:
+      - /mnt/docker/monitoring/alertmanager/alertmanager.yml:/config/alertmanager.yml:ro
+    command:
+      - "--config.file=/config/alertmanager.yml"
+    networks:
+      - monitoring
+      - diun-watch
+    labels:
+      - diun.enable=true
+
+networks:
+  app:
+    external: true
+  monitoring:
+    external: true
+  diun-watch:
+    external: true

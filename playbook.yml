@@ -5,7 +5,7 @@
   roles:
     - role: common
 
-    - role: dotfiles
+    # - role: dotfiles
 
     - role: docker
 
@@ -14,13 +14,13 @@
     # applications
     - role: traefik
 
+    - role: monitoring
+
     - role: diun
 
     - role: restic
 
     - role: apprise
-
-    - role: netdata
     # /end applications
 
     - role: reboot
