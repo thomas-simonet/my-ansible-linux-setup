@@ -1,5 +1,5 @@
 ---
-- name: Create a user/group (if one doesn't already exist) owned by the user and group id of 33
+- name: Create a user/group www-data owned by the user and group id of 33
   ansible.builtin.user:
     name: www-data
     create_home: false
@@ -17,9 +17,9 @@
     group: "{{ default_username }}"
     mode: "0755"
 
-- name: Create config directory
+- name: Create volumes directory
   ansible.builtin.file:
-    path: /mnt/docker/apprise/config
+    path: /mnt/docker/volumes/apprise/config
     state: directory
     owner: "33"
     group: "33"
@@ -27,35 +27,16 @@
 
 - name: Ensure config files exist
   ansible.builtin.template:
-    src: "compose/{{ item }}.j2"
+    src: "{{ item }}.j2"
     dest: "/mnt/docker/apprise/{{ item }}"
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
     mode: "0644"
   loop:
-    - docker-compose.yml
+    - compose.yml
 
-- name: Add a user to a password file and ensure permissions are set
-  community.general.htpasswd:
-    path: /mnt/docker/traefik/basic_auth/apprise
-    name: "{{ lookup('ansible.builtin.env', 'APPRISE_AUTH_USER') }}"
-    password: "{{ lookup('ansible.builtin.env', 'APPRISE_AUTH_PASSWORD') }}"
-    owner: "{{ default_username }}"
-    group: "{{ default_username }}"
-    mode: 0640
-
-- name: Ensure apprise systemd service installed
-  ansible.builtin.template:
-    src: systemd/apprise.service
-    dest: /etc/systemd/system/docker-apprise.service
-    mode: "0644"
-
-- name: Ensure systemd is reloaded
-  ansible.builtin.service:
-    daemon_reload: true
-
-- name: Make sure apprise service is running
-  ansible.builtin.systemd_service:
-    name: docker-apprise.service
-    enabled: true
-    state: started
+- name: Run "docker compose up"
+  community.docker.docker_compose_v2:
+    project_src: /mnt/docker/apprise
+    wait: true
+    wait_timeout: 300

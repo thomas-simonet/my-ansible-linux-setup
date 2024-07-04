@@ -9,26 +9,16 @@
 
 - name: Ensure config files exist
   ansible.builtin.template:
-    src: "compose/{{ item }}.j2"
+    src: "{{ item }}.j2"
     dest: "/mnt/docker/restic/{{ item }}"
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
     mode: "0644"
   loop:
-    - docker-compose.yml
+    - compose.yml
 
-- name: Ensure restic systemd service installed
-  ansible.builtin.template:
-    src: systemd/restic.service
-    dest: /etc/systemd/system/docker-restic.service
-    mode: "0644"
-
-- name: Ensure systemd is reloaded
-  ansible.builtin.service:
-    daemon_reload: true
-
-- name: Make sure restic service is running
-  ansible.builtin.systemd_service:
-    name: docker-restic.service
-    enabled: true
-    state: started
+- name: Run "docker compose up"
+  community.docker.docker_compose_v2:
+    project_src: /mnt/docker/restic
+    wait: true
+    wait_timeout: 300

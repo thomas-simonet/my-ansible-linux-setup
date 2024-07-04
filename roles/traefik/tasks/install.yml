@@ -9,7 +9,7 @@
 
 - name: Create sub directories
   ansible.builtin.file:
-    path: /mnt/docker/traefik/{{ item }}
+    path: "/mnt/docker/traefik/{{ item }}"
     state: directory
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
@@ -17,17 +17,16 @@
   loop:
     - basic_auth
     - certs
-    - logs
 
 - name: Ensure config files exist
   ansible.builtin.template:
-    src: "compose/{{ item }}.j2"
+    src: "{{ item }}.j2"
     dest: "/mnt/docker/traefik/{{ item }}"
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
     mode: "0644"
   loop:
-    - docker-compose.yml
+    - compose.yml
     - config.yml
     - traefik.yml
 
@@ -43,8 +42,8 @@
 - name: Generate local certs for traefik
   ansible.builtin.shell:
     cmd: |
-      wget traefik.me/fullchain.pem -O cert.pem
-      wget traefik.me/privkey.pem -O key.pem
+      wget traefik.me/fullchain.pem -O cf_cert.pem
+      wget traefik.me/privkey.pem -O cf_key.pem
     chdir: /mnt/docker/traefik/certs
   become_user: "{{ default_username }}"
   become: true
@@ -58,24 +57,14 @@
     group: "{{ default_username }}"
     mode: "0640"
   loop:
-    - { content: "{{ lookup('ansible.builtin.file', './data/certificates/cf_cert.pem') }}", name: cf_cert.pem }
-    - { content: "{{ lookup('ansible.builtin.file', './data/certificates/cf_key.pem') }}", name: cf_key.pem }
+    - { content: "{{ lookup('file', './data/certificates/cf_cert.pem', errors='ignore') }}", name: cf_cert.pem }
+    - { content: "{{ lookup('file', './data/certificates/cf_key.pem', errors='ignore') }}", name: cf_key.pem }
   loop_control:
     label: "{{ item.name }}"
-  when: not is_vagrant|bool
+  when: not is_vagrant
 
-- name: Ensure Traefik systemd service installed
-  ansible.builtin.template:
-    src: systemd/traefik.service
-    dest: /etc/systemd/system/docker-traefik.service
-    mode: "0644"
-
-- name: Ensure systemd is reloaded
-  ansible.builtin.service:
-    daemon_reload: true
-
-- name: Make sure Traefik service is running
-  ansible.builtin.systemd_service:
-    name: docker-traefik.service
-    enabled: true
-    state: started
+- name: Run "docker compose up"
+  community.docker.docker_compose_v2:
+    project_src: /mnt/docker/traefik
+    wait: true
+    wait_timeout: 300

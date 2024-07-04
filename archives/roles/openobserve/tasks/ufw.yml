@@ -1,8 +1,0 @@
-- name: Allow port used by openobserve
-  community.general.ufw:
-    rule: allow
-    port: "{{ item.port }}"
-    proto: "{{ item.proto }}"
-    direction: "{{ item.dir }}"
-  loop:
-    - { port: '5050', proto: 'tcp', dir: 'in' }

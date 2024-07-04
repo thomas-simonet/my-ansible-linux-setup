@@ -1,0 +1,43 @@
+global:
+  sendAnonymousUsage: false
+
+api:
+  dashboard: true
+
+entryPoints:
+  http:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: https
+          scheme: https
+  https:
+    address: ":443"
+
+providers:
+  file:
+    filename: "/etc/traefik/config.yml"
+    watch: true
+  docker:
+    endpoint: unix:///var/run/docker.sock
+    watch: true
+    network: app
+    exposedByDefault: false
+
+log:
+  level: DEBUG
+  noColor: true
+  maxSize: 100
+  maxBackups: 5
+  maxAge: 7
+  compress: true
+
+accessLog:
+  bufferingSize: 100
+
+metrics:
+  prometheus:
+    addEntryPointsLabels: true
+    addRoutersLabels: true
+    addServicesLabels: true
