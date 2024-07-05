@@ -107,8 +107,6 @@ services:
     container_name: alertmanager
     image: [% alertmanager_image %]
     restart: unless-stopped
-    ports:
-      - 127.0.0.1:9093:9093
     volumes:
       - /mnt/docker/monitoring/alertmanager/alertmanager.yml:/config/alertmanager.yml:ro
     command:
@@ -117,6 +115,12 @@ services:
       - monitoring
       - diun-watch
     labels:
+      - traefik.enable=true
+      - traefik.http.routers.alertmanager.rule=Host(`[% alertmanager_hostname %]`)
+      - traefik.http.routers.alertmanager.service=alertmanager
+      - traefik.http.routers.alertmanager.entrypoints=https
+      - traefik.http.routers.alertmanager.tls=true
+      - traefik.http.services.alertmanager.loadbalancer.server.port=9093
       - diun.enable=true
 
 networks:
