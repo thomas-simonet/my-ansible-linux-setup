@@ -1,0 +1,7 @@
+---
+- name: Import mealie installation tasks
+  tags:
+    - install-app
+    - install-mealie
+  block:
+    - ansible.builtin.include_tasks: install.yml

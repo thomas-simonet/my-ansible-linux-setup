@@ -21,6 +21,8 @@
     - role: restic
 
     - role: apprise
+
+    - role: mealie
     # /end applications
 
     - role: reboot
