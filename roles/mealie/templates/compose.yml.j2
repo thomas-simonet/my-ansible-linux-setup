@@ -10,20 +10,21 @@ services:
       - no-new-privileges=true
     environment:
       # Set Backend ENV Variables Here
-      ALLOW_SIGNUP: false
-      PUID: 1002
-      PGID: 1002
-      TZ: {{ timezone }}
-      MAX_WORKERS: 1
-      WEB_CONCURRENCY: 1
-      BASE_URL: {{ mealie_hostname }}
+      - PUID=1002
+      - PGID=1002
+      - BASE_URL={{ mealie_hostname }}
+      - ALLOW_SIGNUP=false
+      - API_DOCS=FALSE
+      - TZ={{ timezone }}
+      - MAX_WORKERS=1
+      - WEB_CONCURRENCY=1
       # Database Settings
-      DB_ENGINE: postgres
-      POSTGRES_USER: mealie
-      POSTGRES_PASSWORD: mealie
-      POSTGRES_SERVER: postgres
-      POSTGRES_PORT: 5432
-      POSTGRES_DB: mealie
+      - DB_ENGINE=postgres
+      - POSTGRES_USER=mealie
+      - POSTGRES_PASSWORD=mealie
+      - POSTGRES_SERVER=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=mealie
     volumes:
       - /mnt/docker/volumes/mealie/mealie/data:/app/data
     networks:
@@ -36,7 +37,7 @@ services:
       - traefik.http.routers.mealie.service=mealie
       - traefik.http.routers.mealie.entrypoints=https
       - traefik.http.routers.mealie.tls=true
-      - traefik.http.services.mealie.loadbalancer.server.port=9925
+      - traefik.http.services.mealie.loadbalancer.server.port=9000
       - diun.enable=true
 
   postgres:
@@ -46,14 +47,16 @@ services:
     security_opt:
       - no-new-privileges=true
     environment:
-      POSTGRES_PASSWORD: mealie
-      POSTGRES_USER: mealie
+      - POSTGRES_USER=mealie
+      - POSTGRES_PASSWORD=mealie
+      - POSTGRES_DB=mealie
+      - PGUSER=mealie
     volumes:
       - /mnt/docker/volumes/mealie/postgres/data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD", "pg_isready"]
-      interval: 30s
-      timeout: 20s
+      interval: 10s
+      timeout: 5s
       retries: 3
     networks:
       - mealie

@@ -38,5 +38,3 @@
 - name: Run "docker compose up"
   community.docker.docker_compose_v2:
     project_src: /mnt/docker/apprise
-    wait: true
-    wait_timeout: 300

@@ -35,7 +35,7 @@ traefik_hostname: traefik-192-168-56-18.traefik.me
 victoriametrics_hostname: victoriametrics-192-168-56-18.traefik.me
 grafana_hostname: grafana-192-168-56-18.traefik.me
 alertmanager_hostname: alertmanager-192-168-56-18.traefik.me
-mealie_hostname: maelie_lie-192-168-56-18.traefik.me
+mealie_hostname: maelie-192-168-56-18.traefik.me
 
 # Notifications
 discord_webhook_backups: "{{ lookup('ansible.builtin.env', 'DISCORD_WEBHOOK_BACKUPS') }}"

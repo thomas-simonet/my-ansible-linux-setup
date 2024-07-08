@@ -34,7 +34,7 @@
     state: directory
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
-    mode: "0750"
+    mode: "0755"
   loop:
     - /mnt/docker/volumes/monitoring/grafana/data
     - /mnt/docker/volumes/monitoring/vmagent/data
