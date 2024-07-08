@@ -6,4 +6,4 @@
     password: "{{ lookup('ansible.builtin.env', 'APPRISE_AUTH_PASSWORD') }}"
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
-    mode: 0640
+    mode: "0640"
