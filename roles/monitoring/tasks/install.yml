@@ -53,6 +53,7 @@
   loop:
     - compose.yml
     - alertmanager/alertmanager.yml
+    - grafana/grafana.ini
     - grafana/dashboards/victoriametrics.json
     - grafana/dashboards/vmagent.json
     - grafana/dashboards/vmalert.json
@@ -69,5 +70,4 @@
 - name: Run "docker compose up"
   community.docker.docker_compose_v2:
     project_src: /mnt/docker/monitoring
-    wait: true
-    wait_timeout: 300
+    recreate: always

@@ -20,5 +20,4 @@
 - name: Run "docker compose up"
   community.docker.docker_compose_v2:
     project_src: /mnt/docker/restic
-    wait: true
-    wait_timeout: 300
+    recreate: always
