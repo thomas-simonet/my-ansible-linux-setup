@@ -1,7 +1,7 @@
 services:
   vmagent:
     container_name: vmagent
-    image: [% vmagent_image %]
+    image: [% monitoring_vmagent_docker_image %]
     restart: unless-stopped
     depends_on:
       - victoriametrics
@@ -17,11 +17,12 @@ services:
       - monitoring
       - diun-watch
     labels:
+      # Diun
       - diun.enable=true
 
   victoriametrics:
     container_name: victoriametrics
-    image: [% victoriametrics_image %]
+    image: [% monitoring_victoriametrics_docker_image %]
     restart: unless-stopped
     ports:
       - 127.0.0.1:8089:8089
@@ -43,23 +44,26 @@ services:
       - monitoring
       - diun-watch
     labels:
+      # Traefik
       - traefik.enable=true
-      - traefik.http.routers.victoriametrics.rule=Host(`[% victoriametrics_hostname %]`) && (PathPrefix(`/vmui`) || PathPrefix(`/vmalert`) || PathPrefix(`/prometheus`))
+      - traefik.http.routers.victoriametrics.rule=Host(`[% monitoring_victoriametrics_fqdn %]`) && (PathPrefix(`/vmui`) || PathPrefix(`/vmalert`) || PathPrefix(`/prometheus`))
       - traefik.http.routers.victoriametrics.service=victoriametrics
       - traefik.http.routers.victoriametrics.entrypoints=https
       - traefik.http.routers.victoriametrics.tls=true
       - traefik.http.services.victoriametrics.loadbalancer.server.port=8428
+      # Diun
       - diun.enable=true
 
   grafana:
     container_name: grafana
-    image: [% grafana_image %]
+    image: [% monitoring_grafana_docker_image %]
     restart: unless-stopped
     user: "1002"
     depends_on:
       - victoriametrics
     volumes:
       - /mnt/docker/volumes/monitoring/grafana/data:/var/lib/grafana
+      - /mnt/docker/monitoring/grafana/grafana.ini:/etc/grafana/grafana.ini
       - /mnt/docker/monitoring/grafana/provisioning/datasources/prometheus-datasource:/etc/grafana/provisioning/datasources:ro
       - /mnt/docker/monitoring/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards:ro
       - /mnt/docker/monitoring/grafana/dashboards/victoriametrics.json:/var/lib/grafana/dashboards/vm.json:ro
@@ -70,17 +74,19 @@ services:
       - monitoring
       - diun-watch
     labels:
+      # Traefik
       - traefik.enable=true
-      - traefik.http.routers.grafana.rule=Host(`[% grafana_hostname %]`)
+      - traefik.http.routers.grafana.rule=Host(`[% monitoring_grafana_fqdn %]`)
       - traefik.http.routers.grafana.service=grafana
       - traefik.http.routers.grafana.entrypoints=https
       - traefik.http.routers.grafana.tls=true
       - traefik.http.services.grafana.loadbalancer.server.port=3000
+      # Diun
       - diun.enable=true
 
   vmalert:
     container_name: vmalert
-    image: [% vmalert_image %]
+    image: [% monitoring_vmalert_docker_image %]
     restart: unless-stopped
     depends_on:
       - victoriametrics
@@ -101,11 +107,12 @@ services:
       - monitoring
       - diun-watch
     labels:
+      # Diun
       - diun.enable=true
 
   alertmanager:
     container_name: alertmanager
-    image: [% alertmanager_image %]
+    image: [% monitoring_alertmanager_docker_image %]
     restart: unless-stopped
     volumes:
       - /mnt/docker/monitoring/alertmanager/alertmanager.yml:/config/alertmanager.yml:ro
@@ -115,12 +122,14 @@ services:
       - monitoring
       - diun-watch
     labels:
+      # Traefik
       - traefik.enable=true
-      - traefik.http.routers.alertmanager.rule=Host(`[% alertmanager_hostname %]`)
+      - traefik.http.routers.alertmanager.rule=Host(`[% monitoring_alertmanager_fqdn %]`)
       - traefik.http.routers.alertmanager.service=alertmanager
       - traefik.http.routers.alertmanager.entrypoints=https
       - traefik.http.routers.alertmanager.tls=true
       - traefik.http.services.alertmanager.loadbalancer.server.port=9093
+      # Diun
       - diun.enable=true
 
 networks:

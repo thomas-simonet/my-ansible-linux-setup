@@ -1,7 +1,7 @@
 services:
-  apprise-api:
-    image: {{ apprise_image }}
-    container_name: apprise-api
+  apprise:
+    image: {{ apprise_apprise_docker_image }}
+    container_name: apprise
     restart: unless-stopped
     security_opt:
       - no-new-privileges=true
@@ -14,14 +14,16 @@ services:
       - diun-watch
       - notification
     labels:
+      # Traefik
       - traefik.enable=true
-      - traefik.http.routers.apprise.rule=Host(`{{ apprise_hostname }}`)
+      - traefik.http.routers.apprise.rule=Host(`{{ apprise_fqdn }}`)
       - traefik.http.routers.apprise.service=apprise
       - traefik.http.routers.apprise.entrypoints=https
       - traefik.http.routers.apprise.tls=true
       - traefik.http.services.apprise.loadbalancer.server.port=8000
       - traefik.http.middlewares.apprise-auth.basicauth.usersfile=/etc/traefik/basic_auth/apprise
       - traefik.http.routers.apprise-ui.middlewares=apprise-auth
+      # Diun
       - diun.enable=true
 
 networks:

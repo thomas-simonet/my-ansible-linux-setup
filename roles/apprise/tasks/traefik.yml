@@ -2,8 +2,8 @@
 - name: Ensure apprise's dashboard is protected by htpasswd
   community.general.htpasswd:
     path: /mnt/docker/traefik/basic_auth/apprise
-    name: "{{ lookup('ansible.builtin.env', 'APPRISE_AUTH_USER') }}"
-    password: "{{ lookup('ansible.builtin.env', 'APPRISE_AUTH_PASSWORD') }}"
+    name: "{{ apprise_basic_auth_user }}"
+    password: "{{ apprise_basic_auth_password }}"
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
     mode: "0640"

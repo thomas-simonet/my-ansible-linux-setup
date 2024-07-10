@@ -1,6 +1,6 @@
 services:
   traefik:
-    image: {{ traefik_image }}
+    image: {{ traefik_traefik_docker_image }}
     container_name: traefik
     hostname: traefik
     restart: unless-stopped
@@ -21,19 +21,21 @@ services:
       - app
       - diun-watch
     labels:
+      # Traefik
       - traefik.enable=true
-      - traefik.http.routers.dashboard.rule=Host(`{{ traefik_hostname }}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
+      - traefik.http.routers.dashboard.rule=Host(`{{ traefik_fqdn }}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
       - traefik.http.routers.dashboard.service=api@internal
       - traefik.http.routers.dashboard.entrypoints=https
       - traefik.http.routers.dashboard.tls=true
-      - traefik.http.routers.dashboard.tls.domains[0].main={{ server_hostname }}
+      - traefik.http.routers.dashboard.tls.domains[0].main={{ server_fqdn }}
 {% if is_vagrant %}
-      - traefik.http.routers.dashboard.tls.domains[0].sans=*-{{ server_hostname }}
+      - traefik.http.routers.dashboard.tls.domains[0].sans=*-{{ server_fqdn }}
 {% else %}
-      - traefik.http.routers.dashboard.tls.domains[0].sans=*.{{ server_hostname }}
+      - traefik.http.routers.dashboard.tls.domains[0].sans=*.{{ server_fqdn }}
 {% endif %}
       - traefik.http.middlewares.traefik-auth.basicauth.usersfile=/etc/traefik/basic_auth/traefik
       - traefik.http.routers.dashboard.middlewares=traefik-auth
+      # Diun
       - diun.enable=true
 
 networks:

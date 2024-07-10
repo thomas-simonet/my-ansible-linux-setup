@@ -28,11 +28,11 @@
   loop:
     - compose.yml
 
-# - name: Create network
-#   community.docker.docker_network:
-#     name: mealie
+- name: Create network
+  community.docker.docker_network:
+    name: mealie
 
-# - name: Run "docker compose up"
-#   community.docker.docker_compose_v2:
-#     project_src: /mnt/docker/mealie
-#     recreate: always
+- name: Run "docker compose up"
+  community.docker.docker_compose_v2:
+    project_src: /mnt/docker/mealie
+    recreate: always
