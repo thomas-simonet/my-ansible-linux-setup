@@ -132,3 +132,19 @@ https://www.schakko.de/2020/01/10/fixing-unprotected-key-file-when-using-ssh-or-
 
 https://thedatabaseme.de/2022/02/20/vagrant-up-running-vagrant-under-wsl2/
 https://www.commandprompt.com/blog/docker-logging-with-rsyslog/
+
+## Inventory
+
+### Staging
+
+Pour tester en local, ajouter un fichier "staging.yml" dans /inventory contenant :
+
+```
+all:
+  hosts:
+    staging:
+      ansible_host: adresse ip de la vm
+      ansible_port: 2222
+      ansible_user: "vagrant"
+      ansible_ssh_private_key_file: "/path/to/private/key"
+```

@@ -10,7 +10,9 @@ data/keys/*
 data/certificates/*
 !/data/certificates/.gitkeep
 
-inventory/production.yml
+inventory/*
+!inventory/.gitkeep
+
 host_vars/production/*.yml
 
 data/certs/*
