@@ -33,8 +33,8 @@
 - name: Add a user to a password file and ensure permissions are set
   community.general.htpasswd:
     path: /mnt/docker/traefik/basic_auth/traefik
-    name: "{{ lookup('ansible.builtin.env', 'TRAEFIK_AUTH_USER') }}"
-    password: "{{ lookup('ansible.builtin.env', 'TRAEFIK_AUTH_PASSWORD') }}"
+    name: "{{ traefik_basic_auth_user }}"
+    password: "{{ traefik_basic_auth_password }}"
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
     mode: "0640"
