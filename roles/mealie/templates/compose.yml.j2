@@ -33,7 +33,7 @@ services:
     volumes:
       - /mnt/docker/volumes/mealie/mealie/data:/app/data
     networks:
-      - app
+      - public
       - mealie
       - diun-watch
     labels:
@@ -69,7 +69,7 @@ services:
       - mealie
 
 networks:
-  app:
+  public:
     external: true
   mealie:
     external: true

@@ -10,7 +10,7 @@ services:
     volumes:
       - /mnt/docker/volumes/apprise/config:/config
     networks:
-      - app
+      - public
       - diun-watch
       - notification
     labels:
@@ -27,7 +27,7 @@ services:
       - diun.enable=true
 
 networks:
-  app:
+  public:
     external: true
   diun-watch:
     external: true

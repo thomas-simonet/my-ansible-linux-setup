@@ -40,7 +40,7 @@ services:
       - "--influxListenAddr=:8089"
       - "--vmalert.proxyURL=http://vmalert:8880"
     networks:
-      - app
+      - public
       - monitoring
       - diun-watch
     labels:
@@ -63,14 +63,14 @@ services:
       - victoriametrics
     volumes:
       - /mnt/docker/volumes/monitoring/grafana/data:/var/lib/grafana
-      - /mnt/docker/monitoring/grafana/grafana.ini:/etc/grafana/grafana.ini
+      - /mnt/docker/monitoring/grafana/grafana.ini:/etc/grafana/grafana.ini:ro
       - /mnt/docker/monitoring/grafana/provisioning/datasources/prometheus-datasource:/etc/grafana/provisioning/datasources:ro
       - /mnt/docker/monitoring/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards:ro
       - /mnt/docker/monitoring/grafana/dashboards/victoriametrics.json:/var/lib/grafana/dashboards/vm.json:ro
       - /mnt/docker/monitoring/grafana/dashboards/vmagent.json:/var/lib/grafana/dashboards/vmagent.json:ro
       - /mnt/docker/monitoring/grafana/dashboards/vmalert.json:/var/lib/grafana/dashboards/vmalert.json:ro
     networks:
-      - app
+      - public
       - monitoring
       - diun-watch
     labels:
@@ -133,7 +133,7 @@ services:
       - diun.enable=true
 
 networks:
-  app:
+  public:
     external: true
   monitoring:
     external: true
