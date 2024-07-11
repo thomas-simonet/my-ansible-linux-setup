@@ -4,25 +4,17 @@
   become: true
   roles:
     - role: common
-
     # - role: dotfiles
-
     - role: docker
-
     - role: rsyslog
-
     # applications
     - role: traefik
-
     - role: monitoring
-
     - role: diun
-
     - role: restic
-
     - role: apprise
-
     - role: mealie
+    - role: freshrss
+    - role: readeck
     # /end applications
-
     - role: reboot

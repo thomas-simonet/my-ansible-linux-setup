@@ -97,7 +97,7 @@ monitoring_grafana_smtp_from_address: CHANGEME
 traefik_fqdn: traefik-192-168-56-18.traefik.me
 traefik_traefik_docker_image: traefik:v3.0
 
-# htpassd
+# Traefik htpasswd
 traefik_basic_auth_user: CHANGEME
 traefik_basic_auth_password: CHANGEME
 
