@@ -1,0 +1,33 @@
+---
+- name: Create main directory
+  ansible.builtin.file:
+    path: /mnt/docker/freshrss
+    state: directory
+    owner: "{{ default_username }}"
+    group: "{{ default_username }}"
+    mode: "0755"
+
+- name: Create volumes directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ default_username }}"
+    group: "{{ default_username }}"
+    mode: "0755"
+  loop:
+    - /mnt/docker/volumes/freshrss
+
+- name: Ensure config files exist
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "/mnt/docker/freshrss/{{ item }}"
+    owner: "{{ default_username }}"
+    group: "{{ default_username }}"
+    mode: "0644"
+  loop:
+    - compose.yml
+
+- name: Run "docker compose up"
+  community.docker.docker_compose_v2:
+    project_src: /mnt/docker/freshrss
+    recreate: always

@@ -1,0 +1,30 @@
+services:
+  readeck:
+    image: {{ readeck_readeck_docker_image }}
+    container_name: readeck
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges=true
+    environment:
+      - TZ={{ timezone }}
+    volumes:
+      - /mnt/docker/volumes/readeck:/readeck
+    networks:
+      - public
+      - diun-watch
+    labels:
+      # Traefik
+      - traefik.enable=true
+      - traefik.http.routers.readeck.rule=Host(`{{ readeck_fqdn }}`)
+      - traefik.http.routers.readeck.service=readeck
+      - traefik.http.routers.readeck.entrypoints=https
+      - traefik.http.routers.readeck.tls=true
+      - traefik.http.services.readeck.loadbalancer.server.port=8000
+      # Diun
+      - diun.enable=true
+
+networks:
+  public:
+    external: true
+  diun-watch:
+    external: true
