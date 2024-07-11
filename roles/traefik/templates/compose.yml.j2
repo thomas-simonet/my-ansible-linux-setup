@@ -18,7 +18,7 @@ services:
       - /mnt/docker/traefik/basic_auth:/etc/traefik/basic_auth:ro
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
-      - app
+      - public
       - diun-watch
     labels:
       # Traefik
@@ -39,7 +39,7 @@ services:
       - diun.enable=true
 
 networks:
-  app:
+  public:
     external: true
   diun-watch:
     external: true
