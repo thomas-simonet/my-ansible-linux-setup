@@ -1,0 +1,7 @@
+---
+- name: Import freshrss installation tasks
+  tags:
+    - install-app
+    - install-freshrss
+  block:
+    - ansible.builtin.include_tasks: install.yml

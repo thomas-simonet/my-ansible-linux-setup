@@ -111,3 +111,17 @@ restic_repository: CHANGEME
 restic_password: CHANGEME
 restic_aws_access_key_id: CHANGEME
 restic_aws_secret_access_key: CHANGEME
+
+
+# ---------------
+# Freshrss
+# ---------------
+freshrss_fqdn: freshrss-192-168-56-18.traefik.me
+freshrss_freshrss_docker_image: linuxserver/freshrss:1.24.1
+
+
+# ---------------
+# Reacked
+# ---------------
+readeck_fqdn: readeck-192-168-56-18.traefik.me
+readeck_readeck_docker_image: codeberg.org/readeck/readeck:0.14.0
