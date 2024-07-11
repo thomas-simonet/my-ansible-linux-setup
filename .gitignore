@@ -1,7 +1,6 @@
 .env
 .venv
 ssh
-
 .vagrant
 
 data/keys/*
@@ -14,6 +13,7 @@ inventory/*
 !inventory/.gitkeep
 
 host_vars/production/*.yml
+host_vars/staging/*.yml
 
 data/certs/*
 !data/certs/.gitkeep

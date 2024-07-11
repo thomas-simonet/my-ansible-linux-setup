@@ -1,5 +1,3 @@
-set dotenv-load
-
 [group('ansible')]
 playbook *args:
     ansible-playbook {{ args }}
@@ -16,4 +14,4 @@ staging *args:
 
 [group('vagrant')]
 get-ssh-config:
-    vagrant ssh-config > vagrant-ssh
+    vagrant ssh-config > ssh
