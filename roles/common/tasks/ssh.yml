@@ -6,13 +6,6 @@
     mode: "0600"
   notify: Restart ssh
 
-- name: SSH | Add authorized keys
-  ansible.posix.authorized_key:
-    user: "{{ default_username }}"
-    state: present
-    key: "{{ lookup('ansible.builtin.file', './data/keys/ssh_public.key') }}"
-  notify: Restart ssh
-
 - name: Enable SSH forwarding for sudo
   ansible.builtin.lineinfile:
     dest: /etc/sudoers
