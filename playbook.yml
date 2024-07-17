@@ -16,5 +16,6 @@
     - role: mealie
     - role: freshrss
     - role: readeck
+    - role: zipline
     # /end applications
     - role: reboot

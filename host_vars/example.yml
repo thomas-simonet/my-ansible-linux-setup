@@ -125,3 +125,17 @@ freshrss_freshrss_docker_image: linuxserver/freshrss:1.24.1
 # ---------------
 readeck_fqdn: readeck-192-168-56-18.traefik.me
 readeck_readeck_docker_image: codeberg.org/readeck/readeck:0.14.0
+
+
+# ---------------
+# Zipline
+# ---------------
+zipline_fqdn: zipline-192-168-56-18.traefik.me
+
+zipline_zipline_docker_image: ghcr.io/diced/zipline
+zipline_postgres_docker_image: postgres:15
+
+zipline_zipline_secret: CHANGEME
+zipline_postgres_user: CHANGEME
+zipline_postgres_password: CHANGEME
+zipline_postgres_database: CHANGEME

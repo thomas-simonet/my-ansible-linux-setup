@@ -1,0 +1,39 @@
+---
+- name: Create main directory
+  ansible.builtin.file:
+    path: /mnt/docker/zipline
+    state: directory
+    owner: "{{ default_username }}"
+    group: "{{ default_username }}"
+    mode: "0755"
+
+- name: Create volumes directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ default_username }}"
+    group: "{{ default_username }}"
+    mode: "0755"
+  loop:
+    - /mnt/docker/volumes/zipline/zipline/uploads
+    - /mnt/docker/volumes/zipline/zipline/public
+    - /mnt/docker/volumes/zipline/postgres/data
+
+- name: Ensure config files exist
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "/mnt/docker/zipline/{{ item }}"
+    owner: "{{ default_username }}"
+    group: "{{ default_username }}"
+    mode: "0644"
+  loop:
+    - compose.yml
+
+- name: Create network
+  community.docker.docker_network:
+    name: zipline
+
+- name: Run "docker compose up"
+  community.docker.docker_compose_v2:
+    project_src: /mnt/docker/zipline
+    recreate: always
