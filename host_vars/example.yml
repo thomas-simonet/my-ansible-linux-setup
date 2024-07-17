@@ -121,7 +121,7 @@ freshrss_freshrss_docker_image: linuxserver/freshrss:1.24.1
 
 
 # ---------------
-# Reacked
+# Readeck
 # ---------------
 readeck_fqdn: readeck-192-168-56-18.traefik.me
 readeck_readeck_docker_image: codeberg.org/readeck/readeck:0.14.0
