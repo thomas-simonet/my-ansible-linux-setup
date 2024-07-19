@@ -132,10 +132,17 @@ readeck_readeck_docker_image: codeberg.org/readeck/readeck:0.14.0
 # ---------------
 zipline_fqdn: zipline-192-168-56-18.traefik.me
 
-zipline_zipline_docker_image: ghcr.io/diced/zipline
+zipline_zipline_docker_image: ghcr.io/diced/zipline:3.7.9
 zipline_postgres_docker_image: postgres:15
 
 zipline_zipline_secret: CHANGEME
 zipline_postgres_user: CHANGEME
 zipline_postgres_password: CHANGEME
 zipline_postgres_database: CHANGEME
+
+
+# ---------------
+# Crowdsec
+# ---------------
+crowdsec_crowdsec_docker_image: crowdsecurity/crowdsec:v1.6.2
+crowdsec_enroll_key: CHANGEME

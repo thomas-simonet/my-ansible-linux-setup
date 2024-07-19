@@ -37,6 +37,8 @@ services:
       - traefik.http.routers.dashboard.middlewares=traefik-auth
       # Diun
       - diun.enable=true
+      # Crowdsec
+      - traefik.http.middlewares.crowdsec.plugin.crowdsec-bouncer-traefik-plugin.enabled=true
 
 networks:
   public:
