@@ -3,6 +3,8 @@ services:
     container_name: zipline-
     image: {{ zipline_zipline_docker_image }} 
     restart: unless-stopped
+    security_opt:
+      - no-new-privileges=true
     depends_on:
       - 'postgres'
     environment:
@@ -34,6 +36,8 @@ services:
     container_name: zipline-postgres
     image: {{ zipline_postgres_docker_image }}
     restart: unless-stopped
+    security_opt:
+      - no-new-privileges=true
     environment:
       - POSTGRES_USER={{ zipline_postgres_user }}
       - POSTGRES_PASSWORD={{ zipline_postgres_password }}
