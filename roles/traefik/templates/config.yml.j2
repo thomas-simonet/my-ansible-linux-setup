@@ -1,3 +1,5 @@
+## Dynamic configuration
+
 tls:
   stores:
     default:
@@ -7,3 +9,11 @@ tls:
   certificates:
     - certFile: /etc/ssl/traefik/cf_cert.pem
       keyFile: /etc/ssl/traefik/cf_key.pem
+
+http:
+  middlewares:
+    crowdsec:
+      plugin:
+        crowdsec-bouncer-traefik-plugin:
+          crowdsecLapiKey: {{ traefik_bouncer_key }}
+          enabled: false

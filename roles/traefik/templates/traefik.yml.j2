@@ -1,3 +1,5 @@
+## Static configuration
+
 global:
   sendAnonymousUsage: false
 
@@ -26,9 +28,9 @@ providers:
     exposedByDefault: false
 
 log:
-  level: DEBUG
+  level: {{ traefik_log_level }}
   noColor: true
-  maxSize: 100
+  maxSize: 50
   maxBackups: 5
   maxAge: 7
   compress: true
@@ -41,3 +43,9 @@ metrics:
     addEntryPointsLabels: true
     addRoutersLabels: true
     addServicesLabels: true
+
+experimental:
+  plugins:
+    crowdsec-bouncer-traefik-plugin:
+      moduleName: "github.com/maxlerebourg/crowdsec-bouncer-traefik-plugin"
+      version: "v1.3.3"

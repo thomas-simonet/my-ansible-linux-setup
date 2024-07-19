@@ -1,0 +1,18 @@
+services:
+  crowdsec:
+    container_name: crowdsec
+    image: {{ crowdsec_crowdsec_docker_image }}
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges=true
+    environment:
+      TZ: {{ timezone }}
+      COLLECTIONS: "crowdsecurity/sshd crowdsecurity/traefik"
+      GID: {{ ansible_facts.getent_passwd[default_username].2 }}
+    volumes:
+      - /mnt/docker/volumes/crowdsec/data:/var/lib/crowdsec/data/
+      - /mnt/docker/crowdsec/acquis.yml:/etc/crowdsec/acquis.yml:ro
+      - /var/log:/var/log:ro
+    labels:
+      # Diun
+      - diun.enable=true
