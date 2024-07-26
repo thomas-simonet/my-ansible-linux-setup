@@ -13,13 +13,6 @@
     - install-common
     - install-user
 
-- name: Import fail2ban configuration tasks
-  ansible.builtin.import_tasks: fail2ban.yml
-  become: true
-  tags:
-    - install-common
-    - install-fail2ban
-
 - name: Import datetime configuration tasks
   ansible.builtin.import_tasks: datetime.yml
   become: true
@@ -27,12 +20,12 @@
     - install-common
     - install-datetime
 
-- name: Import ufw configuration tasks
-  ansible.builtin.import_tasks: ufw.yml
+- name: Import iptables configuration tasks
+  ansible.builtin.import_tasks: iptables.yml
   become: true
   tags:
     - install-common
-    - install-ufw
+    - install-iptables
 
 - name: Import ssh configuration tasks
   ansible.builtin.import_tasks: ssh.yml

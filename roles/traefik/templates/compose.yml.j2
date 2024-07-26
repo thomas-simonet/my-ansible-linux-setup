@@ -2,7 +2,6 @@ services:
   traefik:
     image: {{ traefik_traefik_docker_image }}
     container_name: traefik
-    hostname: traefik
     restart: unless-stopped
     security_opt:
       - no-new-privileges=true
@@ -20,6 +19,7 @@ services:
     networks:
       - public
       - diun-watch
+      - crowdsec
     labels:
       # Traefik
       - traefik.enable=true
@@ -44,4 +44,6 @@ networks:
   public:
     external: true
   diun-watch:
+    external: true
+  crowdsec:
     external: true

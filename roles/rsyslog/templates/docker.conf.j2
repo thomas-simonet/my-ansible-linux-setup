@@ -15,7 +15,10 @@ if $programname == 'containerd' then {
 if $programname == 'docker' then {
     if $syslogtag contains 'docker/' then {
         ?DockerContainerLogFileName
-        stop
     }
+    else {
+        action(type="omfile" file="/var/log/docker/no_tag.log")
+    }
+    stop
 }
 $FileCreateMode 0600

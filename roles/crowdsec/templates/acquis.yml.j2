@@ -2,9 +2,10 @@
 filenames:
   - /var/log/docker/traefik.log
 labels:
-  type: syslog
+  type: traefik
 ---
 filenames:
   - /var/log/auth.log
+  - /var/log/syslog
 labels:
   type: syslog
