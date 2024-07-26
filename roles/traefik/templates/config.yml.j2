@@ -18,6 +18,6 @@ http:
       plugin:
         crowdsec-bouncer-traefik-plugin:
           enabled: false
-          crowdsecLapiKey: {{ traefik_bouncer_key }}
+          crowdsecLapiKey: {{ crowdsec_traefik_bouncer_key }}
           crowdsecLapiHost: crowdsec:8080
           crowdsecLapiScheme: http

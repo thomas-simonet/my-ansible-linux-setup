@@ -3,6 +3,7 @@
   ansible.builtin.apt:
     pkg:
       - iptables
+      - iptables-persistent
     state: present
 
 - name: Iptables | Allow Loopback Connections (Input)
@@ -47,7 +48,7 @@
     syn: match
     jump: ACCEPT
 
-- name: Iptables | Configure tcp ACCEPT rules
+- name: Iptables | Configure tcp incoming ACCEPT rules
   ansible.builtin.iptables:
     chain: INPUT
     protocol: tcp
@@ -56,7 +57,15 @@
       - "443"
     jump: ACCEPT
 
+- name: Iptables | Configure udp outgoing ACCEPT rules
+  ansible.builtin.iptables:
+    chain: OUTPUT
+    protocol: udp
+    destination_ports:
+      - "53"
+    jump: ACCEPT
+
 - name: Iptables | Save current state of the firewall in system file
   community.general.iptables_state:
     state: saved
-    path: /etc/iptables/rules
+    path: /etc/iptables/rules.v4
