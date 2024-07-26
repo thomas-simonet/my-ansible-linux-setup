@@ -15,7 +15,7 @@ services:
     volumes:
       - /mnt/docker/volumes/crowdsec/data:/var/lib/crowdsec/data/
       - /mnt/docker/volumes/crowdsec/config:/etc/crowdsec
-      - /mnt/docker/crowdsec/acquis.yml:/etc/crowdsec/acquis.yml
+      - /mnt/docker/crowdsec/acquis.yaml:/etc/crowdsec/acquis.yaml
       - /var/log/auth.log:/var/log/auth.log:ro
       - /var/log/syslog:/var/log/syslog:ro
       - /var/log/docker:/var/log/docker:ro

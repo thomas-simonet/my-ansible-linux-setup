@@ -68,7 +68,7 @@
     mode: "0644"
   loop:
     - compose.yml
-    - acquis.yml
+    - acquis.yaml
 
 - name: Run "docker compose up"
   community.docker.docker_compose_v2:
