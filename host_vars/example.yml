@@ -95,7 +95,7 @@ monitoring_grafana_smtp_from_address: CHANGEME
 # Traefik
 # ---------------
 traefik_fqdn: traefik-192-168-56-18.traefik.me
-traefik_traefik_docker_image: traefik:v3.0
+traefik_traefik_docker_image: traefik:v3.1.0
 
 # Traefik htpasswd
 traefik_basic_auth_user: CHANGEME
@@ -146,3 +146,6 @@ zipline_postgres_database: CHANGEME
 # ---------------
 crowdsec_crowdsec_docker_image: crowdsecurity/crowdsec:v1.6.2
 crowdsec_enroll_key: CHANGEME
+crowdsec_enrolled: false
+crowdsec_traefik_bouncer_key: false
+crowdsec_iptable_bouncer_key: false

@@ -9,11 +9,15 @@ tls:
   certificates:
     - certFile: /etc/ssl/traefik/cf_cert.pem
       keyFile: /etc/ssl/traefik/cf_key.pem
+      stores:
+        - default
 
 http:
   middlewares:
     crowdsec:
       plugin:
         crowdsec-bouncer-traefik-plugin:
-          crowdsecLapiKey: {{ traefik_bouncer_key }}
           enabled: false
+          crowdsecLapiKey: {{ traefik_bouncer_key }}
+          crowdsecLapiHost: crowdsec:8080
+          crowdsecLapiScheme: http
