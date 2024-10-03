@@ -1,0 +1,7 @@
+all:
+  hosts:
+    staging:
+      ansible_host: CHANGEME
+      ansible_port: CHANGEME
+      ansible_user: "CHANGEME"
+      ansible_ssh_private_key_file: "CHANGEME"

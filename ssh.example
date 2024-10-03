@@ -1,0 +1,13 @@
+Host staging
+  HostName YOUR_SERVER_IP
+  User YOUR_SSH_USER
+  Port YOUR_SSH_PORT
+  UserKnownHostsFile /dev/null
+  StrictHostKeyChecking no
+  PasswordAuthentication no
+  IdentityFile YOUR_SSH_KEY_FILE_PATH
+  IdentitiesOnly yes
+  LogLevel FATAL
+  PubkeyAcceptedKeyTypes +ssh-rsa
+  HostKeyAlgorithms +ssh-rsa
+  ForwardAgent yes
