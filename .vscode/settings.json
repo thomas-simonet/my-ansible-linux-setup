@@ -2,6 +2,5 @@
     "terminal.integrated.fontFamily": "'Hack Nerd Font'",
     "terminal.integrated.fontSize": 12,
     "editor.fontFamily": "Fira Code",
-    "editor.fontLigatures": true,
-    "ansible.python.interpreterPath": "/bin/python3"
+    "editor.fontLigatures": true
 }

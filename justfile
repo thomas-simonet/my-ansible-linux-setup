@@ -11,7 +11,3 @@ production *args:
 [group('staging')]
 staging *args:
     ansible-playbook -i inventory/staging.yml playbook.yml {{ args }}
-
-[group('vagrant')]
-get-ssh-config:
-    vagrant ssh-config > ssh
