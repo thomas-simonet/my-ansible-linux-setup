@@ -33,4 +33,3 @@
   tags:
     - install-common
     - install-ssh
-  when: not is_vagrant

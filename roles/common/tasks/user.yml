@@ -15,15 +15,6 @@
     key: "{{ lookup('ansible.builtin.file', './data/keys/ssh_public.key') }}"
   notify: Restart ssh
 
-- name: User | Ensure sudo group has sudo privileges without password
-  ansible.builtin.lineinfile:
-    dest: /etc/sudoers
-    state: present
-    regexp: "^%sudo"
-    line: "%sudo ALL=(ALL) NOPASSWD:ALL"
-    validate: "/usr/sbin/visudo -cf %s"
-  when: is_vagrant
-
 - name: Get default user info
   ansible.builtin.getent:
     database: passwd

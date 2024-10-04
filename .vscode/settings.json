@@ -1,6 +1,7 @@
 {
     "terminal.integrated.fontFamily": "'Hack Nerd Font'",
     "terminal.integrated.fontSize": 12,
+    "terminal.integrated.defaultProfile.linux": "zsh",
     "editor.fontFamily": "Fira Code",
-    "editor.fontLigatures": true
+    "editor.fontLigatures": true,
 }

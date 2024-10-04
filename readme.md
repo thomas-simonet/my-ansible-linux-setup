@@ -1,14 +1,22 @@
+## Applications
+
+* Apprise (Push Notifications.) - [repo](https://github.com/caronc/apprise)
+* Crowdsec (participative security solution offering crowdsourced protection against malicious IPs) - [repo](https://github.com/crowdsecurity/crowdsec)
+* Diun (Receive notifications when an image is updated on a Docker registry.) - [repo](https://github.com/crazy-max/diun)
+* Freshrss (A free, self-hostable news aggregator.) - [repo](https://github.com/FreshRSS/FreshRSS)
+* Mealie (Delf hosted recipe manager and meal planner.) - [repo](https://github.com/mealie-recipes/mealie)
+* Grafana (The open and composable observability and data visualization platform.) - [repo](https://github.com/grafana/grafana)
+* Readeck (Simple web application that lets you save the precious readable content of web pages you like and want to keep forever.) - [repo](https://codeberg.org/readeck/readeck)
+* Resticker (Run automatic restic backups via a Docker container.) - [repo](https://github.com/djmaze/resticker)
+* Traefik (The Cloud Native Application Proxy) - [repo](https://github.com/traefik/traefik)
+* Zipline (A ShareX/file upload server that is easy to use) - [repo](https://github.com/diced/zipline)
+
 ## Installation
 
-## Version
-
-Fonctionne avec
+### Version
 
 ```
-Ansible 2.16.6
-Vagrant 2.4.1
-VirtualBox 7.0.14
----
+Ansible 2.17.4
 Python 3.10.12
 ```
 
@@ -20,7 +28,14 @@ sudo apt-get install python3-pip git libffi-dev libssl-dev -y
 pip install --user ansible pywinrm
 
 # Install ansible-lint for linting or ansible vscode extensions
-pip3 install ansible-lint
+pip install ansible-lint
+```
+
+#### Upgrade de Ansible
+
+```
+# Upgrade Ansible
+pip install --upgrade --user ansible
 ```
 
 #### Installer les pre-requis :
@@ -29,81 +44,9 @@ pip3 install ansible-lint
 ansible-galaxy role install -r ./provisioning/requirements.yml
 ```
 
-## Installation locale
-
-### Installation de Virtualbox (Windows)
-
-https://www.virtualbox.org/wiki/Downloads
-
-Copier le dossier d'installation, il sera nécessaire pour l'étape suivante.
-
-## Installation de Vagrant
-
-Depuis WSL
-
-```
-curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
-sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
-sudo apt-get update && sudo apt-get install vagrant
-```
-
-Editer le fichier "~/.bashrc"
-
-```
-export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"
-export VAGRANT_WSL_WINDOWS_ACCESS_USER_HOME_PATH="/mnt/c/Users/YOUR_USERNAME/"
-export PATH="$PATH:/mnt/C:/Program Files/Oracle/VirtualBox"
-```
-
-=> Remplacer "YOUR_USERNAME" par le nom de votre utilisateur sous Windows
-
-Editer le fichier "/etc/wsl.conf"
-
-```
-[automount]
-enabled = true
-root = /mnt/
-options = "metadata,umask=77,fmask=11"
-mountFsTab = false
-```
-
-### Dotfiles
-
-Sous windows, installez les nerds fonts :
-
-```
-choco install nerd-fonts-hack
-```
-
-Le police est selectionnée par défaut dans Visual Studio Code via la configuration dans .vscode.
-
-## Récuperer les secrets depuis bitwarden
-
-Se référer à la documentation officielle https://bitwarden.com/help/ansible-integration/
-
-
-## Connexion SSH
-
-```
-vagrant ssh-config > vagrant-ssh
-ssh -F vagrant-ssh default
-```
-
-## Accéder aux sites sous docker
-
-L'adresse IP par défaut de la VM est "192.168.56.18".
-
-* Traefik est par défaut accessible à l'adresse https://traefik-192-168-56-18.traefik.me/dashboard/
-
-* Portainer est par défaut accessible à l'adresse https://portainer-192-168-56-18.traefik.me
-
-* Grafana est par défaut accessible à l'adresse https://grafana-192-168-56-18.traefik.me
-
-## Installer du command runner "just"
+### Installation de just
 
 https://github.com/casey/just
-
-Just est installé par défaut dans le role "dotfiles", mais voici comment installer just sur WSL ou autres.
 
 ```
 # create ~/bin
@@ -121,30 +64,13 @@ export PATH="$PATH:$HOME/bin"
 just --help
 ```
 
+## Connexion SSH
+
+```
+```
+
 ## Debug
 
 #### Fix "WARNING: UNPROTECTED PRIVATE KEY FILE!"
 
 https://www.schakko.de/2020/01/10/fixing-unprotected-key-file-when-using-ssh-or-ansible-inside-wsl/
-
-
-## Ressources
-
-https://thedatabaseme.de/2022/02/20/vagrant-up-running-vagrant-under-wsl2/
-https://www.commandprompt.com/blog/docker-logging-with-rsyslog/
-
-## Inventory
-
-### Staging
-
-Pour tester en local, ajouter un fichier "staging.yml" dans /inventory contenant :
-
-```
-all:
-  hosts:
-    staging:
-      ansible_host: adresse ip de la vm
-      ansible_port: 2222
-      ansible_user: "vagrant"
-      ansible_ssh_private_key_file: "/path/to/private/key"
-```
