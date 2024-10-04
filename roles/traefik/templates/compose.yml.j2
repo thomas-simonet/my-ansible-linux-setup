@@ -28,11 +28,7 @@ services:
       - traefik.http.routers.dashboard.entrypoints=https
       - traefik.http.routers.dashboard.tls=true
       - traefik.http.routers.dashboard.tls.domains[0].main={{ server_fqdn }}
-{% if is_vagrant %}
-      - traefik.http.routers.dashboard.tls.domains[0].sans=*-{{ server_fqdn }}
-{% else %}
       - traefik.http.routers.dashboard.tls.domains[0].sans=*.{{ server_fqdn }}
-{% endif %}
       - traefik.http.middlewares.traefik-auth.basicauth.usersfile=/etc/traefik/basic_auth/traefik
       - traefik.http.routers.dashboard.middlewares=traefik-auth
       # Diun

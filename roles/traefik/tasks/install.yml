@@ -39,16 +39,6 @@
     group: "{{ default_username }}"
     mode: "0640"
 
-- name: Generate local certs for traefik
-  ansible.builtin.shell:
-    cmd: |
-      wget traefik.me/fullchain.pem -O cf_cert.pem
-      wget traefik.me/privkey.pem -O cf_key.pem
-    chdir: /mnt/docker/traefik/certs
-  become_user: "{{ default_username }}"
-  become: true
-  when: is_vagrant
-
 - name: Copy Cloudflare certs from files
   ansible.builtin.copy:
     content: "{{ item.content }}"
@@ -61,7 +51,6 @@
     - { content: "{{ lookup('file', './data/certificates/cf_key.pem', errors='ignore') }}", name: cf_key.pem }
   loop_control:
     label: "{{ item.name }}"
-  when: not is_vagrant
 
 - name: Run "docker compose up"
   community.docker.docker_compose_v2:
