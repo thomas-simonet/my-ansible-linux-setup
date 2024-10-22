@@ -13,8 +13,8 @@ ubuntu_version: jammy
 # ---------------
 # Server
 # ---------------
-server_fqdn: mydomain.com
-server_ip_address: 192.168.0.1
+server_fqdn: changeme.fr
+server_ip_address: CHANGEME
 
 
 # ---------------
