@@ -3,6 +3,8 @@ services:
     container_name: vmagent
     image: [% monitoring_vmagent_docker_image %]
     restart: unless-stopped
+    security_opt:
+      - no-new-privileges=true
     depends_on:
       - victoriametrics
     ports:
@@ -24,6 +26,8 @@ services:
     container_name: victoriametrics
     image: [% monitoring_victoriametrics_docker_image %]
     restart: unless-stopped
+    security_opt:
+      - no-new-privileges=true
     ports:
       - 127.0.0.1:8089:8089
       - 127.0.0.1:8089:8089/udp
@@ -40,9 +44,9 @@ services:
       - "--influxListenAddr=:8089"
       - "--vmalert.proxyURL=http://vmalert:8880"
     networks:
-      - public
       - monitoring
       - diun-watch
+      - cloudflared
     labels:
       # Traefik
       - traefik.enable=true
@@ -58,7 +62,9 @@ services:
     container_name: grafana
     image: [% monitoring_grafana_docker_image %]
     restart: unless-stopped
-    user: "1002"
+    security_opt:
+      - no-new-privileges=true
+    user: "[% current_user_id.stdout %]"
     depends_on:
       - victoriametrics
     volumes:
@@ -70,9 +76,9 @@ services:
       - /mnt/docker/monitoring/grafana/dashboards/vmagent.json:/var/lib/grafana/dashboards/vmagent.json:ro
       - /mnt/docker/monitoring/grafana/dashboards/vmalert.json:/var/lib/grafana/dashboards/vmalert.json:ro
     networks:
-      - public
       - monitoring
       - diun-watch
+      - cloudflared
     labels:
       # Traefik
       - traefik.enable=true
@@ -88,6 +94,8 @@ services:
     container_name: vmalert
     image: [% monitoring_vmalert_docker_image %]
     restart: unless-stopped
+    security_opt:
+      - no-new-privileges=true
     depends_on:
       - victoriametrics
       - alertmanager
@@ -121,6 +129,7 @@ services:
     networks:
       - monitoring
       - diun-watch
+      - cloudflared
     labels:
       # Traefik
       - traefik.enable=true
@@ -132,10 +141,37 @@ services:
       # Diun
       - diun.enable=true
 
+  loki:
+    image: grafana/loki:latest
+    container_name: loki
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges=true
+    ports:
+      - 127.0.0.1:3100:3100
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - monitoring
+      - diun-watch
+      - cloudflared
+
+  promtail:
+    image: grafana/promtail:latest
+    container_name: promtail
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges=true
+    command: -config.file=/etc/promtail/config.yml
+    volumes:
+      - /var/log:/var/log:ro
+    networks:
+      - monitoring
+      - diun-watch
+
 networks:
-  public:
-    external: true
   monitoring:
     external: true
   diun-watch:
+    external: true
+  cloudflared:
     external: true

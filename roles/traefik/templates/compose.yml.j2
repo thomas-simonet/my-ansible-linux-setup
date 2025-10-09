@@ -14,27 +14,27 @@ services:
       - /mnt/docker/traefik/traefik.yml:/etc/traefik/traefik.yml:ro
       - /mnt/docker/traefik/config.yml:/etc/traefik/config.yml:ro
       - /mnt/docker/traefik/certs:/etc/ssl/traefik:ro
-      - /mnt/docker/traefik/basic_auth:/etc/traefik/basic_auth:ro
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - public
       - diun-watch
       - crowdsec
+      - cloudflared
     labels:
       # Traefik
       - traefik.enable=true
-      - traefik.http.routers.dashboard.rule=Host(`{{ traefik_fqdn }}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
-      - traefik.http.routers.dashboard.service=api@internal
-      - traefik.http.routers.dashboard.entrypoints=https
-      - traefik.http.routers.dashboard.tls=true
-      - traefik.http.routers.dashboard.tls.domains[0].main={{ server_fqdn }}
-      - traefik.http.routers.dashboard.tls.domains[0].sans=*.{{ server_fqdn }}
-      - traefik.http.middlewares.traefik-auth.basicauth.usersfile=/etc/traefik/basic_auth/traefik
-      - traefik.http.routers.dashboard.middlewares=traefik-auth
+      - traefik.http.routers.traefik-dashboard.rule=Host(`{{ traefik_fqdn }}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
+      - traefik.http.routers.traefik-dashboard.service=api@internal
+      - traefik.http.routers.traefik-dashboard.entrypoints=https
+      - traefik.http.routers.traefik-dashboard.tls=true
+      - traefik.http.routers.traefik-dashboard.tls.domains[0].main={{ server_fqdn }}
+      - traefik.http.routers.traefik-dashboard.tls.domains[0].sans=*.{{ server_fqdn }}
+      - traefik.http.routers.traefik-dashboard.middlewares=crowdsec
       # Diun
       - diun.enable=true
       # Crowdsec
       - traefik.http.middlewares.crowdsec.plugin.crowdsec-bouncer-traefik-plugin.enabled=true
+      - traefik.http.middlewares.crowdsec.plugin.crowdsec-bouncer-traefik-plugin.crowdseclapikey={{ crowdsec_traefik_bouncer_key }}
 
 networks:
   public:
@@ -42,4 +42,6 @@ networks:
   diun-watch:
     external: true
   crowdsec:
+    external: true
+  cloudflared:
     external: true

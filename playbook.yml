@@ -10,13 +10,16 @@
     # applications
     - role: crowdsec
     - role: traefik
-    - role: monitoring
-    - role: diun
-    - role: restic
-    - role: apprise
-    - role: mealie
-    - role: freshrss
-    - role: readeck
-    - role: zipline
+    - role: cloudflared
+    # - role: monitoring
+    - role: netdata
+    # - role: graylog
+    # - role: diun
+    # - role: restic
+    # - role: apprise
+    # - role: mealie
+    # - role: freshrss
+    # - role: readeck
+    # - role: zipline
     # /end applications
     - role: reboot

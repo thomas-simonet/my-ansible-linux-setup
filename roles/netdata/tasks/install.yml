@@ -1,0 +1,35 @@
+---
+- name: Create main directory
+  ansible.builtin.file:
+    path: /mnt/docker/netdata
+    state: directory
+    owner: "{{ default_username }}"
+    group: "{{ default_username }}"
+    mode: "0755"
+
+- name: Create volumes directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ default_username }}"
+    group: "{{ default_username }}"
+    mode: "0777"
+  loop:
+    - /mnt/docker/volumes/netdata/config
+    - /mnt/docker/volumes/netdata/cache
+    - /mnt/docker/volumes/netdata/lib
+
+- name: Ensure config files exist
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "/mnt/docker/netdata/{{ item }}"
+    owner: "{{ default_username }}"
+    group: "{{ default_username }}"
+    mode: "0644"
+  loop:
+    - compose.yml
+
+- name: Run "docker compose up"
+  community.docker.docker_compose_v2:
+    project_src: /mnt/docker/netdata
+    recreate: always

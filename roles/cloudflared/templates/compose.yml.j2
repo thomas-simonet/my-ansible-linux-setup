@@ -1,0 +1,20 @@
+services:
+  cloudflared:
+    container_name: cloudflared
+    image: cloudflare/cloudflared
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges=true
+    environment:
+      - TZ={{ timezone }}
+      - TUNNEL_TOKEN={{ cloudflared_tunnel_token }}
+    command: tunnel --no-autoupdate run
+    networks:
+      - cloudflared
+    labels:
+      # Diun
+      - diun.enable=true
+
+networks:
+  cloudflared:
+    external: true

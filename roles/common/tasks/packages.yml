@@ -9,12 +9,14 @@
   ansible.builtin.apt:
     pkg:
       - python3-pip
+      - python3-passlib # requirement for ansible
       - ca-certificates
       - git
       - acl
       - screen
       - net-tools
       - sudo
+      - iptables
       - ufw
       - build-essential
       - jq
@@ -30,15 +32,6 @@
     state: present
     update_cache: true
     allow_unauthenticated: true
-  become: true
-
-- name: Packages | Install python requirements
-  ansible.builtin.pip:
-    name:
-      - docker # Required for community.docker.docker_secret
-      - requests==2.32.2 # Required for community.docker
-      - passlib # Required for community.general.htpasswd
-    state: present
   become: true
 
 - name: Disable unattended upgrades

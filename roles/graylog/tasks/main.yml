@@ -1,0 +1,7 @@
+---
+- name: Import graylog installation tasks
+  tags:
+    - install-app
+    - install-graylog
+  block:
+    - ansible.builtin.include_tasks: install.yml

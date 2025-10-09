@@ -13,6 +13,18 @@ tls:
         - default
 
 http:
+  routers:
+    netdata:
+      rule: "Host(`{{ netdata_fqdn }}`)"
+      entryPoints:
+        - https
+      service: netdata
+      tls: true
+  services:
+    netdata:
+      loadBalancer:
+        servers:
+          - url: "http://172.17.0.1:19999"
   middlewares:
     crowdsec:
       plugin:
@@ -21,3 +33,7 @@ http:
           crowdsecLapiKey: {{ crowdsec_traefik_bouncer_key }}
           crowdsecLapiHost: crowdsec:8080
           crowdsecLapiScheme: http
+          crowdsecAppsecEnabled: true
+          crowdsecAppsecHost: crowdsec:7422
+          crowdsecAppsecFailureBlock: true
+          crowdsecAppsecUnreachableBlock: true

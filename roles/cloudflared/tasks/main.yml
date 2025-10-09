@@ -1,0 +1,7 @@
+---
+- name: Import cloudflared installation tasks
+  tags:
+    - install-app
+    - install-cloudflared
+  block:
+    - ansible.builtin.include_tasks: install.yml

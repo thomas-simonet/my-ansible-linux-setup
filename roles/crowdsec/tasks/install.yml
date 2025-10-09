@@ -69,6 +69,7 @@
   loop:
     - compose.yml
     - acquis.yaml
+    - appsec.yaml
 
 - name: Run "docker compose up"
   community.docker.docker_compose_v2:

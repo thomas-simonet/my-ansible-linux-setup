@@ -20,12 +20,12 @@
     - install-common
     - install-datetime
 
-- name: Import iptables configuration tasks
-  ansible.builtin.import_tasks: iptables.yml
+- name: Import ufw configuration tasks
+  ansible.builtin.import_tasks: ufw.yml
   become: true
   tags:
     - install-common
-    - install-iptables
+    - install-ufw
 
 - name: Import ssh configuration tasks
   ansible.builtin.import_tasks: ssh.yml

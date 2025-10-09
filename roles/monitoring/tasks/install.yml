@@ -24,6 +24,7 @@
     - /mnt/docker/monitoring/grafana/provisioning/datasources/prometheus-datasource
     - /mnt/docker/monitoring/grafana/provisioning/datasources/victorialogs-datasource
     - /mnt/docker/monitoring/grafana/provisioning/datasources/victoriametrics-datasource
+    - /mnt/docker/monitoring/grafana/provisioning/datasources/loki-datasource
     - /mnt/docker/monitoring/vmagent
     - /mnt/docker/monitoring/vmalert
     - /mnt/docker/monitoring/victoriametrics
@@ -39,6 +40,11 @@
     - /mnt/docker/volumes/monitoring/grafana/data
     - /mnt/docker/volumes/monitoring/vmagent/data
     - /mnt/docker/volumes/monitoring/victoriametrics/data
+
+- name: Get current user id
+  ansible.builtin.command: id -u
+  register: current_user_id
+  changed_when: false
 
 - name: Ensure config files exist
   ansible.builtin.template:
@@ -61,6 +67,7 @@
     - grafana/provisioning/datasources/prometheus-datasource/prometheus-datasource.yml
     - grafana/provisioning/datasources/victorialogs-datasource/victorialogs-datasource.yml
     - grafana/provisioning/datasources/victoriametrics-datasource/victoriametrics-datasource.yml
+    - grafana/provisioning/datasources/loki-datasource/loki-datasource.yml
     - vmagent/prometheus.yml
     - vmalert/alerts-health.yml
     - vmalert/alerts-vmagent.yml
