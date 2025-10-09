@@ -1,0 +1,104 @@
+services:
+  mongodb:
+    image: {{ graylog_mongodb_docker_image }}
+    container_name: mongodb
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges=true
+    ports:
+      - 127.0.0.1:27017:27017/tcp
+    networks:
+      - graylog
+      - diun-watch
+    volumes:
+      - /mnt/docker/volumes/graylog/mongodb/data:/data/db
+      - /mnt/docker/volumes/graylog/mongodb/config:/data/configdb
+    labels:
+      # Diun
+      - diun.enable=true
+
+  datanode:
+    image: {{ graylog_datanode_docker_image }}
+    container_name: datanode
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges=true
+    environment:
+      GRAYLOG_DATANODE_NODE_ID_FILE: "/var/lib/graylog-datanode/node-id"
+      GRAYLOG_DATANODE_PASSWORD_SECRET: {{ graylog_password_secret }}
+      GRAYLOG_DATANODE_MONGODB_URI: "mongodb://mongodb:27017/graylog"
+    ulimits:
+      memlock:
+        hard: -1
+        soft: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    ports:
+      - 127.0.0.1:8999:8999/tcp   # DataNode API
+      - 127.0.0.1:9200:9200/tcp
+      - 127.0.0.1:9300:9300/tcp
+    networks:
+      - graylog
+      - diun-watch
+    volumes:
+      - /mnt/docker/volumes/graylog/datanode:/var/lib/graylog-datanode
+    labels:
+      # Diun
+      - diun.enable=true
+
+  graylog:
+    image: {{ graylog_graylog_docker_image }}
+    container_name: graylog
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges=true
+    depends_on:
+      mongodb:
+        condition: "service_started"
+      datanode:
+        condition: "service_started"
+    entrypoint: "/usr/bin/tini --  /docker-entrypoint.sh"
+    environment:
+      GRAYLOG_NODE_ID_FILE: "/usr/share/graylog/data/data/node-id"
+      GRAYLOG_PASSWORD_SECRET: {{ graylog_password_secret }}
+      GRAYLOG_ROOT_PASSWORD_SHA2: {{ graylog_root_password_sha2 }}
+      GRAYLOG_HTTP_BIND_ADDRESS: "0.0.0.0:9000"
+      GRAYLOG_HTTP_EXTERNAL_URI: "http://localhost:9000/"
+      GRAYLOG_MONGODB_URI: "mongodb://mongodb:27017/graylog"
+    ports:
+    - 127.0.0.1:5044:5044/tcp   # Beats
+    - 127.0.0.1:5140:5140/udp   # Syslog
+    - 127.0.0.1:5140:5140/tcp   # Syslog
+    - 127.0.0.1:5555:5555/tcp   # RAW TCP
+    - 127.0.0.1:5555:5555/udp   # RAW UDP
+    - 127.0.0.1:9000:9000/tcp   # Server API
+    - 127.0.0.1:12201:12201/tcp # GELF TCP
+    - 127.0.0.1:12201:12201/udp # GELF UDP
+    - 127.0.0.1:13301:13301/tcp # Forwarder data
+    - 127.0.0.1:13302:13302/tcp # Forwarder config
+    networks:
+      - graylog
+      - diun-watch
+      - cloudflared
+    volumes:
+      - /mnt/docker/volumes/graylog/graylog/data:/usr/share/graylog/data/data
+      - /mnt/docker/volumes/graylog/graylog/config:/usr/share/graylog/data/config
+    labels:
+      # Traefik
+      - traefik.enable=true
+      - traefik.http.routers.graylog.rule=Host(`{{ graylog_fqdn }}`)
+      - traefik.http.routers.graylog.entrypoints=https
+      - traefik.http.routers.graylog.service=graylog
+      - traefik.http.routers.graylog.tls=true
+      - traefik.http.services.graylog.loadbalancer.server.port=9000
+      # Diun
+      - diun.enable=true
+
+networks:
+  cloudflared:
+    external: true
+  graylog:
+    external: true
+  diun-watch:
+    external: true

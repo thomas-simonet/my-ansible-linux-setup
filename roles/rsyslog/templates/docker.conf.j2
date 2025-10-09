@@ -1,6 +1,11 @@
 $FileCreateMode 0644
 $template DockerDaemonLogFileName,"/var/log/docker/docker.log"
-$template DockerContainerLogFileName,"/var/log/docker/%SYSLOGTAG:R,ERE,1,FIELD:docker/(.*)\[--end:secpath-replace%.log"
+
+template(name="DockerContainerLogFileName" type="list") {
+    constant(value="/var/log/docker/")
+    property(name="syslogtag" securepath="replace" regex.expression="docker/\\(.*\\)\\[" regex.submatch="1")
+    constant(value=".log")
+}
 
 if $programname == 'dockerd' then {
     ?DockerDaemonLogFileName
@@ -21,4 +26,3 @@ if $programname == 'docker' then {
     }
     stop
 }
-$FileCreateMode 0600

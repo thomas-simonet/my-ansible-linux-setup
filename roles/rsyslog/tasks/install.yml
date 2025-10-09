@@ -13,6 +13,14 @@
     line: "$PreserveFQDN on"
     state: present
 
+- name: Create Docker log directory
+  ansible.builtin.file:
+    path: /var/log/docker
+    state: directory
+    owner: root
+    group: syslog
+    mode: "0775"
+
 - name: Add rsyslog rules for Docker
   ansible.builtin.template:
     src: docker.conf.j2

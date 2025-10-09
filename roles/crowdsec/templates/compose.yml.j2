@@ -10,12 +10,13 @@ services:
     - 127.0.0.1:6060:6060 # Prometheus endpoint
     environment:
       TZ: {{ timezone }}
-      COLLECTIONS: "crowdsecurity/sshd crowdsecurity/traefik"
+      COLLECTIONS: "crowdsecurity/sshd crowdsecurity/traefik crowdsecurity/appsec-virtual-patching crowdsecurity/appsec-generic-rules"
       GID: {{ ansible_facts.getent_passwd[default_username].2 }}
     volumes:
       - /mnt/docker/volumes/crowdsec/data:/var/lib/crowdsec/data/
       - /mnt/docker/volumes/crowdsec/config:/etc/crowdsec
       - /mnt/docker/crowdsec/acquis.yaml:/etc/crowdsec/acquis.yaml
+      - /mnt/docker/crowdsec/appsec.yaml:/etc/crowdsec/acquis.d/appsec.yaml
       - /var/log/auth.log:/var/log/auth.log:ro
       - /var/log/syslog:/var/log/syslog:ro
       - /var/log/docker:/var/log/docker:ro

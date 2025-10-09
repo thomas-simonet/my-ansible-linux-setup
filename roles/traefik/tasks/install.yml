@@ -52,6 +52,20 @@
   loop_control:
     label: "{{ item.name }}"
 
+- name: Ensure UFW allows HTTP traffic
+  community.general.ufw:
+    route: true
+    rule: allow
+    proto: tcp
+    port: 80
+
+- name: Ensure UFW allows HTTPS traffic
+  community.general.ufw:
+    route: true
+    rule: allow
+    proto: tcp
+    port: 443
+
 - name: Run "docker compose up"
   community.docker.docker_compose_v2:
     project_src: /mnt/docker/traefik

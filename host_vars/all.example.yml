@@ -40,7 +40,7 @@ smtp_password: CHANGEME
 # Apprise
 # ---------------
 apprise_fqdn: apprise.mydomain.com
-apprise_apprise_docker_image: caronc/apprise:1.1.6
+apprise_apprise_docker_image: caronc/apprise:lastest
 
 # Traefik htpasswd
 apprise_basic_auth_user: CHANGEME
@@ -50,7 +50,7 @@ apprise_basic_auth_password: CHANGEME
 # ---------------
 # Diun
 # ---------------
-diun_diun_docker_image: crazymax/diun:4.28
+diun_diun_docker_image: crazymax/diun:4.30
 
 
 # ---------------
@@ -58,8 +58,8 @@ diun_diun_docker_image: crazymax/diun:4.28
 # ---------------
 mealie_fqdn: mealie.mydomain.com
 
-mealie_mealie_docker_image: ghcr.io/mealie-recipes/mealie:v1.12.0
-mealie_postgres_docker_image: postgres:15
+mealie_mealie_docker_image: ghcr.io/mealie-recipes/mealie:v3.2.1
+mealie_postgres_docker_image: postgres:17
 
 mealie_postgres_user: CHANGEME
 mealie_postgres_password: CHANGEME
@@ -75,11 +75,11 @@ monitoring_victoriametrics_fqdn: victoriametrics.mydomain.com
 monitoring_grafana_fqdn: grafana.mydomain.com
 monitoring_alertmanager_fqdn: alertmanager.mydomain.com
 
-monitoring_vmagent_docker_image: victoriametrics/vmagent:v1.101.0
-monitoring_vmalert_docker_image: victoriametrics/vmalert:v1.101.0
-monitoring_victoriametrics_docker_image: victoriametrics/victoria-metrics:v1.104.0
-monitoring_alertmanager_docker_image: prom/alertmanager:v0.27.0
-monitoring_grafana_docker_image: grafana/grafana:11.2.2
+monitoring_vmagent_docker_image: victoriametrics/vmagent:v1.126.0
+monitoring_vmalert_docker_image: victoriametrics/vmalert:v1.126.0
+monitoring_victoriametrics_docker_image: victoriametrics/victoria-metrics:v1.126.0
+monitoring_alertmanager_docker_image: prom/alertmanager:v0.28.1
+monitoring_grafana_docker_image: grafana/grafana:12.2
 
 monitoring_grafana_smtp_from_name: CHANGEME
 monitoring_grafana_smtp_from_address: CHANGEME
@@ -89,7 +89,8 @@ monitoring_grafana_smtp_from_address: CHANGEME
 # Traefik
 # ---------------
 traefik_fqdn: traefik.mydomain.com
-traefik_traefik_docker_image: traefik:v3.2.0
+traefik_traefik_docker_image: traefik:v3.5.3
+traefik_log_level: INFO
 
 # Traefik htpasswd
 traefik_basic_auth_user: CHANGEME
@@ -99,7 +100,7 @@ traefik_basic_auth_password: CHANGEME
 # ---------------
 # Restic
 # ---------------
-restic_restic_docker_image: mazzolino/restic:1.7.2
+restic_restic_docker_image: mazzolino/restic:1.8.0
 
 restic_repository: CHANGEME
 restic_password: CHANGEME
@@ -111,14 +112,14 @@ restic_aws_secret_access_key: CHANGEME
 # Freshrss
 # ---------------
 freshrss_fqdn: freshrss.mydomain.com
-freshrss_freshrss_docker_image: linuxserver/freshrss:1.24.3-ls245
+freshrss_freshrss_docker_image: linuxserver/freshrss:1.27.1
 
 
 # ---------------
 # Readeck
 # ---------------
 readeck_fqdn: readeck.mydomain.com
-readeck_readeck_docker_image: codeberg.org/readeck/readeck:0.15.3
+readeck_readeck_docker_image: codeberg.org/readeck/readeck:0.20.3
 
 
 # ---------------
@@ -126,7 +127,7 @@ readeck_readeck_docker_image: codeberg.org/readeck/readeck:0.15.3
 # ---------------
 zipline_fqdn: zipline.mydomain.com
 
-zipline_zipline_docker_image: ghcr.io/diced/zipline:3.7.10
+zipline_zipline_docker_image: ghcr.io/diced/zipline:4.3.1
 zipline_postgres_docker_image: postgres:15
 
 zipline_zipline_secret: CHANGEME
@@ -138,8 +139,21 @@ zipline_postgres_database: CHANGEME
 # ---------------
 # Crowdsec
 # ---------------
-crowdsec_crowdsec_docker_image: crowdsecurity/crowdsec:v1.6.3
+crowdsec_crowdsec_docker_image: crowdsecurity/crowdsec:v1.7.0
 crowdsec_enroll_key: CHANGEME
 crowdsec_enrolled: false
 crowdsec_traefik_bouncer_key: false
 crowdsec_iptable_bouncer_key: false
+
+
+# ---------------
+# Graylog
+# ---------------
+graylog_fqdn: graylog.thomassimonet.dev
+
+graylog_graylog_docker_image: graylog/graylog:6.3
+graylog_datanode_docker_image: graylog/graylog-datanode:6.3
+graylog_mongodb_docker_image: mongo:7.0
+
+graylog_password_secret: CHANGEME
+graylog_root_password_sha2: CHANGEME

@@ -6,7 +6,18 @@
     mode: "0600"
   notify: Restart ssh
 
-- name: Enable SSH forwarding for sudo
+- name: SSH | UFW limit SSH connections
+  community.general.ufw:
+    rule: limit
+    port: ssh
+    proto: tcp
+
+- name: SSH | Ensure UFW allows OpenSSH
+  community.general.ufw:
+    rule: allow
+    name: OpenSSH
+
+- name: SSH | Enable SSH forwarding for sudo
   ansible.builtin.lineinfile:
     dest: /etc/sudoers
     insertafter: '^#?\s*Defaults\s+env_keep\b'
