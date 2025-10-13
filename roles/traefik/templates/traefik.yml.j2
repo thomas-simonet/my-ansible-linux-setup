@@ -7,28 +7,41 @@ api:
   dashboard: true
 
 entryPoints:
-  http:
+  web:
     address: ":80"
+    forwardedHeaders:
+      trustedIPs:
+        - "172.16.0.0/12"
+        - "192.168.0.0/16"
+        - "10.0.0.0/8"
     http:
       redirections:
         entryPoint:
-          to: https
+          to: websecure
           scheme: https
-  https:
+
+  websecure:
     address: ":443"
+    http:
+      tls:
+        certResolver: cloudflareResolver
+        domains:
+          - main: "{{ server_fqdn }}"
+            sans:
+              - "*.{{ server_fqdn }}"
+
+serversTransport:
+  insecureSkipVerify: true
 
 providers:
-  file:
-    filename: "/etc/traefik/config.yml"
-    watch: true
   docker:
     endpoint: unix:///var/run/docker.sock
     watch: true
-    network: public
+    network: cloudflared
     exposedByDefault: false
 
 log:
-  level: {{ traefik_log_level }}
+  level: TRACE
   noColor: true
   maxSize: 50
   maxBackups: 5
@@ -38,14 +51,10 @@ log:
 accessLog:
   bufferingSize: 50
 
-metrics:
-  prometheus:
-    addEntryPointsLabels: true
-    addRoutersLabels: true
-    addServicesLabels: true
-
-experimental:
-  plugins:
-    crowdsec-bouncer-traefik-plugin:
-      moduleName: "github.com/maxlerebourg/crowdsec-bouncer-traefik-plugin"
-      version: "v1.4.5"
+certificatesResolvers:
+  cloudflareResolver:
+    acme:
+      email: "contact@thomassimonet.fr"
+      storage: "/etc/traefik/acme.json"
+      dnsChallenge:
+        provider: cloudflare

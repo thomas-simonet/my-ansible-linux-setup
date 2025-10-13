@@ -63,8 +63,6 @@
 
 - name: Create networks
   community.docker.docker_network:
-    name: "{{ item }}"
-  loop:
-    - public
-    - cloudflared
-    - crowdsec
+    name: cloudflared
+    ipam_config:
+      - subnet: 192.168.96.0/21

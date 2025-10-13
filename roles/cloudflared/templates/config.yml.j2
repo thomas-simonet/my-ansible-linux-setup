@@ -1,0 +1,9 @@
+tunnel: b785d768-984b-4c13-83be-2d69d9f762d3
+
+ingress:
+  - hostname: "*.{{ server_fqdn }}"
+    service: https://traefik:443
+    originRequest:
+      noTLSVerify: true
+      http2Origin: true
+  - service: http_status:404

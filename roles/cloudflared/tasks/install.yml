@@ -16,6 +16,15 @@
     mode: "0644"
   loop:
     - compose.yml
+    - config.yml
+
+- name: Copy Cloudflare tunnel certs
+  ansible.builtin.copy:
+    content: "{{ lookup('file', './data/certificates/tunnel_cert.pem', errors='ignore') }}"
+    dest: /mnt/docker/cloudflared/cert.pem
+    owner: "{{ default_username }}"
+    group: "{{ default_username }}"
+    mode: "0644"
 
 - name: Run "docker compose up"
   community.docker.docker_compose_v2:

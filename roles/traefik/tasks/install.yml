@@ -7,18 +7,7 @@
     group: "{{ default_username }}"
     mode: "0755"
 
-- name: Create sub directories
-  ansible.builtin.file:
-    path: "/mnt/docker/traefik/{{ item }}"
-    state: directory
-    owner: "{{ default_username }}"
-    group: "{{ default_username }}"
-    mode: "0755"
-  loop:
-    - basic_auth
-    - certs
-
-- name: Ensure config files exist
+- name: Ensure config files exist (0644)
   ansible.builtin.template:
     src: "{{ item }}.j2"
     dest: "/mnt/docker/traefik/{{ item }}"
@@ -27,44 +16,17 @@
     mode: "0644"
   loop:
     - compose.yml
-    - config.yml
     - traefik.yml
 
-- name: Add a user to a password file and ensure permissions are set
-  community.general.htpasswd:
-    path: /mnt/docker/traefik/basic_auth/traefik
-    name: "{{ traefik_basic_auth_user }}"
-    password: "{{ traefik_basic_auth_password }}"
+- name: Ensure config files exist (0600)
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "/mnt/docker/traefik/{{ item }}"
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
-    mode: "0640"
-
-- name: Copy Cloudflare certs from files
-  ansible.builtin.copy:
-    content: "{{ item.content }}"
-    dest: /mnt/docker/traefik/certs/{{ item.name }}
-    owner: "{{ default_username }}"
-    group: "{{ default_username }}"
-    mode: "0640"
+    mode: "0600"
   loop:
-    - { content: "{{ lookup('file', './data/certificates/cf_cert.pem', errors='ignore') }}", name: cf_cert.pem }
-    - { content: "{{ lookup('file', './data/certificates/cf_key.pem', errors='ignore') }}", name: cf_key.pem }
-  loop_control:
-    label: "{{ item.name }}"
-
-- name: Ensure UFW allows HTTP traffic
-  community.general.ufw:
-    route: true
-    rule: allow
-    proto: tcp
-    port: 80
-
-- name: Ensure UFW allows HTTPS traffic
-  community.general.ufw:
-    route: true
-    rule: allow
-    proto: tcp
-    port: 443
+    - acme.json
 
 - name: Run "docker compose up"
   community.docker.docker_compose_v2:
