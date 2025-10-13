@@ -61,7 +61,7 @@
     - docker.service
     - containerd.service
 
-- name: Create networks
+- name: Create cloudflared network
   community.docker.docker_network:
     name: cloudflared
     ipam_config:
