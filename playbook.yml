@@ -8,10 +8,10 @@
     - role: docker
     - role: rsyslog
     # applications
-    - role: crowdsec
+    # - role: crowdsec
     - role: traefik
     - role: cloudflared
-    - role: netdata
+    - role: beszel
     # - role: diun
     # - role: restic
     # - role: apprise

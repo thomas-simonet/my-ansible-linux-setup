@@ -9,8 +9,8 @@ services:
       - TZ={{ timezone }}
       - CF_DNS_API_TOKEN={{ cloudflare_dns_api_token }}
     ports:
-      - 80:80
-      - 443:443
+      - 127.0.0.1:80:80
+      - 127.0.0.1:443:443
     volumes:
       - /mnt/docker/traefik/traefik.yml:/etc/traefik/traefik.yml:ro
       - /mnt/docker/traefik/acme.json:/etc/traefik/acme.json
@@ -25,7 +25,6 @@ services:
       - traefik.http.routers.traefik-dashboard.service=api@internal
       - traefik.http.routers.traefik-dashboard.entrypoints=websecure
       - traefik.http.routers.traefik-dashboard.tls.certresolver=cloudflareResolver
-      - traefik.http.services.traefik-dashboard.loadbalancer.server.port=8080
 
 networks:
   cloudflared:
