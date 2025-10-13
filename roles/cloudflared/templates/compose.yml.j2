@@ -5,15 +5,19 @@ services:
     restart: unless-stopped
     security_opt:
       - no-new-privileges=true
+    dns:
+      - 1.1.1.1
+      - 1.0.0.1
     environment:
       - TZ={{ timezone }}
       - TUNNEL_TOKEN={{ cloudflared_tunnel_token }}
-    command: tunnel --no-autoupdate run
+    command: tunnel --no-autoupdate --origincert /etc/cloudflared/cert.pem --config /etc/cloudflared/config.yml run
+    volumes:
+      - /mnt/docker/cloudflared/config.yml:/etc/cloudflared/config.yml:ro
+      - /mnt/docker/cloudflared/cert.pem:/etc/cloudflared/cert.pem:ro
     networks:
-      - cloudflared
-    labels:
-      # Diun
-      - diun.enable=true
+      cloudflared:
+        ipv4_address: 192.168.96.3
 
 networks:
   cloudflared:

@@ -7,41 +7,26 @@ services:
       - no-new-privileges=true
     environment:
       - TZ={{ timezone }}
+      - CF_DNS_API_TOKEN={{ cloudflare_dns_api_token }}
     ports:
       - 80:80
       - 443:443
     volumes:
       - /mnt/docker/traefik/traefik.yml:/etc/traefik/traefik.yml:ro
-      - /mnt/docker/traefik/config.yml:/etc/traefik/config.yml:ro
-      - /mnt/docker/traefik/certs:/etc/ssl/traefik:ro
+      - /mnt/docker/traefik/acme.json:/etc/traefik/acme.json
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
-      - public
-      - diun-watch
-      - crowdsec
-      - cloudflared
+      cloudflared:
+        ipv4_address: 192.168.96.2
     labels:
       # Traefik
       - traefik.enable=true
       - traefik.http.routers.traefik-dashboard.rule=Host(`{{ traefik_fqdn }}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
       - traefik.http.routers.traefik-dashboard.service=api@internal
-      - traefik.http.routers.traefik-dashboard.entrypoints=https
-      - traefik.http.routers.traefik-dashboard.tls=true
-      - traefik.http.routers.traefik-dashboard.tls.domains[0].main={{ server_fqdn }}
-      - traefik.http.routers.traefik-dashboard.tls.domains[0].sans=*.{{ server_fqdn }}
-      - traefik.http.routers.traefik-dashboard.middlewares=crowdsec
-      # Diun
-      - diun.enable=true
-      # Crowdsec
-      - traefik.http.middlewares.crowdsec.plugin.crowdsec-bouncer-traefik-plugin.enabled=true
-      - traefik.http.middlewares.crowdsec.plugin.crowdsec-bouncer-traefik-plugin.crowdseclapikey={{ crowdsec_traefik_bouncer_key }}
+      - traefik.http.routers.traefik-dashboard.entrypoints=websecure
+      - traefik.http.routers.traefik-dashboard.tls.certresolver=cloudflareResolver
+      - traefik.http.services.traefik-dashboard.loadbalancer.server.port=8080
 
 networks:
-  public:
-    external: true
-  diun-watch:
-    external: true
-  crowdsec:
-    external: true
   cloudflared:
     external: true
