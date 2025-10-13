@@ -29,6 +29,17 @@
   loop:
     - compose.yml
 
+- name: Open container port 19999 in UFW
+  community.general.ufw:
+    route: true
+    rule: allow
+    proto: tcp
+    port: 19999
+
+- name: Reload UFW
+  ansible.builtin.ufw:
+    state: reloaded
+
 - name: Run "docker compose up"
   community.docker.docker_compose_v2:
     project_src: /mnt/docker/netdata

@@ -3,8 +3,13 @@ services:
     image: {{ netdata_netdata_docker_image }}
     container_name: netdata
     restart: unless-stopped
-    pid: host
-    network_mode: host
+    # pid: host
+    # network_mode: host
+    ports:
+      - 127.0.0.1:19999:19999
+    networks:
+      - public
+      - cloudflared
     cap_add:
       - SYS_PTRACE
       - SYS_ADMIN
@@ -24,3 +29,16 @@ services:
       - /var/log:/host/var/log:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /run/dbus:/run/dbus:ro
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.netdata.rule=Host(`{{ netdata_fqdn }}`)
+      - traefik.http.routers.netdata.entrypoints=https
+      - traefik.http.routers.netdata.service=netdata
+      - traefik.http.routers.netdata.tls=true
+      - traefik.http.services.netdata.loadbalancer.server.port=19999
+
+networks:
+  public:
+    external: true
+  cloudflared:
+    external: true
