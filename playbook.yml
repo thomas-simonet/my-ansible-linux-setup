@@ -12,6 +12,7 @@
     - role: traefik
     - role: cloudflared
     - role: beszel
+    - role: seq
     # - role: diun
     # - role: restic
     # - role: apprise
