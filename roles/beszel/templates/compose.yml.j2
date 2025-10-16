@@ -14,11 +14,11 @@ services:
       cloudflared:
         ipv4_address: 192.168.96.4
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.beszel.rule=Host(`{{ beszel_fqdn }}`)"
-      - "traefik.http.routers.beszel.entrypoints=websecure"
-      - "traefik.http.routers.beszel.tls.certresolver=cloudflareResolver"
-      - "traefik.http.services.beszel.loadbalancer.server.port=8090"
+      - traefik.enable=true
+      - traefik.http.routers.beszel.rule=Host(`{{ beszel_fqdn }}`)
+      - traefik.http.routers.beszel.entrypoints=websecure
+      - traefik.http.routers.beszel.tls.certresolver=cloudflareResolver
+      - traefik.http.services.beszel.loadbalancer.server.port=8090
 
   beszel-agent:
     image: {{ beszel_beszel_agent_docker_image }}
