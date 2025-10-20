@@ -1,0 +1,7 @@
+---
+- name: Import grafana installation tasks
+  tags:
+    - install-app
+    - install-grafana
+  block:
+    - ansible.builtin.include_tasks: install.yml

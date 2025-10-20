@@ -1,0 +1,67 @@
+---
+- name: Create main directory
+  ansible.builtin.file:
+    path: /mnt/docker/grafana
+    state: directory
+    owner: "{{ default_username }}"
+    group: "{{ default_username }}"
+    mode: "0755"
+
+- name: Create subdirectories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ default_username }}"
+    group: "{{ default_username }}"
+    mode: "0755"
+  loop:
+    - /mnt/docker/grafana/dashboards
+    - /mnt/docker/grafana/provisioning
+    - /mnt/docker/grafana/provisioning/dashboards
+    - /mnt/docker/grafana/provisioning/datasources
+    - /mnt/docker/grafana/rules
+
+- name: Create volumes directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ default_username }}"
+    group: "{{ default_username }}"
+    mode: "0755"
+  loop:
+    - /mnt/docker/volumes/grafana/grafana/data
+    - /mnt/docker/volumes/grafana/victorialogs/data
+    - /mnt/docker/volumes/grafana/victoriametrics/data
+
+- name: Ensure config files exist
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "/mnt/docker/grafana/{{ item }}"
+    owner: "{{ default_username }}"
+    group: "{{ default_username }}"
+    mode: "0644"
+    variable_start_string: "[%"
+    variable_end_string: "%]"
+    trim_blocks: false
+  loop:
+    - alertmanager.yml
+    - auth.yml
+    - compose.yml
+    - prometheus.yml
+    - vector.yml
+    - config.alloy
+    - dashboards/victorialogs.json
+    - provisioning/dashboards/dashboards.yml
+    - provisioning/datasources/victoriametrics-logs-datasource.yml
+    - provisioning/datasources/loki-datasource.yml
+    - rules/alerts-health.yml
+    - rules/alerts-vlogs.yml
+
+- name: Create Grafana network
+  community.docker.docker_network:
+    name: grafana
+
+- name: Run "docker compose up"
+  community.docker.docker_compose_v2:
+    project_src: /mnt/docker/grafana
+    recreate: always
