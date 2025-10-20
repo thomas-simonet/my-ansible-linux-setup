@@ -11,8 +11,9 @@
     # - role: crowdsec
     - role: traefik
     - role: cloudflared
-    - role: beszel
-    - role: seq
+    - role: grafana
+    # - role: beszel
+    # - role: seq
     # - role: diun
     # - role: restic
     # - role: apprise

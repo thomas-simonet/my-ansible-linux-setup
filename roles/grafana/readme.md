@@ -1,0 +1,1 @@
+See https://github.com/VictoriaMetrics/VictoriaLogs/tree/master/deployment/docker#docker-compose-environment-for-victoriametrics
