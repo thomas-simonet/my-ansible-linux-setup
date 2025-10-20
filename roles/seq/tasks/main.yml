@@ -1,7 +1,0 @@
----
-- name: Import seq installation tasks
-  tags:
-    - install-app
-    - install-seq
-  block:
-    - ansible.builtin.include_tasks: install.yml
