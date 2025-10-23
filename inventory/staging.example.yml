@@ -3,5 +3,8 @@ all:
     staging:
       ansible_host: CHANGEME
       ansible_port: CHANGEME
-      ansible_user: "CHANGEME"
-      ansible_ssh_private_key_file: "CHANGEME"
+      ansible_user: "CHANGEME" 
+      ansible_ssh_private_key_file: "CHANGEME" # path to SSH private key
+      ansible_become_password: "CHANGEME" # sudo password
+      # login password. FIRST RUN ONLY. Password authentication is disabled after running tasks "ssh".
+      ansible_password: "CHANGEME"

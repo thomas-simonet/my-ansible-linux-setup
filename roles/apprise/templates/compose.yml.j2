@@ -10,26 +10,23 @@ services:
     volumes:
       - /mnt/docker/volumes/apprise/config:/config
     networks:
-      - public
-      - diun-watch
+      - cloudflared
       - notification
+      - diun
     labels:
-      # Traefik
       - traefik.enable=true
       - traefik.http.routers.apprise.rule=Host(`{{ apprise_fqdn }}`)
       - traefik.http.routers.apprise.service=apprise
-      - traefik.http.routers.apprise.entrypoints=https
+      - traefik.http.routers.apprise.entrypoints=websecure
       - traefik.http.routers.apprise.tls=true
+      - traefik.http.routers.apprise.tls.certresolver=cloudflareResolver
       - traefik.http.services.apprise.loadbalancer.server.port=8000
-      - traefik.http.middlewares.apprise-auth.basicauth.usersfile=/etc/traefik/basic_auth/apprise
-      - traefik.http.routers.apprise-ui.middlewares=apprise-auth
-      # Diun
       - diun.enable=true
 
 networks:
-  public:
-    external: true
-  diun-watch:
+  cloudflared:
     external: true
   notification:
+    external: true
+  diun:
     external: true

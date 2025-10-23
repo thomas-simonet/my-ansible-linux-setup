@@ -40,18 +40,6 @@
     name: docker
     state: present
 
-- name: Copy docker daemon config
-  ansible.builtin.template:
-    src: daemon.json.j2
-    dest: /etc/docker/daemon.json
-    owner: root
-    group: root
-    mode: "0600"
-  notify: Restart docker
-
-- name: Apply configuration (flush handlers)
-  ansible.builtin.meta: flush_handlers
-
 - name: Enable and start Docker services
   ansible.builtin.systemd:
     name: "{{ item }}"
@@ -60,6 +48,13 @@
   loop:
     - docker.service
     - containerd.service
+
+- name: Create networks
+  community.docker.docker_network:
+    name: "{{ item }}"
+  loop:
+    - diun
+    - notification
 
 - name: Create cloudflared network
   community.docker.docker_network:

@@ -3,9 +3,10 @@ services:
   grafana:
     image: [% monitoring_grafana_docker_image %]
     restart: unless-stopped
+    security_opt:
+      - no-new-privileges=true
     depends_on:
       - victoriametrics
-      - victorialogs
     user: "1001"
     ports:
       - 127.0.0.1:3000:3000
@@ -14,136 +15,131 @@ services:
       - /mnt/docker/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
       - /mnt/docker/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
       - /mnt/docker/grafana/dashboards/victorialogs.json:/var/lib/grafana/dashboards/vl.json
-    environment:
-      - GF_INSTALL_PLUGINS=victoriametrics-logs-datasource
     networks:
       - cloudflared
       - grafana
+      - diun
     labels:
       - traefik.enable=true
       - traefik.http.routers.grafana.rule=Host(`[% monitoring_grafana_fqdn %]`)
+      - traefik.http.routers.grafana.service=grafana
       - traefik.http.routers.grafana.entrypoints=websecure
+      - traefik.http.routers.grafana.tls=true
       - traefik.http.routers.grafana.tls.certresolver=cloudflareResolver
       - traefik.http.services.grafana.loadbalancer.server.port=3000
-
-  # vector is logs collector. It collects logs according to vector.yml
-  # and forwards them to VictoriaLogs
-  vector:
-    image: docker.io/timberio/vector:0.46.X-distroless-libc
-    restart: unless-stopped
-    depends_on: 
-      - victorialogs
-    ports:
-      - 127.0.0.1:8686:8686
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /mnt/docker/grafana/vector.yml:/etc/vector/vector.yaml:ro
-    networks:
-      - grafana
-
-  #  VictoriaLogs instance, a single process responsible for
-  #  storing logs and serving read queries.
-  victorialogs:
-    image: [% monitoring_victorialogs_docker_image %]
-    restart: unless-stopped
-    ports:
-      - 127.0.0.1:9428:9428
-    volumes:
-      - /mnt/docker/volumes/grafana/victorialogs/data:/vlogs
-    command:
-      - --storageDataPath=/vlogs
-    networks:
-      - grafana
+      - diun.enable=true
 
   # VictoriaMetrics instance, a single process responsible for
   # scraping, storing metrics and serve read requests.
   victoriametrics:
     image: [% monitoring_victoriametrics_docker_image %]
     restart: unless-stopped
+    security_opt:
+      - no-new-privileges=true
     ports:
       - 127.0.0.1:8428:8428
+      - 127.0.0.1:8089:8089
+      - 127.0.0.1:8089:8089/udp
+      - 127.0.0.1:2003:2003
+      - 127.0.0.1:2003:2003/udp
+      - 127.0.0.1:4242:4242
     volumes:
       - /mnt/docker/volumes/grafana/victoriametrics/data:/storage
       - /mnt/docker/grafana/prometheus.yml:/etc/prometheus/prometheus.yml
     command:
       - --storageDataPath=/storage
+      - --graphiteListenAddr=:2003
+      - --opentsdbListenAddr=:4242
+      - --httpListenAddr=:8428
+      - --influxListenAddr=:8089
+      - --vmalert.proxyURL=http://vmalert:8880
       - --promscrape.config=/etc/prometheus/prometheus.yml
     networks:
+      - cloudflared
       - grafana
-
-  # vmauth is a router and balancer for HTTP requests.
-  # It proxies query requests from vmalert to either VictoriaMetrics or VictoriaLogs,
-  # depending on the requested path.
-  vmauth:
-    image: [% monitoring_vmauth_docker_image %]
-    restart: unless-stopped
-    depends_on:
-      - victoriametrics
-      - victorialogs
-    ports:
-      - 127.0.0.1:8427:8427
-    volumes:
-      - /mnt/docker/grafana/auth.yml:/etc/auth.yml
-    command:
-      - --auth.config=/etc/auth.yml
-    networks:
-      - grafana
+      - diun
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.victoriametrics.rule=Host(`[% monitoring_victoriametrics_fqdn %]`)
+      - traefik.http.routers.victoriametrics.service=victoriametrics
+      - traefik.http.routers.victoriametrics.entrypoints=websecure
+      - traefik.http.routers.victoriametrics.tls=true
+      - traefik.http.routers.victoriametrics.tls.certresolver=cloudflareResolver
+      - traefik.http.services.victoriametrics.loadbalancer.server.port=8428
+      - diun.enable=true
 
   # vmalert executes alerting and recording rules according to the given rule type.
   vmalert:
     image: [% monitoring_vmalert_docker_image %]
     restart: unless-stopped
+    security_opt:
+      - no-new-privileges=true
     depends_on:
-      - vmauth
       - alertmanager
       - victoriametrics
     ports:
       - 127.0.0.1:8880:8880
     volumes:
-      - /mnt/docker/grafana/rules/alerts-vlogs.yml:/etc/alerts/vlogs.yml
-      - /mnt/docker/grafana/rules/alerts-health.yml:/etc/alerts/alerts-health.yml
-      # vlogs rule
-      #- ./vlogs-example-alerts.yml:/etc/alerts/vlogs-example-alerts.yml
+      # - /mnt/docker/grafana/rules/alerts-health.yml:/etc/alerts/alerts-health.yml
     command:
-      # it evaluates data against VictoriaMetrics and VictoriaLogs
-      # vmauth routes queries to corresponding datasource based on API path
-      - "--datasource.url=http://vmauth:8427/"
-      # results of alerting and recording rules are persisted to VictoriaMetrics only
-      - "--remoteWrite.url=http://victoriametrics:8428/"
-      # alerts state is restored from VictoriaMetrics on restarts
+      - "--datasource.url=http://victoriametrics:8428/"
       - "--remoteRead.url=http://victoriametrics:8428/"
+      - "--remoteWrite.url=http://vmagent:8429/"
       - "--notifier.url=http://alertmanager:9093/"
       - "--rule=/etc/alerts/*.yml"
       # display source of alerts in grafana
       - "--external.url=http://127.0.0.1:3000" #grafana outside container
-      - '--external.alert.source=explore?orgId=1&left={"datasource":"{{ if eq .Type "vlogs" }}VictoriaLogs{{ else }}VictoriaMetrics{{ end }}","queries":[{"expr":{{.Expr|jsonEscape|queryEscape}},"refId":"A"}],"range":{"from":"{{ .ActiveAt.UnixMilli }}","to":"now"}}'
+      - '--external.alert.source=explore?orgId=1&left={"datasource":"VictoriaMetrics","queries":[{"expr":{{.Expr|jsonEscape|queryEscape}},"refId":"A"}],"range":{"from":"{{ .ActiveAt.UnixMilli }}","to":"now"}}'
     networks:
       - grafana
+      - diun
+    labels:
+      - diun.enable=true
 
   # alertmanager receives alerting notifications from vmalert
   # and distributes them according to --config.file.
   alertmanager:
     image: [% monitoring_alertmanager_docker_image %]
     restart: unless-stopped
+    security_opt:
+      - no-new-privileges=true
     volumes:
-      - /mnt/docker/grafana/alertmanager.yml:/config/alertmanager.yml
+      - /mnt/docker/grafana/alertmanager.yml:/config/alertmanager.yml:ro
     command:
       - --config.file=/config/alertmanager.yml
     ports:
       - 127.0.0.1:9093:9093
     networks:
+      - cloudflared
       - grafana
+      - diun
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.alertmanager.rule=Host(`[% monitoring_alertmanager_fqdn %]`)
+      - traefik.http.routers.alertmanager.service=alertmanager
+      - traefik.http.routers.alertmanager.entrypoints=websecure
+      - traefik.http.routers.alertmanager.tls=true
+      - traefik.http.routers.alertmanager.tls.certresolver=cloudflareResolver
+      - traefik.http.services.alertmanager.loadbalancer.server.port=9093
+      - diun.enable=true
 
   loki:
-    image: grafana/loki:latest
+    image: [% monitoring_loki_docker_image %]
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges=true
     ports:
       - 127.0.0.1:3100:3100
     command: -config.file=/etc/loki/local-config.yaml
     networks:
       - grafana
+      - diun
+    labels:
+      - diun.enable=true
 
   alloy:
-    image: grafana/alloy:${GRAFANA_ALLOY_VERSION:-v1.10.0}
+    image: [% monitoring_alloy_docker_image %]
+    restart: unless-stopped
     privileged: true
     ports:
       - 127.0.0.1:12345:12345
@@ -159,16 +155,21 @@ services:
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
       - /dev/disk/:/dev/disk:ro
-    command: run --server.http.listen-addr=127.0.0.1:12345 --storage.path=/var/lib/alloy/data /etc/alloy/config.alloy
+    command: run --server.http.listen-addr=0.0.0.0:12345 --storage.path=/var/lib/alloy/data /etc/alloy/config.alloy
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - host.docker.internal:host-gateway
     devices:
       - /dev/kmsg
     networks:
       - grafana
+      - diun
+    labels:
+      - diun.enable=true
 
 networks:
   grafana:
     external: true
   cloudflared:
+    external: true
+  diun:
     external: true

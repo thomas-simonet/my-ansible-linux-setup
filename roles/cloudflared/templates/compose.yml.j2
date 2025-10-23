@@ -16,8 +16,7 @@ services:
       - /mnt/docker/cloudflared/config.yml:/etc/cloudflared/config.yml:ro
       - /mnt/docker/cloudflared/cert.pem:/etc/cloudflared/cert.pem:ro
     networks:
-      cloudflared:
-        ipv4_address: 192.168.96.3
+      - cloudflared
 
 networks:
   cloudflared:

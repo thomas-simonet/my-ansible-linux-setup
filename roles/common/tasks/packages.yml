@@ -23,7 +23,6 @@
       - htop
       - vim
       - nano
-      - logrotate
       - wget
       - curl
       - gzip

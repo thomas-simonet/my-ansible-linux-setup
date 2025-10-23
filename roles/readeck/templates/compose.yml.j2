@@ -10,21 +10,20 @@ services:
     volumes:
       - /mnt/docker/volumes/readeck:/readeck
     networks:
-      - public
-      - diun-watch
+      - cloudflared
+      - diun
     labels:
-      # Traefik
       - traefik.enable=true
       - traefik.http.routers.readeck.rule=Host(`{{ readeck_fqdn }}`)
       - traefik.http.routers.readeck.service=readeck
-      - traefik.http.routers.readeck.entrypoints=https
+      - traefik.http.routers.readeck.entrypoints=websecure
       - traefik.http.routers.readeck.tls=true
+      - traefik.http.routers.readeck.tls.certresolver=cloudflareResolver
       - traefik.http.services.readeck.loadbalancer.server.port=8000
-      # Diun
       - diun.enable=true
 
 networks:
-  public:
+  cloudflared:
     external: true
-  diun-watch:
+  diun:
     external: true
