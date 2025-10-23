@@ -3,9 +3,9 @@ services:
     image: {{ diun_diun_docker_image }}
     container_name: diun
     restart: unless-stopped
-    command: serve
     security_opt:
       - no-new-privileges=true
+    command: serve
     environment:
       - TZ={{ timezone }}
       - LOG_LEVEL=info
@@ -16,11 +16,11 @@ services:
       - /mnt/docker/diun/diun.yml:/etc/diun/diun.yml:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
-      - diun-watch
+      - diun
     labels:
       # Diun
       - diun.enable=true
 
 networks:
-  diun-watch:
+  diun:
     external: true

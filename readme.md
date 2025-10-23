@@ -1,7 +1,6 @@
 ## Applications
 
 * Apprise (Push Notifications.) - [repo](https://github.com/caronc/apprise)
-* Crowdsec (participative security solution offering crowdsourced protection against malicious IPs) - [repo](https://github.com/crowdsecurity/crowdsec)
 * Diun (Receive notifications when an image is updated on a Docker registry.) - [repo](https://github.com/crazy-max/diun)
 * Freshrss (A free, self-hostable news aggregator.) - [repo](https://github.com/FreshRSS/FreshRSS)
 * Mealie (Delf hosted recipe manager and meal planner.) - [repo](https://github.com/mealie-recipes/mealie)
@@ -9,15 +8,14 @@
 * Readeck (Simple web application that lets you save the precious readable content of web pages you like and want to keep forever.) - [repo](https://codeberg.org/readeck/readeck)
 * Resticker (Run automatic restic backups via a Docker container.) - [repo](https://github.com/djmaze/resticker)
 * Traefik (The Cloud Native Application Proxy) - [repo](https://github.com/traefik/traefik)
-* Zipline (A ShareX/file upload server that is easy to use) - [repo](https://github.com/diced/zipline)
 
 ## Installation
 
 ### Version
 
 ```
-Ansible 2.17.4
-Python 3.10.12
+Ansible 2.17+
+Python 3.10+
 ```
 
 ### Installation de Ansible (WSL)
@@ -26,9 +24,6 @@ Python 3.10.12
 sudo apt-get update
 sudo apt-get install python3-pip git libffi-dev libssl-dev -y
 pip install --user ansible pywinrm
-
-# Install ansible-lint for linting or ansible vscode extensions
-pip install ansible-lint
 ```
 
 #### Upgrade de Ansible
@@ -67,10 +62,5 @@ just --help
 ## Connexion SSH
 
 ```
+ssh -F ./ssh HOSTNAME
 ```
-
-## Debug
-
-#### Fix "WARNING: UNPROTECTED PRIVATE KEY FILE!"
-
-https://www.schakko.de/2020/01/10/fixing-unprotected-key-file-when-using-ssh-or-ansible-inside-wsl/

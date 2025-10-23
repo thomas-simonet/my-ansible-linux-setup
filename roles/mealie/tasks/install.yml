@@ -28,7 +28,7 @@
   loop:
     - compose.yml
 
-- name: Create network
+- name: Create docker network
   community.docker.docker_network:
     name: mealie
 

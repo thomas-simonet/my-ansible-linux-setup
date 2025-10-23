@@ -3,8 +3,10 @@ services:
     image: {{ restic_restic_docker_image }}
     container_name: restic
     restart: unless-stopped
+    security_opt:
+      - no-new-privileges=true
     environment:
-      - RUN_ON_STARTUP=false
+      - RUN_ON_STARTUP=true
       - BACKUP_CRON=0 30 3 * * *
       - RESTIC_BACKUP_SOURCES=/mnt/docker/volumes
       - RESTIC_FORGET_ARGS= >-
@@ -26,13 +28,14 @@ services:
     networks:
       - notification
     labels:
-      # Diun
       - diun.enable=true
 
   prune:
     image: {{ restic_restic_docker_image }}
     container_name: restic-prune
     restart: unless-stopped
+    security_opt:
+      - no-new-privileges=true
     environment:
       - SKIP_INIT=true
       - RUN_ON_STARTUP=false
@@ -47,7 +50,10 @@ services:
     image: {{ restic_restic_docker_image }}
     container_name: restic-check
     restart: unless-stopped
+    security_opt:
+      - no-new-privileges=true
     environment:
+      - SKIP_INIT=true
       - RUN_ON_STARTUP=false
       - CHECK_CRON=0 15 5 * * *
       - RESTIC_CHECK_ARGS= >-

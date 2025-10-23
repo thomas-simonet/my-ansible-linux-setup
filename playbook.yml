@@ -6,20 +6,14 @@
     - role: common
     # - role: dotfiles
     - role: docker
-    - role: rsyslog
-    # applications
-    # - role: crowdsec
     - role: traefik
     - role: cloudflared
     - role: grafana
-    # - role: beszel
-    # - role: seq
-    # - role: diun
-    # - role: restic
-    # - role: apprise
-    # - role: mealie
-    # - role: freshrss
-    # - role: readeck
-    # - role: zipline
+    - role: diun
+    - role: apprise
+    - role: restic
+    - role: mealie
+    - role: freshrss
+    - role: readeck
     # /end applications
     - role: reboot

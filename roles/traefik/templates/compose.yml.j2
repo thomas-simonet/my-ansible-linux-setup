@@ -16,15 +16,14 @@ services:
       - /mnt/docker/traefik/acme.json:/etc/traefik/acme.json
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
-      cloudflared:
-        ipv4_address: 192.168.96.2
+      - cloudflared
     labels:
-      # Traefik
       - traefik.enable=true
       - traefik.http.routers.traefik-dashboard.rule=Host(`{{ traefik_fqdn }}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
       - traefik.http.routers.traefik-dashboard.service=api@internal
       - traefik.http.routers.traefik-dashboard.entrypoints=websecure
       - traefik.http.routers.traefik-dashboard.tls.certresolver=cloudflareResolver
+      - diun.enable=true
 
 networks:
   cloudflared:

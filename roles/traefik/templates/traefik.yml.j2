@@ -30,9 +30,6 @@ entryPoints:
             sans:
               - "*.{{ server_fqdn }}"
 
-serversTransport:
-  insecureSkipVerify: true
-
 providers:
   docker:
     endpoint: unix:///var/run/docker.sock
@@ -50,6 +47,16 @@ log:
 
 accessLog:
   bufferingSize: 50
+
+metrics:
+  prometheus:
+    buckets:
+      - 0.1
+      - 0.3
+      - 1.2
+      - 5.0
+    addEntryPointsLabels: true
+    addServicesLabels: true
 
 certificatesResolvers:
   cloudflareResolver:
