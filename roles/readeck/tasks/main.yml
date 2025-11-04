@@ -1,7 +1,0 @@
----
-- name: Import readeck installation tasks
-  tags:
-    - install-app
-    - install-readeck
-  block:
-    - ansible.builtin.include_tasks: install.yml
