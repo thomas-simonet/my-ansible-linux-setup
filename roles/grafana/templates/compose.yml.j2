@@ -13,8 +13,6 @@ services:
     volumes:
       - /mnt/docker/volumes/grafana/grafana/data:/var/lib/grafana
       - /mnt/docker/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
-      - /mnt/docker/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
-      - /mnt/docker/grafana/dashboards/victorialogs.json:/var/lib/grafana/dashboards/vl.json
     networks:
       - cloudflared
       - grafana
@@ -52,7 +50,6 @@ services:
       - --opentsdbListenAddr=:4242
       - --httpListenAddr=:8428
       - --influxListenAddr=:8089
-      - --vmalert.proxyURL=http://vmalert:8880
       - --promscrape.config=/etc/prometheus/prometheus.yml
     networks:
       - cloudflared
@@ -66,61 +63,6 @@ services:
       - traefik.http.routers.victoriametrics.tls=true
       - traefik.http.routers.victoriametrics.tls.certresolver=cloudflareResolver
       - traefik.http.services.victoriametrics.loadbalancer.server.port=8428
-      - diun.enable=true
-
-  # vmalert executes alerting and recording rules according to the given rule type.
-  vmalert:
-    image: [% monitoring_vmalert_docker_image %]
-    restart: unless-stopped
-    security_opt:
-      - no-new-privileges=true
-    depends_on:
-      - alertmanager
-      - victoriametrics
-    ports:
-      - 127.0.0.1:8880:8880
-    volumes:
-      # - /mnt/docker/grafana/rules/alerts-health.yml:/etc/alerts/alerts-health.yml
-    command:
-      - "--datasource.url=http://victoriametrics:8428/"
-      - "--remoteRead.url=http://victoriametrics:8428/"
-      - "--remoteWrite.url=http://vmagent:8429/"
-      - "--notifier.url=http://alertmanager:9093/"
-      - "--rule=/etc/alerts/*.yml"
-      # display source of alerts in grafana
-      - "--external.url=http://127.0.0.1:3000" #grafana outside container
-      - '--external.alert.source=explore?orgId=1&left={"datasource":"VictoriaMetrics","queries":[{"expr":{{.Expr|jsonEscape|queryEscape}},"refId":"A"}],"range":{"from":"{{ .ActiveAt.UnixMilli }}","to":"now"}}'
-    networks:
-      - grafana
-      - diun
-    labels:
-      - diun.enable=true
-
-  # alertmanager receives alerting notifications from vmalert
-  # and distributes them according to --config.file.
-  alertmanager:
-    image: [% monitoring_alertmanager_docker_image %]
-    restart: unless-stopped
-    security_opt:
-      - no-new-privileges=true
-    volumes:
-      - /mnt/docker/grafana/alertmanager.yml:/config/alertmanager.yml:ro
-    command:
-      - --config.file=/config/alertmanager.yml
-    ports:
-      - 127.0.0.1:9093:9093
-    networks:
-      - cloudflared
-      - grafana
-      - diun
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.alertmanager.rule=Host(`[% monitoring_alertmanager_fqdn %]`)
-      - traefik.http.routers.alertmanager.service=alertmanager
-      - traefik.http.routers.alertmanager.entrypoints=websecure
-      - traefik.http.routers.alertmanager.tls=true
-      - traefik.http.routers.alertmanager.tls.certresolver=cloudflareResolver
-      - traefik.http.services.alertmanager.loadbalancer.server.port=9093
       - diun.enable=true
 
   loki:
