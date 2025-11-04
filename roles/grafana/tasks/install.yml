@@ -40,11 +40,9 @@
     variable_end_string: "%]"
     trim_blocks: false
   loop:
-    - alertmanager.yml
     - compose.yml
     - prometheus.yml
     - config.alloy
-    - provisioning/dashboards/dashboards.yml
     - provisioning/datasources/victoriametrics-datasource.yml
     - provisioning/datasources/loki-datasource.yml
 
