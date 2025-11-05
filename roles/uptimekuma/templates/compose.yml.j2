@@ -1,0 +1,33 @@
+services:
+  traefik:
+    image: {{ uptimekuma_uptimekuma_docker_image }}
+    container_name: uptimekuma
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges=true
+    ports:
+      - 127.0.0.1:3001:3001
+    volumes:
+      - /mnt/docker/volumes/uptimekuma/uptimekuma:/app/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - cloudflared
+      - notification
+      - diun
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.uptimekuma.rule=Host(`{{ uptimekuma_fqdn }}`)
+      - traefik.http.routers.uptimekuma.service=uptimekuma
+      - traefik.http.routers.uptimekuma.entrypoints=websecure
+      - traefik.http.routers.uptimekuma.tls=true
+      - traefik.http.routers.uptimekuma.tls.certresolver=cloudflareResolver
+      - traefik.http.services.uptimekuma.loadbalancer.server.port=3001
+      - diun.enable=true
+
+networks:
+  cloudflared:
+    external: true
+  diun:
+    external: true
+  notification:
+    external: true
