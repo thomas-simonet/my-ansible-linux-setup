@@ -1,0 +1,7 @@
+---
+- name: Import uptimekuma installation tasks
+  tags:
+    - install-app
+    - install-uptimekuma
+  block:
+    - ansible.builtin.include_tasks: install.yml
