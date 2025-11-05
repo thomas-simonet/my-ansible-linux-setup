@@ -1,29 +1,14 @@
 ---
-- name: Create a user/group www-data owned by the user and group id of 33
-  ansible.builtin.user:
-    name: www-data
-    create_home: false
-    system: true
-    shell: /bin/false
-    uid: "33"
-    groups: "33"
-    state: present
-
-- name: Create main directory
-  ansible.builtin.file:
-    path: /mnt/docker/apprise
+- name: Create directories
+  file:
+    path: "{{ item }}"
     state: directory
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
-    mode: "0755"
-
-- name: Create volumes directory
-  ansible.builtin.file:
-    path: /mnt/docker/volumes/apprise/config
-    state: directory
-    owner: "33"
-    group: "33"
-    mode: "0770"
+    mode: "0750"
+  loop:
+    - /mnt/docker/apprise
+    - /mnt/docker/volumes/apprise/config
 
 - name: Ensure config files exist
   ansible.builtin.template:
@@ -31,7 +16,7 @@
     dest: "/mnt/docker/apprise/{{ item }}"
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
-    mode: "0644"
+    mode: "0640"
   loop:
     - compose.yml
 

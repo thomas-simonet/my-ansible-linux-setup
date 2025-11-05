@@ -6,7 +6,11 @@ services:
     security_opt:
       - no-new-privileges=true
     environment:
+      - PUID=1001
+      - PGID=1001
       - TZ={{ timezone }}
+    ports:
+      - 127.0.0.1:8000:8000
     volumes:
       - /mnt/docker/volumes/apprise/config:/config
     networks:

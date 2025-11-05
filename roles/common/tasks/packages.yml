@@ -28,6 +28,7 @@
       - gzip
       - zip
       - unzip
+      - ncdu
     state: present
     update_cache: true
     allow_unauthenticated: true
