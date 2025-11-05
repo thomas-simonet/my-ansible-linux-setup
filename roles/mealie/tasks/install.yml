@@ -1,20 +1,13 @@
 ---
-- name: Create main directory
-  ansible.builtin.file:
-    path: /mnt/docker/mealie
-    state: directory
-    owner: "{{ default_username }}"
-    group: "{{ default_username }}"
-    mode: "0755"
-
-- name: Create volumes directories
+- name: Create directories
   file:
     path: "{{ item }}"
     state: directory
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
-    mode: "0755"
+    mode: "0750"
   loop:
+    - /mnt/docker/mealie
     - /mnt/docker/volumes/mealie/mealie/data
     - /mnt/docker/volumes/mealie/postgres/data
 
@@ -24,7 +17,7 @@
     dest: "/mnt/docker/mealie/{{ item }}"
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
-    mode: "0644"
+    mode: "0640"
   loop:
     - compose.yml
 

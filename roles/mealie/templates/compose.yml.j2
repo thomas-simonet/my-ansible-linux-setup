@@ -16,9 +16,9 @@ services:
       # Set Backend ENV Variables Here
       - PUID=1001
       - PGID=1001
+      - TZ={{ timezone }}
       - BASE_URL={{ mealie_fqdn }}
       - ALLOW_SIGNUP=false
-      - TZ={{ timezone }}
       # Database Settings
       - DB_ENGINE=postgres
       - POSTGRES_USER=mealie
@@ -26,6 +26,8 @@ services:
       - POSTGRES_SERVER=postgres
       - POSTGRES_PORT=5432
       - POSTGRES_DB=mealie
+    ports:
+      - 127.0.0.1:9000:9000
     volumes:
       - /mnt/docker/volumes/mealie/mealie/data:/app/data
     networks:
@@ -53,6 +55,8 @@ services:
       - POSTGRES_PASSWORD={{ mealie_postgres_password }}
       - PGUSER=mealie
       - POSTGRES_DB=mealie
+    ports:
+      - 127.0.0.1:5432:5432
     volumes:
       - /mnt/docker/volumes/mealie/postgres/data:/var/lib/postgresql/data
     healthcheck:
