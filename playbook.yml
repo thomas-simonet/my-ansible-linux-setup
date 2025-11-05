@@ -9,11 +9,12 @@
     - role: traefik
     - role: cloudflared
     - role: grafana
+    - role: uptimekuma
     - role: diun
     - role: apprise
     - role: restic
     - role: mealie
     - role: freshrss
-    - role: readeck
+    - role: linkwarden
     # /end applications
     - role: reboot
