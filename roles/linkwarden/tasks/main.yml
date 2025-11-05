@@ -1,0 +1,7 @@
+---
+- name: Import linkwarden installation tasks
+  tags:
+    - install-app
+    - install-linkwarden
+  block:
+    - ansible.builtin.include_tasks: install.yml
