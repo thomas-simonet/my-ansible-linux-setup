@@ -1,0 +1,7 @@
+---
+- name: Import karakeep installation tasks
+  tags:
+    - install-app
+    - install-karakeep
+  block:
+    - ansible.builtin.include_tasks: install.yml

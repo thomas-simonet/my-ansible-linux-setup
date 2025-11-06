@@ -1,0 +1,81 @@
+x-environment: &env
+  KARAKEEP_VERSION: release
+  NEXTAUTH_SECRET: {{ karakeep_nextauth_secret}}
+  MEILI_MASTER_KEY: {{ karakeep_meili_master_key}}
+  NEXTAUTH_URL: http://localhost:3000
+
+services:
+  web:
+    image: {{ karakeep_karakeep_docker_image}}
+    hostname: karakeep
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges=true
+    volumes:
+      - /mnt/docker/volumes/karakeep/karakeep:/data
+    ports:
+      - 127.0.0.1:3002:3000
+    environment:
+      <<: *env
+      MEILI_ADDR: http://karakeep-meilisearch:7700
+      BROWSER_WEB_URL: http://karakeep-chrome:9222
+      DATA_DIR: /data # DON'T CHANGE THIS
+    networks:
+      - karakeep
+      - cloudflared
+      - diun
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.karakeep.rule=Host(`{{ karakeep_fqdn }}`)
+      - traefik.http.routers.karakeep.service=karakeep
+      - traefik.http.routers.karakeep.entrypoints=websecure
+      - traefik.http.routers.karakeep.tls=true
+      - traefik.http.routers.karakeep.tls.certresolver=cloudflareResolver
+      - traefik.http.services.karakeep.loadbalancer.server.port=3000
+      - diun.enable=true
+
+  chrome:
+    image: {{ karakeep_chrome_docker_image}}
+    hostname: karakeep-chrome
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges=true
+    command:
+      - --no-sandbox
+      - --disable-gpu
+      - --disable-dev-shm-usage
+      - --remote-debugging-address=0.0.0.0
+      - --remote-debugging-port=9222
+      - --hide-scrollbars
+    networks:
+      - karakeep
+      - diun
+    labels:
+      - diun.enable=true
+
+  meilisearch:
+    image: {{ karakeep_meilisearch_docker_image}}
+    hostname: karakeep-meilisearch
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges=true
+    ports:
+      - 127.0.0.1:7700:7700
+    environment:
+      <<: *env
+      MEILI_NO_ANALYTICS: "true"
+    volumes:
+      - /mnt/docker/volumes/karakeep/meilisearch:/meili_data
+    networks:
+      - karakeep
+      - diun
+    labels:
+      - diun.enable=true
+
+networks:
+  cloudflared:
+    external: true
+  karakeep:
+    external: true
+  diun: 
+    external: true
