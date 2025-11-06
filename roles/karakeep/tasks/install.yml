@@ -1,0 +1,32 @@
+---
+- name: Create directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ default_username }}"
+    group: "{{ default_username }}"
+    mode: "0750"
+  loop:
+    - /mnt/docker/karakeep
+    - /mnt/docker/volumes/karakeep
+    - /mnt/docker/volumes/karakeep/karakeep
+    - /mnt/docker/volumes/karakeep/meilisearch
+
+- name: Ensure config files exist
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "/mnt/docker/karakeep/{{ item }}"
+    owner: "{{ default_username }}"
+    group: "{{ default_username }}"
+    mode: "0640"
+  loop:
+    - compose.yml
+
+- name: Create docker network
+  community.docker.docker_network:
+    name: karakeep
+
+- name: Run "docker compose up"
+  community.docker.docker_compose_v2:
+    project_src: /mnt/docker/karakeep
+    recreate: always

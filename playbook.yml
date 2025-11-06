@@ -15,6 +15,6 @@
     - role: restic
     - role: mealie
     - role: freshrss
-    - role: linkwarden
+    - role: karakeep
     # /end applications
     - role: reboot
