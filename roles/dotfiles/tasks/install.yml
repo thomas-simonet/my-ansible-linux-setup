@@ -1,13 +1,13 @@
 ---
 - name: Clone my dotfiles repo
-  ansible.builtin.git:
+  ansible.builtin.git: # noqa: latest
     repo: git@github.com:thomas-simonet/my-dotfiles.git
     dest: "/home/{{ default_username }}/.dotfiles"
     clone: true
     update: true
 
 - name: Update ownership of dotfiles folder
-  file:
+  ansible.builtin.file:
     path: "/home/{{ default_username }}/.dotfiles"
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
@@ -15,11 +15,12 @@
     recurse: true
 
 - name: Run setup.sh
-  ansible.builtin.shell:
+  ansible.builtin.command:
     cmd: bash setup.sh
     chdir: "/home/{{ default_username }}/dotfiles/setup"
   become_user: "{{ default_username }}"
   become: true
+  changed_when: false
 
 - name: Chsh to /usr/bin/zsh for {{ default_username }}
   ansible.builtin.user:

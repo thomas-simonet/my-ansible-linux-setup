@@ -6,9 +6,9 @@
     state: present
 
 - name: UFW | Ensure UFW is enabled
-  ansible.builtin.ufw:
+  community.general.ufw:
     state: enabled
-    logging: on
+    logging: true
 
 # Doc : https://github.com/chaifeng/ufw-docker
 - name: UFW | Add custom rules to UFW after.rules
@@ -45,5 +45,5 @@
     create: false
 
 - name: UFW | Reload UFW
-  ansible.builtin.ufw:
+  community.general.ufw:
     state: reloaded

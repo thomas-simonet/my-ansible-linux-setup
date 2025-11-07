@@ -5,15 +5,15 @@
     state: directory
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
-    mode: "0755"
+    mode: "0750"
 
-- name: Ensure config files exist (0644)
+- name: Ensure config files exist
   ansible.builtin.template:
     src: "{{ item }}.j2"
     dest: "/mnt/docker/traefik/{{ item }}"
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
-    mode: "0644"
+    mode: "0640"
   loop:
     - compose.yml
     - traefik.yml

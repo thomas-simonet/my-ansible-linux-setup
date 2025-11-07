@@ -1,20 +1,13 @@
 ---
-- name: Create main directory
+- name: Create directories
   ansible.builtin.file:
-    path: /mnt/docker/freshrss
-    state: directory
-    owner: "{{ default_username }}"
-    group: "{{ default_username }}"
-    mode: "0755"
-
-- name: Create volumes directories
-  file:
     path: "{{ item }}"
     state: directory
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
-    mode: "0755"
+    mode: "0750"
   loop:
+    - /mnt/docker/freshrss
     - /mnt/docker/volumes/freshrss
 
 - name: Ensure config files exist
@@ -23,7 +16,7 @@
     dest: "/mnt/docker/freshrss/{{ item }}"
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
-    mode: "0644"
+    mode: "0640"
   loop:
     - compose.yml
 

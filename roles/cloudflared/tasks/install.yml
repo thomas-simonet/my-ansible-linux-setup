@@ -1,11 +1,11 @@
 ---
-- name: Create main directory
+- name: Create directory
   ansible.builtin.file:
     path: /mnt/docker/cloudflared
     state: directory
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
-    mode: "0755"
+    mode: "0750"
 
 - name: Ensure config files exist
   ansible.builtin.template:
@@ -13,7 +13,7 @@
     dest: "/mnt/docker/cloudflared/{{ item }}"
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
-    mode: "0644"
+    mode: "0640"
   loop:
     - compose.yml
     - config.yml
@@ -24,7 +24,7 @@
     dest: /mnt/docker/cloudflared/cert.pem
     owner: "{{ default_username }}"
     group: "{{ default_username }}"
-    mode: "0644"
+    mode: "0640"
 
 - name: Run "docker compose up"
   community.docker.docker_compose_v2:

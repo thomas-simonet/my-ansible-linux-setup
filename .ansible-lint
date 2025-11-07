@@ -1,0 +1,9 @@
+---
+# .ansible-lint
+
+profile: production
+
+skip_list:
+  - yaml[line-length]
+  - name[casing]
+  - name[missing]
