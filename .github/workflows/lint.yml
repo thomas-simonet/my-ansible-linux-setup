@@ -24,7 +24,7 @@ jobs:
           uv sync
           uv run ansible-galaxy install -r requirements.yml
       - name: Run YAML Lint
-        run: uv run yamllint
+        run: uv run yamllint .
       - name: Run Ansible Lint
         run: uv run ansible-lint
       - name: Syntax check
