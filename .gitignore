@@ -1,5 +1,11 @@
+# Environment files
 .env
 .venv
+
+# uv files
+uv.lock
+
+# SSH keys
 ssh
 
 data/keys/*

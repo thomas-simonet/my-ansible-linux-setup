@@ -1,0 +1,33 @@
+---
+name: Ansible Lint
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          version: "latest"
+      - name: Set up Python
+        run: uv python install 3.11
+      - name: Install dependencies
+        run: |
+          uv sync
+          uv run ansible-galaxy install -r requirements.yml
+      - name: Run YAML Lint
+        run: uv run yamllint
+      - name: Run Ansible Lint
+        run: uv run ansible-lint
+      - name: Syntax check
+        run: |
+          uv run ansible-playbook --syntax-check playbook.yml
+          uv run ansible-playbook --syntax-check -i inventory/staging.yml playbook.yml

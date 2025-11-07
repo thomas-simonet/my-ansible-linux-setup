@@ -1,0 +1,26 @@
+---
+# Install with: uv run pre-commit install (or `just setup`)
+# Run manually: uv run pre-commit run --all-files (or `just pre-commit`)
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+      - id: check-merge-conflict
+      - id: detect-private-key
+
+  - repo: https://github.com/adrienverge/yamllint
+    rev: v1.37.1
+    hooks:
+      - id: yamllint
+        args: [--format, parsable, --strict]
+
+  - repo: https://github.com/ansible/ansible-lint
+    rev: v25.9.2
+    hooks:
+      - id: ansible-lint
+        args: [--profile=production]
