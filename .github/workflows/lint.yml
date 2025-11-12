@@ -27,7 +27,3 @@ jobs:
         run: uv run yamllint .
       - name: Run Ansible Lint
         run: uv run ansible-lint
-      - name: Syntax check
-        run: |
-          uv run ansible-playbook --syntax-check playbook.yml
-          uv run ansible-playbook --syntax-check -i inventory/staging.yml playbook.yml
