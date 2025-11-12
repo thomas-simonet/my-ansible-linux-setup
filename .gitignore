@@ -25,3 +25,5 @@ data/certs/*
 !data/certs/.gitkeep
 
 .ansible
+
+playbook.yml

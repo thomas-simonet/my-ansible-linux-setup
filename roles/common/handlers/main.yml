@@ -6,13 +6,6 @@
     enabled: true
   become: true
 
-- name: Restart fail2ban
-  ansible.builtin.service:
-    name: fail2ban
-    state: restarted
-    enabled: true
-  become: true
-
 - name: Reload ufw
   community.general.ufw:
     state: reloaded
