@@ -1,7 +1,7 @@
 services:
   # Grafana instance configured with VictoriaLogs as datasource
   grafana:
-    image: [% monitoring_grafana_docker_image %]
+    image: [% grafana_grafana_docker_image %]
     restart: unless-stopped
     security_opt:
       - no-new-privileges=true
@@ -19,7 +19,7 @@ services:
       - diun
     labels:
       - traefik.enable=true
-      - traefik.http.routers.grafana.rule=Host(`[% monitoring_grafana_fqdn %]`)
+      - traefik.http.routers.grafana.rule=Host(`[% grafana_grafana_fqdn %]`)
       - traefik.http.routers.grafana.service=grafana
       - traefik.http.routers.grafana.entrypoints=websecure
       - traefik.http.routers.grafana.tls=true
@@ -30,7 +30,7 @@ services:
   # VictoriaMetrics instance, a single process responsible for
   # scraping, storing metrics and serve read requests.
   victoriametrics:
-    image: [% monitoring_victoriametrics_docker_image %]
+    image: [% grafana_victoriametrics_docker_image %]
     restart: unless-stopped
     security_opt:
       - no-new-privileges=true
@@ -57,7 +57,7 @@ services:
       - diun
     labels:
       - traefik.enable=true
-      - traefik.http.routers.victoriametrics.rule=Host(`[% monitoring_victoriametrics_fqdn %]`)
+      - traefik.http.routers.victoriametrics.rule=Host(`[% grafana_victoriametrics_fqdn %]`)
       - traefik.http.routers.victoriametrics.service=victoriametrics
       - traefik.http.routers.victoriametrics.entrypoints=websecure
       - traefik.http.routers.victoriametrics.tls=true
@@ -66,7 +66,7 @@ services:
       - diun.enable=true
 
   loki:
-    image: [% monitoring_loki_docker_image %]
+    image: [% grafana_loki_docker_image %]
     restart: unless-stopped
     security_opt:
       - no-new-privileges=true
@@ -80,7 +80,7 @@ services:
       - diun.enable=true
 
   alloy:
-    image: [% monitoring_alloy_docker_image %]
+    image: [% grafana_alloy_docker_image %]
     restart: unless-stopped
     privileged: true
     ports:

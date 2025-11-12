@@ -2,10 +2,14 @@
 all:
   hosts:
     staging:
-      ansible_host: CHANGEME
-      ansible_port: CHANGEME
-      ansible_user: CHANGEME
-      ansible_ssh_private_key_file: CHANGEME
-      ansible_become_password: CHANGEME
-      # login password. FIRST RUN ONLY. Password authentication is disabled after running tasks "ssh".
-      ansible_password: CHANGEME
+      ansible_host: YOUR_STAGING_IP_ADDRESS
+      ansible_port: 22
+      ansible_become_password: YOUR_PASSWORD
+
+      # First run only.
+      ansible_user: ubuntu
+      ansible_password: YOUR_PASSWORD
+
+      # Then
+      # ansible_user: YOUR_USERNAME
+      # ansible_ssh_private_key_file: "/home/YOUR_USERNAME/.ssh/github"
