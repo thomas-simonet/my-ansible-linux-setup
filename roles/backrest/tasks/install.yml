@@ -1,0 +1,28 @@
+---
+- name: Create backrest directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ default_username }}"
+    group: "{{ default_username }}"
+    mode: "0750"
+  loop:
+    - /mnt/docker/backrest
+    - /mnt/docker/backrest/data
+    - /mnt/docker/backrest/config
+    - /mnt/docker/backrest/cache
+    - /mnt/docker/backrest/tmp
+    - /mnt/docker/volumes/backrest
+
+- name: Ensure backrest compose file exists from template
+  ansible.builtin.template:
+    src: compose.yml.j2
+    dest: /mnt/docker/backrest/compose.yml
+    owner: "{{ default_username }}"
+    group: "{{ default_username }}"
+    mode: "0640"
+
+- name: Deploy backrest with docker compose
+  community.docker.docker_compose_v2:
+    project_src: /mnt/docker/backrest
+    recreate: always

@@ -1,0 +1,39 @@
+services:
+  backrest:
+    image: {{ backrest_backrest_docker_image }}
+    container_name: backrest
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges=true
+    ports:
+      - 127.0.0.1:9898:9898
+    environment:
+      - BACKREST_DATA=/data
+      - BACKREST_CONFIG=/config/config.json
+      - XDG_CACHE_HOME=/cache
+      - TMPDIR=/tmp
+      - TZ={{ timezone }}
+    volumes:
+      - /mnt/docker/backrest/data:/data
+      - /mnt/docker/backrest/config:/config
+      - /mnt/docker/backrest/cache:/cache
+      - /mnt/docker/backrest/tmp:/tmp
+      - /mnt/docker/volumes:/userdata # Mount local paths to backup
+    networks:
+      - cloudflared
+      - diun
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.backrest.rule=Host(`{{ backrest_fqdn }}`)
+      - traefik.http.routers.backrest.service=backrest
+      - traefik.http.routers.backrest.entrypoints=websecure
+      - traefik.http.routers.backrest.tls=true
+      - traefik.http.routers.backrest.tls.certresolver=cloudflareResolver
+      - traefik.http.services.backrest.loadbalancer.server.port=9898
+      - diun.enable=true
+
+networks:
+  cloudflared:
+    external: true
+  diun:
+    external: true

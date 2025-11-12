@@ -9,10 +9,10 @@
     - role: traefik
     - role: cloudflared
     - role: grafana
+    - role: backrest
     - role: uptimekuma
     - role: diun
     - role: apprise
-    - role: restic
     - role: mealie
     - role: freshrss
     - role: karakeep

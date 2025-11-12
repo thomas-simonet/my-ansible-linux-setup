@@ -23,3 +23,5 @@ host_vars/staging/*.yml
 
 data/certs/*
 !data/certs/.gitkeep
+
+.ansible

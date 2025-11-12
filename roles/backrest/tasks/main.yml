@@ -1,7 +1,7 @@
 ---
-- name: Import restic installation tasks
+- name: Import backrest installation tasks
   tags:
     - install-app
-    - install-restic
+    - install-backrest
   block:
     - ansible.builtin.include_tasks: install.yml
