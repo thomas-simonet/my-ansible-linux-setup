@@ -1,44 +1,40 @@
-# My ansible linux setup
+# My Ansible Linux Setup
 
-A concise Ansible-based playbook to provision and manage a Docker-powered homelab on Linux. The repository provides a set of Ansible roles and templates to deploy a reverse-proxy chain (Cloudflared + Traefik), containerized services (Grafana, Uptime Kuma, FreshRSS, Mealie, etc.), monitoring and update notifications (Diun + Apprise), and common system hardening and tooling.
+This repository contains an opinionated Ansible playbook and a set of roles to provision a Docker-based homelab on Linux. It installs a reverse-proxy chain (Cloudflared + Traefik), a collection of containerized services (Grafana, Uptime Kuma, FreshRSS, Mealie, etc.), monitoring and update notifications (Diun + Apprise), and common system hardening and helpers.
 
 ## Disclaimer
 
-This project is developed and tested to run inside Windows Subsystem for Linux (WSL) and targets a VPS provided by OVH.com. The playbooks and role templates assume a Linux deployment host and the networking/behaviour typically found on OVH VPS instances.
+This project is developed and tested from inside Windows Subsystem for Linux (WSL) and targets VPS instances provided by OVH. The playbooks and templates assume a Linux deployment host and networking behaviour typical of OVH VPS instances.
 
-Important: Other platforms (native Linux distributions, cloud providers other than OVH, managed VPS offerings, or other hosting environments) are not tested and may require additional configuration or adaptation — they might not work out of the box. Use at your own risk.
+Other environments (different cloud providers, managed VPS products, or non-OVH setups) are not actively tested and may require additional adjustments.
 
-Important: this setup relies on Cloudflare Tunnel for exposing services. You must have a domain name managed by Cloudflare and proxied through Cloudflare for the tunnel to work correctly.
+Important: this setup uses Cloudflare Tunnel to expose services. You must own a domain managed by Cloudflare and enable Cloudflare's proxying for the tunnel to work with the default configuration.
 
-## Applications
+## Supported applications
 
-The following applications are supported by roles in this repository.
+The repository provides roles for the following applications:
 
 | Application | Description |
 |---|---|
-| [Apprise](https://github.com/caronc/apprise) | Notification gateway supporting many services and webhook integrations. |
-| [Diun](https://github.com/crazy-max/diun) | Notifies when Docker images are updated in remote registries. |
-| [Backrest](./roles/backrest) | Backup/export service for local volumes and configuration data. |
-| [Grafana](https://github.com/grafana/grafana) | Time-series visualization and dashboarding platform for metrics. |
-| [Karakeep](https://github.com/karakeep-app/karakeep) | A self-hostable bookmark-everything app (links, notes and images). |
-| [Mealie](https://github.com/hay-kot/mealie) | Recipe manager and meal planner with a friendly web UI. |
-| [FreshRSS](https://github.com/FreshRSS/FreshRSS) | Lightweight, self-hosted RSS aggregator and web-based reader. |
-| [Uptime Kuma](https://github.com/louislam/uptime-kuma) | Self-hosted monitoring with uptime checks and status pages. |
-| [Traefik](https://github.com/traefik/traefik) | Modern reverse proxy and load balancer for containerized workloads. |
-| [Cloudflared](https://github.com/cloudflare/cloudflared) | Cloudflare Tunnel client to securely expose local services. |
+| [Apprise](https://github.com/caronc/apprise) | Notification gateway with many integrations and webhook support. |
+| [Diun](https://github.com/crazy-max/diun) | Notifies when tracked Docker images are updated in registries. |
+| [Backrest](./roles/backrest) | Backup/export utility for local volumes and configuration. |
+| [Grafana](https://github.com/grafana/grafana) | Dashboards and visualization for metrics. |
+| [Karakeep](https://github.com/karakeep-app/karakeep) | Self-hosted knowledge/bookmark manager with a web UI. |
+| [Mealie](https://github.com/hay-kot/mealie) | Recipe manager and meal planner with a friendly UI. |
+| [FreshRSS](https://github.com/FreshRSS/FreshRSS) | Lightweight self-hosted RSS reader. |
+| [Uptime Kuma](https://github.com/louislam/uptime-kuma) | Uptime monitoring and status pages. |
+| [Traefik](https://github.com/traefik/traefik) | Reverse proxy and load balancer for containerized services. |
+| [Cloudflared](https://github.com/cloudflare/cloudflared) | Cloudflare Tunnel client used to expose local services securely. |
 
-## Todo
+## Roadmap / TODO
 
-Planned improvements and ideas for this repository:
-
-- Add an SMTP service ([SMTP2GO](https://www.smtp2go.com/)) to send email notifications and alerts: .
-- Replace manual Cloudflare Tunnel configuration with DockFlare to automate tunnel/container management: [DockFlare](https://github.com/ChrispyBacon-dev/DockFlare).
-- Add Ollama to self-host AI models for Karakeep and Mealie (automatic tagging and content tagging).
-- (Maybe) Replace Diun with an alternative image update service that provides a Web UI for easier management.
+- Add an SMTP service (SMTP2GO) for sending email notifications: https://www.smtp2go.com/
+- Replace manual Cloudflare Tunnel configuration with DockFlare to simplify tunnel management: https://github.com/ChrispyBacon-dev/DockFlare
+- Add Ollama to self-host AI models for Karakeep and Mealie (automatic tagging)
+- Consider replacing Diun with an image-update tool that provides a web UI for easier management
 
 ## Installation
-
-Follow these steps to get started:
 
 1. Clone the repository:
 
@@ -46,78 +42,155 @@ Follow these steps to get started:
 git clone https://github.com/thomas-simonet/my-ansible-linux-setup.git .
 ```
 
-2. Install Just (task runner): [Follow the instruction](https://github.com/casey/just?tab=readme-ov-file#pre-built-binaries)
+2. Install Just (task runner): https://github.com/casey/just
 
-3. Install UV (Python environment manager): [Follow the instruction](https://github.com/astral-sh/uv?tab=readme-ov-file#installation)
+3. Install UV (Python environment manager): https://github.com/astral-sh/uv
 
-4. Run the following commands :
+4. Bootstrap the development environment and install dependencies:
 
 ```bash
-just setup                    # Install dependencies and setup pre-commit hooks
+just setup    # installs dependencies and sets up pre-commit
 ```
 
-or (Manual)
+Manual alternative:
 
 ```bash
-# Install dependencies from pyproject.toml
 uv sync
-
-# Install Ansible collections
 uv run ansible-galaxy install -r requirements.yml
-
-# Set up pre-commit hooks
 uv run pre-commit install
 ```
 
-# Prepare your first run (Staging env)
+## Prepare your first run (staging)
 
-Before running the playbook for the first time, create an inventory for your environment and populate SSH/sudo credentials.
+Before running the playbook you must create an inventory and populate host variables.
 
-1. Copy the example inventory for staging and name it `staging.yml`:
+1. Copy the example staging inventory:
 
 ```bash
 cp inventory/staging.example.yml inventory/staging.yml
 ```
 
-2. Edit `inventory/staging.yml` and replace the following placeholders with your VPS details:
+2. Edit `inventory/staging.yml` and set the following fields for your host(s):
 
-- `ansible_host` — set to the public IP of your OVH VPS.
-- `ansible_become_password` — the sudo password for the deployment user.
-- `ansible_password` — the SSH password for the deployment user.
+- `ansible_host`: public IP or hostname of your OVH VPS
+- `ansible_become_password`: sudo password for the deployment user (if using password sudo)
+- `ansible_password`: SSH password for the deployment user (only if you use password SSH auth)
 
-Important: The default user for OVH VPS instances is `ubuntu`. The initial password is included in the provisioning email OVH sends after deploying the VPS.
+Note: OVH instances commonly use `ubuntu` as the default user. OVH sends the initial password in the provisioning email.
 
-Important: Password authentication is disabled after running the role `common`.
-
-3. Generate an SSH Key Pair
+3. Generate an SSH key pair (if you don't already have one):
 
 ```bash
 ssh-keygen -t ed25519 -C "your_email@example.com"
 ```
 
-Then copy the public key in `data/keys`.
+Then Copy the public key into `data/keys/`
 
-4. Copy the example host_vars `all.example.yml` and name it `all.yml`:
+4. Create host variables for staging:
 
 ```bash
 cp host_vars/all.example.yml host_vars/staging/all.yml
 ```
 
-5. Edit `host_vars/staging/all.yml` and replace the following placeholders:
+Edit `host_vars/staging/all.yml` and update values such as `default_username`, `default_email`, `default_password`, `timezone`, `server_fqdn`, and `server_ip_address`.
 
-- `default_password` - the sudo password for the deployment user.
-- `timezone` - Your desired timezone.
-- `server_fqdn` - Your domain name.
-- `server_ip_address` - set to the public IP of your OVH VPS.
-
-6. Copy the example playbook `playbook.example.yml` and name it `playbook.yml`:
+5. Copy the example playbook if needed:
 
 ```bash
 cp playbook.example.yml playbook.yml
 ```
 
-7. You're ready to run your first playbook!
+6. Run the common-install tag to prepare the server:
 
 ```bash
 just staging --tags install-common
 ```
+
+## Authentication with SSH
+
+Password authentication is disabled by the `common` role. Use SSH key-based authentication for all deployments.
+
+Update `inventory/staging.yml` to include:
+
+- `ansible_user`: the deployment user (match `default_username` in `host_vars/staging/all.yml`)
+- `ansible_ssh_private_key_file`: path to the private key on the machine running Ansible
+
+Test SSH using the project's SSH config:
+
+```bash
+ssh -F ./ssh.example staging
+```
+
+## Cloudflare Tunnel
+
+This project uses Cloudflare Tunnel to expose services through Cloudflare Zero Trust. Basic steps:
+
+### Create a tunnel
+
+1. Log in to the Cloudflare dashboard and select your domain.
+2. Open "Zero Trust" (Access) and navigate to "Tunnels".
+3. Create a new tunnel and select the Cloudflared client; give it a name.
+4. Copy the tunnel token and paste it into `host_vars/staging/all.yml` at `cloudflared_tunnel_token`.
+5. Copy the Tunnel ID and paste it into `cloudflared_tunnel_id`.
+
+### Published application routes
+
+For each application add a published application route:
+
+- `Subdomain`: application name (e.g. `traefik`)
+- `Domain`: your domain
+- `Type`: HTTPS
+- `URL`: https://traefik:443
+
+Enable "No TLS Verify" and "HTTP2 connection" in additional application settings.
+
+### Policies and applications
+
+Create an Access policy (Access → Policies) to allow the users you want. Then register each application (Access → Applications → Add an application) and attach the appropriate policy.
+
+### Cloudflare certificate
+
+1. Navigate to "Settings", then "Resources".
+2. "Cloudflare certificates" -> Click on "Manage"
+3. Click on "Create certificate"
+4. Click on "Generate certificate"
+5. Download the .pem
+6. Copy the file to `data/certificates/tunnel_cert.pem`
+
+### Cloudflare API Token
+
+To generate your API Token follow [this link](https://go-acme.github.io/lego/dns/cloudflare/#api-tokens), then paste your token at `cloudflare_dns_api_token` in "host_vars/staging/all.yml"
+
+## Notifications
+
+This setup uses Apprise (and Discord webhooks) to centralize notifications. I send notifications to a private Discord server.
+
+- Diun: sends notifications when tracked container images are updated.
+- Uptime Kuma: sends alerts when monitored services become unavailable.
+- Backrest: sends notifications about backup jobs and their status.
+
+To receive messages in Discord create a webhook (Server Settings → Integrations → Webhooks → New Webhook), copy the webhook URL and paste it into `host_vars/staging/all.yml` at:
+
+- `discord_webhook_backup` — Backrest backup notifications
+- `discord_webhook_update` — Diun image update notifications
+- `discord_webhook_down` — Uptime Kuma service-down alerts
+
+Treat webhook URLs as secrets and avoid committing them to public repositories.
+
+## Installing applications
+
+Edit `playbook.yml` to enable the roles you want to install (uncomment role entries). Docker, Traefik and Cloudflared are required and should remain enabled.
+
+### Environment variables
+
+Edit `host_vars/staging/all.yml` and provide the required environment variables for each enabled application.
+
+### Running the playbook
+
+```bash
+just staging --tags install-app
+```
+
+## Production
+
+For production deployment, replicate the staging setup in `host_vars/production/` and `inventory/production.yml`, then run the playbook against that inventory. Review `host_vars` carefully for production-safe settings (secrets, permissions, backups).

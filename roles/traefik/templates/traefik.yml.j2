@@ -61,7 +61,7 @@ metrics:
 certificatesResolvers:
   cloudflareResolver:
     acme:
-      email: "contact@thomassimonet.fr"
+      email: {{ default_email }}
       storage: "/etc/traefik/acme.json"
       dnsChallenge:
         provider: cloudflare

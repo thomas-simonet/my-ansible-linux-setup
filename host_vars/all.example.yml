@@ -3,10 +3,11 @@
 # Global
 # ------------------------------
 
-default_username: ubuntu
+default_username: CHANGEME
+default_email: CHANGEME
 default_password: CHANGEME
 timezone: Europe/Paris
-ubuntu_version: jammy
+ubuntu_version: noble
 
 
 # ---------------
@@ -14,3 +15,96 @@ ubuntu_version: jammy
 # ---------------
 server_fqdn: CHANGEME
 server_ip_address: CHANGEME
+
+
+# ---------------
+# Cloudflare
+# ---------------
+cloudflare_dns_api_token: CHANGEME
+
+cloudflared_tunnel_id: CHANGEME
+cloudflared_tunnel_token: CHANGEME
+
+
+# ---------------
+# Discord Webhooks
+# ---------------
+discord_webhook_backup: CHANGEME
+discord_webhook_update: CHANGEME
+discord_webhook_down: CHANGEME
+
+
+# ---------------
+# Apprise
+# ---------------
+apprise_fqdn: CHANGEME
+apprise_apprise_docker_image: linuxserver/apprise-api:1.2.2
+
+
+# ---------------
+# Diun
+# ---------------
+diun_diun_docker_image: crazymax/diun:4.30
+
+
+# ---------------
+# Mealie
+# ---------------
+mealie_fqdn: CHANGEME
+mealie_mealie_docker_image: ghcr.io/mealie-recipes/mealie:v3.3.2
+mealie_postgres_docker_image: postgres:17
+mealie_postgres_password: CHANGEME
+
+
+# ---------------
+# Traefik
+# ---------------
+traefik_fqdn: CHANGEME
+traefik_traefik_docker_image: traefik:v3.5.3
+traefik_log_level: INFO
+
+
+# ---------------
+# Backrest
+# ---------------
+backrest_fqdn: CHANGEME
+backrest_backrest_docker_image: garethgeorge/backrest:v1.10.1
+
+
+# ---------------
+# Freshrss
+# ---------------
+freshrss_fqdn: CHANGEME
+freshrss_freshrss_docker_image: lscr.io/linuxserver/freshrss:1.27.1-ls284
+
+
+# ---------------
+# Monitoring
+# ---------------
+grafana_victoriametrics_fqdn: CHANGEME
+grafana_grafana_fqdn: CHANGEME
+grafana_alloy_fqdn: CHANGEME
+
+grafana_victoriametrics_docker_image: victoriametrics/victoria-metrics:v1.127.0
+grafana_grafana_docker_image: grafana/grafana:12.2
+grafana_loki_docker_image: grafana/loki:3.5.7
+grafana_alloy_docker_image: grafana/alloy:v1.10.0
+
+
+# ---------------
+# Uptime Kuma
+# ---------------
+uptimekuma_fqdn: CHANGEME
+uptimekuma_uptimekuma_docker_image: louislam/uptime-kuma:2
+
+
+# ---------------
+# Karakeep
+# ---------------^
+karakeep_fqdn: CHANGEME
+karakeep_karakeep_docker_image: ghcr.io/karakeep-app/karakeep:0.27.1
+karakeep_chrome_docker_image: gcr.io/zenika-hub/alpine-chrome:124
+karakeep_meilisearch_docker_image: getmeili/meilisearch:v1.13.3
+
+karakeep_nextauth_secret: CHANGEME
+karakeep_meili_master_key: CHANGEME
