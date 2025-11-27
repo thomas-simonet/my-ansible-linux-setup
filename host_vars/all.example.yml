@@ -60,7 +60,7 @@ mealie_postgres_password: CHANGEME
 # Traefik
 # ---------------
 traefik_fqdn: CHANGEME
-traefik_traefik_docker_image: traefik:v3.5.3
+traefik_traefik_docker_image: traefik:v3.6.2
 traefik_log_level: INFO
 
 
