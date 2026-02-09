@@ -22,7 +22,7 @@
     group: "{{ default_username }}"
     mode: "0640"
 
-- name: Deploy backrest with docker compose
+- name: Run "docker compose up"
   community.docker.docker_compose_v2:
     project_src: /mnt/docker/backrest
     recreate: always
