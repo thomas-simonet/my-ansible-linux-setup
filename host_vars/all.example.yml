@@ -38,20 +38,20 @@ discord_webhook_down: CHANGEME
 # Apprise
 # ---------------
 apprise_fqdn: CHANGEME
-apprise_apprise_docker_image: linuxserver/apprise-api:1.2.2
+apprise_apprise_docker_image: linuxserver/apprise-api:1.3.1
 
 
 # ---------------
 # Diun
 # ---------------
-diun_diun_docker_image: crazymax/diun:4.30
+diun_diun_docker_image: crazymax/diun:4.31.0
 
 
 # ---------------
 # Mealie
 # ---------------
 mealie_fqdn: CHANGEME
-mealie_mealie_docker_image: ghcr.io/mealie-recipes/mealie:v3.3.2
+mealie_mealie_docker_image: ghcr.io/mealie-recipes/mealie:v3.10.2
 mealie_postgres_docker_image: postgres:17
 mealie_postgres_password: CHANGEME
 
@@ -60,7 +60,7 @@ mealie_postgres_password: CHANGEME
 # Traefik
 # ---------------
 traefik_fqdn: CHANGEME
-traefik_traefik_docker_image: traefik:v3.6.2
+traefik_traefik_docker_image: traefik:v3.6.7
 traefik_log_level: INFO
 
 
@@ -68,14 +68,14 @@ traefik_log_level: INFO
 # Backrest
 # ---------------
 backrest_fqdn: CHANGEME
-backrest_backrest_docker_image: garethgeorge/backrest:v1.10.1
+backrest_backrest_docker_image: garethgeorge/backrest:v1.11.1
 
 
 # ---------------
 # Freshrss
 # ---------------
 freshrss_fqdn: CHANGEME
-freshrss_freshrss_docker_image: lscr.io/linuxserver/freshrss:1.27.1-ls284
+freshrss_freshrss_docker_image: lscr.io/linuxserver/freshrss:1.28.1
 
 
 # ---------------
@@ -95,14 +95,14 @@ grafana_alloy_docker_image: grafana/alloy:v1.10.0
 # Uptime Kuma
 # ---------------
 uptimekuma_fqdn: CHANGEME
-uptimekuma_uptimekuma_docker_image: louislam/uptime-kuma:2
+uptimekuma_uptimekuma_docker_image: louislam/uptime-kuma:2.1.0
 
 
 # ---------------
 # Karakeep
 # ---------------^
 karakeep_fqdn: CHANGEME
-karakeep_karakeep_docker_image: ghcr.io/karakeep-app/karakeep:0.27.1
+karakeep_karakeep_docker_image: ghcr.io/karakeep-app/karakeep:0.30.0
 karakeep_chrome_docker_image: gcr.io/zenika-hub/alpine-chrome:124
 karakeep_meilisearch_docker_image: getmeili/meilisearch:v1.13.3
 
