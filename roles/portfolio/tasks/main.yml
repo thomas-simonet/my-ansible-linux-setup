@@ -1,0 +1,7 @@
+---
+- name: Import portfolio installation tasks
+  tags:
+    - install-app
+    - install-portfolio
+  block:
+    - ansible.builtin.include_tasks: install.yml
