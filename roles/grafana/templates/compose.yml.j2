@@ -10,6 +10,12 @@ services:
     user: "1001"
     ports:
       - 127.0.0.1:3000:3000
+    environment:
+      GF_SMTP_ENABLED: true
+      GF_SMTP_HOST: [% smtp_host %]
+      GF_SMTP_USER: [% smtp_user %]
+      GF_SMTP_PASSWORD: [% smtp_password %]
+      GF_SMTP_FROM_ADDRESS: [% smtp_from_address %]
     volumes:
       - /mnt/docker/volumes/grafana/grafana/data:/var/lib/grafana
       - /mnt/docker/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources

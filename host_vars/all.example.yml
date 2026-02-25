@@ -35,6 +35,15 @@ discord_webhook_down: CHANGEME
 
 
 # ---------------
+# SMTP
+# ---------------
+smtp_host: CHANGEME
+smtp_user: CHANGEME
+smtp_password: CHANGEME
+smtp_from_address: CHANGEME
+
+
+# ---------------
 # Apprise
 # ---------------
 apprise_fqdn: CHANGEME
@@ -108,3 +117,9 @@ karakeep_meilisearch_docker_image: getmeili/meilisearch:v1.13.3
 
 karakeep_nextauth_secret: CHANGEME
 karakeep_meili_master_key: CHANGEME
+
+
+# ---------------
+# Portfolio
+# ---------------
+portfolio_fqdn: CHANGEME
