@@ -59,5 +59,3 @@
 - name: Create cloudflared network
   community.docker.docker_network:
     name: cloudflared
-    ipam_config:
-      - subnet: 192.168.96.0/21
