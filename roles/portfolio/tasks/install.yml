@@ -1,0 +1,45 @@
+---
+- name: Create directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ default_username }}"
+    group: "{{ default_username }}"
+    mode: "0750"
+  loop:
+    - /mnt/docker/portfolio
+
+- name: Ensure config files exist
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "/mnt/docker/portfolio/{{ item }}"
+    owner: "{{ default_username }}"
+    group: "{{ default_username }}"
+    mode: "0640"
+  loop:
+    - compose.yml
+
+- name: Create APP directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "www-data"
+    group: "www-data"
+    mode: "0755"
+  loop:
+    - /mnt/docker/volumes/portfolio/app
+
+- name: Create APP files
+  ansible.builtin.template:
+    src: "{{ item }}"
+    dest: "/mnt/docker/volumes/portfolio/{{ item }}"
+    owner: "www-data"
+    group: "www-data"
+    mode: "0644"
+  loop:
+    - app/index.html
+
+- name: Run "docker compose up"
+  community.docker.docker_compose_v2:
+    project_src: /mnt/docker/portfolio
+    recreate: always
