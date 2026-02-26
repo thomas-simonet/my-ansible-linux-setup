@@ -55,7 +55,4 @@
   loop:
     - diun
     - notification
-
-- name: Create cloudflared network
-  community.docker.docker_network:
-    name: cloudflared
+    - cloudflared

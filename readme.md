@@ -29,10 +29,13 @@ The repository provides roles for the following applications:
 
 ## Roadmap / TODO
 
-- Add an SMTP service (SMTP2GO) for sending email notifications: https://www.smtp2go.com/
 - Replace manual Cloudflare Tunnel configuration with DockFlare to simplify tunnel management: https://github.com/ChrispyBacon-dev/DockFlare
-- Add Ollama to self-host AI models for Karakeep and Mealie (automatic tagging)
 - Consider replacing Diun with an image-update tool that provides a web UI for easier management
+
+## AI integration
+
+Tested to selfhost a small model (Qwen3-8b) using Ollama, but it was too slow. So i'm using OPENAI right now. Might switch later.
+
 
 ## Installation
 
