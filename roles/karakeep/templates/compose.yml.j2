@@ -19,7 +19,13 @@ services:
       <<: *env
       MEILI_ADDR: http://karakeep-meilisearch:7700
       BROWSER_WEB_URL: http://karakeep-chrome:9222
+      OPENAI_API_KEY: {{ karakeep_openai_api_key }}
+      INFERENCE_LANG: french
       DATA_DIR: /data # DON'T CHANGE THIS
+      SMTP_HOST: {{ smtp_host }}
+      SMTP_USER: {{ smtp_user }}
+      SMTP_PASSWORD: {{ smtp_password }}
+      SMTP_FROM: {{ karakeep_smtp_from_address }}
     networks:
       - karakeep
       - cloudflared
