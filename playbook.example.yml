@@ -15,4 +15,5 @@
     # - role: mealie
     # - role: freshrss
     # - role: karakeep
+    # - role: portfolio
     - role: reboot

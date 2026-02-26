@@ -99,6 +99,8 @@ grafana_grafana_docker_image: grafana/grafana:12.2
 grafana_loki_docker_image: grafana/loki:3.5.7
 grafana_alloy_docker_image: grafana/alloy:v1.10.0
 
+grafana_smtp_from_address: CHANGEME
+
 
 # ---------------
 # Uptime Kuma
@@ -114,9 +116,10 @@ karakeep_fqdn: CHANGEME
 karakeep_karakeep_docker_image: ghcr.io/karakeep-app/karakeep:0.30.0
 karakeep_chrome_docker_image: gcr.io/zenika-hub/alpine-chrome:124
 karakeep_meilisearch_docker_image: getmeili/meilisearch:v1.13.3
-
 karakeep_nextauth_secret: CHANGEME
 karakeep_meili_master_key: CHANGEME
+karakeep_smtp_from_address: CHANGEME
+karakeep_openai_api_key: CHANGEME
 
 
 # ---------------
