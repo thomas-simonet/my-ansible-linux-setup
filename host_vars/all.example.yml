@@ -45,6 +45,8 @@ smtp_from_address: CHANGEME
 
 # ---------------
 # Apprise
+# Github : https://github.com/caronc/apprise
+# Docker : https://hub.docker.com/r/caronc/apprise
 # ---------------
 apprise_fqdn: CHANGEME
 apprise_apprise_docker_image: linuxserver/apprise-api:1.3.1
@@ -52,39 +54,50 @@ apprise_apprise_docker_image: linuxserver/apprise-api:1.3.1
 
 # ---------------
 # Diun
+# Github : https://github.com/crazy-max/diun
+# Docker : https://hub.docker.com/r/crazymax/diun/
 # ---------------
-diun_diun_docker_image: crazymax/diun:4.31.0
+diun_diun_docker_image: crazymax/diun:4.32.0
 
 
 # ---------------
 # Mealie
+# Github : https://github.com/mealie-recipes/mealie
+# Docker : https://github.com/mealie-recipes/mealie/pkgs/container/mealie
 # ---------------
 mealie_fqdn: CHANGEME
-mealie_mealie_docker_image: ghcr.io/mealie-recipes/mealie:v3.10.2
+mealie_mealie_docker_image: ghcr.io/mealie-recipes/mealie:v3.19.2
 mealie_postgres_docker_image: postgres:17
 mealie_postgres_password: CHANGEME
+mealie_smtp_from_name: CHANGEME
+mealie_smtp_from_address: CHANGEME@CHANGEME.FR
 
 
 # ---------------
 # Traefik
-# ---------------
+# Github : https://github.com/traefik/traefik
+# Docker : https://hub.docker.com/_/traefik
 traefik_fqdn: CHANGEME
-traefik_traefik_docker_image: traefik:v3.6.7
+traefik_traefik_docker_image: traefik:v3.7.1
 traefik_log_level: INFO
 
 
 # ---------------
 # Backrest
+# Github : https://github.com/garethgeorge/backrest
+# Docker : https://hub.docker.com/r/garethgeorge/backrest
 # ---------------
 backrest_fqdn: CHANGEME
-backrest_backrest_docker_image: garethgeorge/backrest:v1.11.1
+backrest_backrest_docker_image: garethgeorge/backrest:v1.13.0
 
 
 # ---------------
 # Freshrss
+# Github : https://github.com/FreshRSS/FreshRSS
+# Docker : https://hub.docker.com/r/linuxserver/freshrss
 # ---------------
 freshrss_fqdn: CHANGEME
-freshrss_freshrss_docker_image: lscr.io/linuxserver/freshrss:1.28.1
+freshrss_freshrss_docker_image: lscr.io/linuxserver/freshrss:1.29.1
 
 
 # ---------------
@@ -110,10 +123,12 @@ uptimekuma_uptimekuma_docker_image: louislam/uptime-kuma:2.1.0
 
 
 # ---------------
-# Karakeep
-# ---------------^
+# Uptime Kuma
+# Github : https://github.com/louislam/uptime-kuma
+# Docker : https://hub.docker.com/r/louislam/uptime-kuma
+# ---------------
 karakeep_fqdn: CHANGEME
-karakeep_karakeep_docker_image: ghcr.io/karakeep-app/karakeep:0.30.0
+karakeep_karakeep_docker_image: ghcr.io/karakeep-app/karakeep:0.32.0
 karakeep_chrome_docker_image: gcr.io/zenika-hub/alpine-chrome:124
 karakeep_meilisearch_docker_image: getmeili/meilisearch:v1.13.3
 karakeep_nextauth_secret: CHANGEME
