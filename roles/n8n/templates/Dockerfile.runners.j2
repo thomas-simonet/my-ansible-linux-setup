@@ -1,0 +1,12 @@
+FROM {{ n8n_runners_docker_image }}
+
+USER root
+
+RUN sed -i \
+    -e 's/"NODE_FUNCTION_ALLOW_BUILTIN": "[^"]*"/"NODE_FUNCTION_ALLOW_BUILTIN": "*"/g' \
+    -e 's/"NODE_FUNCTION_ALLOW_EXTERNAL": "[^"]*"/"NODE_FUNCTION_ALLOW_EXTERNAL": "*"/g' \
+    -e 's/"N8N_RUNNERS_STDLIB_ALLOW": "[^"]*"/"N8N_RUNNERS_STDLIB_ALLOW": "*"/g' \
+    -e 's/"N8N_RUNNERS_EXTERNAL_ALLOW": "[^"]*"/"N8N_RUNNERS_EXTERNAL_ALLOW": "*"/g' \
+    /etc/n8n-task-runners.json
+
+USER 1000

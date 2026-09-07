@@ -1,0 +1,42 @@
+---
+- name: Create directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ default_username }}"
+    group: "{{ default_username }}"
+    mode: "0750"
+  loop:
+    - /mnt/docker/n8n
+
+- name: Create volumes (With proper chown / chmod)
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "1000"
+    group: "1000"
+    mode: "0755"
+  loop:
+    - /mnt/docker/volumes/n8n/data
+
+- name: Ensure config files exist
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "/mnt/docker/n8n/{{ item }}"
+    owner: "{{ default_username }}"
+    group: "{{ default_username }}"
+    mode: "0640"
+  loop:
+    - compose.yml
+    - Dockerfile.runners
+
+- name: Create n8n networks
+  community.docker.docker_network:
+    name: "{{ item }}"
+  loop:
+    - n8n
+
+- name: Run "docker compose up"
+  community.docker.docker_compose_v2:
+    project_src: /mnt/docker/n8n
+    recreate: always

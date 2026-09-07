@@ -11,6 +11,9 @@ services:
       - TZ={{ timezone }}
     volumes:
       - /mnt/docker/volumes/freshrss:/var/www/FreshRSS/data
+    ports:
+      - 127.0.0.1:8081:80
+      - 127.0.0.1:8082:443
     networks:
       - cloudflared
       - diun

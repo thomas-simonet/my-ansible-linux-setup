@@ -45,7 +45,7 @@ Tested to selfhost a small model (Qwen3-8b) using Ollama, but it was too slow. S
 git clone https://github.com/thomas-simonet/my-ansible-linux-setup.git .
 ```
 
-2. Install Just (task runner): https://github.com/casey/just
+2. Install Just (task runner): https://github.com/casey/just#pre-built-binaries
 
 3. Install UV (Python environment manager): https://github.com/astral-sh/uv
 

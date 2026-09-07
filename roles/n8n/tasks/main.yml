@@ -1,0 +1,7 @@
+---
+- name: Import n8n installation tasks
+  tags:
+    - install-app
+    - install-n8n
+  block:
+    - ansible.builtin.include_tasks: install.yml

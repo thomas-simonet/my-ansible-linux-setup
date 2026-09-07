@@ -24,7 +24,7 @@ This is an Ansible-based homelab infrastructure that deploys containerized servi
 
 ### Deploy Commands (via justfile)
 ```bash
-just staging                    # Deploy to staging environment  
+just staging                    # Deploy to staging environment
 just production                # Deploy to production environment
 just playbook -t install-app   # Deploy only application roles
 ```
@@ -34,7 +34,7 @@ just playbook -t install-app   # Deploy only application roles
 just setup                     # Complete development environment setup (uv + pre-commit)
 just sync                      # Sync dependencies from pyproject.toml
 just lint                      # Run ansible-lint (production profile)
-just yaml-lint                 # Run yamllint  
+just yaml-lint                 # Run yamllint
 just check                     # Run all linting checks
 just pre-commit                # Run pre-commit hooks
 ```
@@ -85,7 +85,7 @@ just pre-commit                # Run pre-commit hooks
 
 ### Security & Access
 - **SSH**: Custom config via `common` role (`sshd.conf.j2`)
-- **UFW**: Firewall rules managed by `common` role  
+- **UFW**: Firewall rules managed by `common` role
 - **Cloudflared**: Zero-trust tunnel access (no direct port exposure)
 
 ## Code Quality & Standards
@@ -104,7 +104,7 @@ just pre-commit                # Run pre-commit hooks
 ### Development Workflow
 1. One-time setup: `just setup` (installs dependencies + pre-commit)
 2. Daily development: `just check` (run all linting)
-3. Auto-fix issues: `just lint-fix` 
+3. Auto-fix issues: `just lint-fix`
 4. Sync dependencies: `just sync` (when pyproject.toml changes)
 
 When modifying this setup, always consider the **reverse proxy chain** (Cloudflared → Traefik → Service) and ensure **proper network membership** for service communication.
